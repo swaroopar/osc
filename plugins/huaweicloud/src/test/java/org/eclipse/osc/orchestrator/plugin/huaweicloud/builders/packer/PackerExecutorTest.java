@@ -1,5 +1,8 @@
 package org.eclipse.osc.orchestrator.plugin.huaweicloud.builders.packer;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import org.eclipse.osc.modules.ocl.loader.data.models.Artifact;
 import org.eclipse.osc.modules.ocl.loader.data.models.BaseImage;
 import org.eclipse.osc.modules.ocl.loader.data.models.Image;
@@ -8,10 +11,6 @@ import org.eclipse.osc.modules.ocl.loader.data.models.Provisioner;
 import org.eclipse.osc.modules.ocl.loader.data.models.Storage;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class PackerExecutorTest {
 
@@ -48,7 +47,7 @@ public class PackerExecutorTest {
         provisioner.setType("shell");
         provisioner.setEnvironments(Arrays.asList("WORK_HOME=/usr/KAFKA"));
         provisioner.setInline(Arrays.asList("cd ${WORK_HOME} && wget "
-            + "http://xxxx/kafka/release.jar"));
+                + "http://xxxx/kafka/release.jar"));
         List<Provisioner> provisionerList = new ArrayList<>();
         provisionerList.add(provisioner);
 
@@ -74,7 +73,7 @@ public class PackerExecutorTest {
         Ocl ocl = prepareOcl();
 
         PackerExecutor packerExecutor = new PackerExecutor(ocl,
-            ocl.getImage().getArtifacts().get(0), null);
+                ocl.getImage().getArtifacts().get(0), null);
 
         packerExecutor.createWorkspace();
         packerExecutor.createInstallScript();

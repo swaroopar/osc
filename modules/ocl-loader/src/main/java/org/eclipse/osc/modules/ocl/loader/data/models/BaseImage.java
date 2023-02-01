@@ -1,9 +1,14 @@
 package org.eclipse.osc.modules.ocl.loader.data.models;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import jakarta.annotation.Nonnull;
 import lombok.Data;
 
+/**
+ * Details of base Image on which the managed service is deployed.
+ */
 @Data
+@SuppressFBWarnings("EI_EXPOSE_REP")
 public class BaseImage {
 
     @Nonnull

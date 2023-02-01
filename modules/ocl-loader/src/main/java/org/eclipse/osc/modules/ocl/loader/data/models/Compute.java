@@ -1,12 +1,16 @@
 package org.eclipse.osc.modules.ocl.loader.data.models;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import java.util.List;
 import lombok.Data;
 
-import java.util.List;
-
+/**
+ * Defines compute services required to run the managed service.
+ */
 @Data
 public class Compute {
 
-    private List<VM> vm;
+    @SuppressFBWarnings("EI_EXPOSE_REP")
+    private List<Vm> vm;
 
 }

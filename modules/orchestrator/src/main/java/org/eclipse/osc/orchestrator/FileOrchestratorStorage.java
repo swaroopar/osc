@@ -1,11 +1,5 @@
 package org.eclipse.osc.orchestrator;
 
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.core.env.Environment;
-import org.springframework.stereotype.Component;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -13,7 +7,16 @@ import java.io.IOException;
 import java.util.Objects;
 import java.util.Properties;
 import java.util.Set;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Component;
 
+/**
+ * Default storage bean used by runtime when plugin has not provided its own storage bean
+ * to store runtime information.
+ */
 @Slf4j
 @Component
 @ConditionalOnMissingBean(type = "OrchestratorStorage")
@@ -21,10 +24,18 @@ public class FileOrchestratorStorage implements OrchestratorStorage {
 
     private final Properties properties = new Properties();
     private final File file;
+
+    /**
+     * Initialize Storage bean.
+     *
+     * @param environment Environment bean from SpringContext.
+     * @throws IOException Exception when external resource cannot be read.
+     */
     @Autowired
     public FileOrchestratorStorage(Environment environment) throws IOException {
         log.info("No other storage beans found. Using default file storage.");
-        this.file = new File(Objects.requireNonNull(environment.getProperty("orchestrator.store.filename")));
+        this.file = new File(
+                Objects.requireNonNull(environment.getProperty("orchestrator.store.filename")));
         if (file.exists()) {
             try (FileInputStream stream = new FileInputStream(file)) {
                 properties.load(stream);

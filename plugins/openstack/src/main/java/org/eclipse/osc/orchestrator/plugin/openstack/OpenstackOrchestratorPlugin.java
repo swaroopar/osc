@@ -1,6 +1,9 @@
 package org.eclipse.osc.orchestrator.plugin.openstack;
 
 import com.google.common.annotations.VisibleForTesting;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.osc.modules.ocl.loader.data.models.Ocl;
 import org.eclipse.osc.orchestrator.OrchestratorPlugin;
@@ -14,16 +17,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-
+/**
+ * OSC plugin implementation for openstack cloud.
+ */
 @Slf4j
 @Component
 @Profile(value = "openstack")
 public class OpenstackOrchestratorPlugin implements OrchestratorPlugin {
 
-    private static final String SUCCESSFUL_INSTALLATION_LOG = "Kafka up and running"; //TODO - to be moved to Ocl?
+    private static final String SUCCESSFUL_INSTALLATION_LOG = "Kafka up and running";
     private final OSClient.OSClientV3 osClient;
     private final NovaManager novaManager;
 
@@ -53,11 +55,12 @@ public class OpenstackOrchestratorPlugin implements OrchestratorPlugin {
         Ocl ocl = managedOcl.get(managedServiceName);
         if (Objects.nonNull(ocl.getNetwork())) {
             log.info("Creating Neutron network resources ...");
-            ocl.getNetwork().getSubnet().forEach(subnet -> osClient.networking().subnet().create(Builders.subnet()
-                    .name(subnet.getId())
-                    .ipVersion(IPVersionType.V4)
-                    .cidr(subnet.getCidr())
-                    .build()));
+            ocl.getNetwork().getSubnet()
+                    .forEach(subnet -> osClient.networking().subnet().create(Builders.subnet()
+                            .name(subnet.getId())
+                            .ipVersion(IPVersionType.V4)
+                            .cidr(subnet.getCidr())
+                            .build()));
         }
         if (Objects.nonNull(ocl.getImage())) {
             ocl.getImage().getArtifacts().forEach(artifact -> {
@@ -74,9 +77,11 @@ public class OpenstackOrchestratorPlugin implements OrchestratorPlugin {
                     log.info("Starting bare VM via Nova ...");
                     try {
                         this.novaManager.createVm(this.osClient, artifact, ocl);
-                        log.info("VM with name created {} and Kafka is being installed on it", artifact.getName());
+                        log.info("VM with name created {} and Kafka is being installed on it",
+                                artifact.getName());
                     } catch (Exception e) {
-                        log.warn("Virtual machine {} create failed with exception ", artifact.getName(), e);
+                        log.warn("Virtual machine {} create failed with exception ",
+                                artifact.getName(), e);
                     }
                     isProvisioningSuccessful(artifact.getName());
                 }

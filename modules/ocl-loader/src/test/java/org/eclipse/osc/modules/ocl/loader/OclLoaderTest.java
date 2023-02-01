@@ -4,7 +4,7 @@ import org.eclipse.osc.modules.ocl.loader.data.models.Artifact;
 import org.eclipse.osc.modules.ocl.loader.data.models.BaseImage;
 import org.eclipse.osc.modules.ocl.loader.data.models.Ocl;
 import org.eclipse.osc.modules.ocl.loader.data.models.Provisioner;
-import org.eclipse.osc.modules.ocl.loader.data.models.VM;
+import org.eclipse.osc.modules.ocl.loader.data.models.Vm;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -57,7 +57,7 @@ public class OclLoaderTest {
     public void testBlockAssociationArtifact() throws Exception {
         Ocl ocl = oclLoader.getOcl(new File("target/test-classes/test.json").toURI().toURL());
         Assertions.assertNotNull(ocl);
-        VM vm = ocl.getCompute().getVm().get(0);
+        Vm vm = ocl.getCompute().getVm().get(0);
         Assertions.assertEquals("my-vm", vm.getName());
         Assertions.assertEquals("$.image.artifacts[0]", vm.getImage());
 

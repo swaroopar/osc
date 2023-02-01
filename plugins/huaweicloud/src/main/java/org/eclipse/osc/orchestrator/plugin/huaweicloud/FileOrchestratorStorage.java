@@ -1,18 +1,20 @@
 package org.eclipse.osc.orchestrator.plugin.huaweicloud;
 
-import lombok.extern.slf4j.Slf4j;
-import org.eclipse.osc.orchestrator.OrchestratorStorage;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
-import org.springframework.stereotype.Component;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.Set;
+import lombok.extern.slf4j.Slf4j;
+import org.eclipse.osc.orchestrator.OrchestratorStorage;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Component;
 
+/**
+ * File system storage bean for huawei plugin.
+ */
 @Slf4j
 @Component
 public class FileOrchestratorStorage implements OrchestratorStorage {
@@ -20,8 +22,12 @@ public class FileOrchestratorStorage implements OrchestratorStorage {
     public static final String DEFAULT_FILENAME = "orchestrator.properties";
     private final Properties properties = new Properties();
     private final File file;
-    Environment environment;
 
+    /**
+     * Constructor to instantiate FileOrchestratorStorage bean.
+     *
+     * @param environment Environment bean autowired by spring.
+     */
     @Autowired
     public FileOrchestratorStorage(Environment environment) {
         file = new File(environment.getProperty("orchestrator.store.filename", DEFAULT_FILENAME));
