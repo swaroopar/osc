@@ -11,7 +11,7 @@ import java.util.List;
 import lombok.Data;
 
 /**
-    List of OclResources.
+ * List of OclResources.
  **/
 @Data
 public class OclResources {

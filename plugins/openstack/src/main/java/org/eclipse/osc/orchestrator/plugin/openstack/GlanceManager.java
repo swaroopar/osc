@@ -20,10 +20,10 @@ public class GlanceManager {
     /**
      * Method to get the image ID based on the image name.
      *
-     * @param osClient Fully initialized client to connect to an Openstack installation.
+     * @param osClient  Fully initialized client to connect to an Openstack installation.
      * @param imageName Name of the image in query.
      * @return ID of the image. This is a unique value allocated by Openstack for each image
-     *      uploaded.
+     * uploaded.
      */
     public String getImageId(OSClient.OSClientV3 osClient, String imageName) {
         Optional<? extends Image> image;

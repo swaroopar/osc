@@ -69,7 +69,8 @@ public class OrchestratorApi {
     @ResponseStatus(HttpStatus.OK)
     public String services() {
         StringBuilder builder = new StringBuilder();
-        this.orchestratorService.getStoredServices().forEach(service -> builder.append(service).append("\n"));
+        this.orchestratorService.getStoredServices()
+                .forEach(service -> builder.append(service).append("\n"));
         return builder.toString();
     }
 
@@ -87,13 +88,15 @@ public class OrchestratorApi {
 
     @PutMapping("/update/{managedServiceName}")
     @ResponseStatus(HttpStatus.OK)
-    public void update(@PathVariable("managedServiceName") String managedServiceName, @RequestBody Ocl ocl) throws Exception {
+    public void update(@PathVariable("managedServiceName") String managedServiceName,
+                       @RequestBody Ocl ocl) throws Exception {
         this.orchestratorService.updateManagedService(managedServiceName, ocl);
     }
 
     @PutMapping("/update/fetch/{managedServiceName}")
     @ResponseStatus(HttpStatus.OK)
-    public void update(@PathVariable("managedServiceName") String managedServiceName, @RequestHeader(value = "ocl") String oclLocation) throws Exception {
+    public void update(@PathVariable("managedServiceName") String managedServiceName,
+                       @RequestHeader(value = "ocl") String oclLocation) throws Exception {
         this.orchestratorService.updateManagedService(managedServiceName, oclLocation);
     }
 

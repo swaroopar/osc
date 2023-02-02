@@ -6,6 +6,8 @@
 
 package org.eclipse.osc.modules.ocl.loader;
 
+import java.io.File;
+import java.util.Optional;
 import org.eclipse.osc.modules.ocl.loader.data.models.Artifact;
 import org.eclipse.osc.modules.ocl.loader.data.models.BaseImage;
 import org.eclipse.osc.modules.ocl.loader.data.models.Ocl;
@@ -18,11 +20,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.io.File;
-import java.util.Optional;
-
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {OclLoader.class, })
+@ContextConfiguration(classes = {OclLoader.class,})
 public class OclLoaderTest {
 
     @Autowired
@@ -51,11 +50,11 @@ public class OclLoaderTest {
         Assertions.assertNotNull(ocl);
         String KafkaProvisionerStr = ocl.getImage().getArtifacts().get(0).getProvisioners().get(0);
         Optional<Provisioner> kafkaProvisioner = ocl.referTo(KafkaProvisionerStr,
-            Provisioner.class);
+                Provisioner.class);
         Assertions.assertEquals("my-kafka-release", kafkaProvisioner.get().getName());
         Assertions.assertEquals("shell", kafkaProvisioner.get().getType());
         Assertions.assertEquals("WORK_HOME=/usr1/KAFKA/",
-            kafkaProvisioner.get().getEnvironments().get(0));
+                kafkaProvisioner.get().getEnvironments().get(0));
         Assertions.assertEquals("echo $PATH", kafkaProvisioner.get().getInline().get(1));
     }
 
@@ -89,7 +88,7 @@ public class OclLoaderTest {
         Assertions.assertTrue(artifact.isEmpty());
 
         Optional<Provisioner> provisioner = ocl.referTo("$.image.provisioners[1]",
-            Provisioner.class);
+                Provisioner.class);
         Assertions.assertFalse(provisioner.isPresent());
 
         provisioner = ocl.referTo("$.image.provisioners[0]", Provisioner.class);

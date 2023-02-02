@@ -22,7 +22,7 @@ public class UserDataHelper {
      *
      * @param provisionersToBeExecuted provisioners in the managed service that must be used to
      *                                 generate the cloud-init script.
-     * @param ocl Full description of the managed service.
+     * @param ocl                      Full description of the managed service.
      * @return cloud-init bash script as a string.
      */
     public static String getUserData(List<String> provisionersToBeExecuted, Ocl ocl) {

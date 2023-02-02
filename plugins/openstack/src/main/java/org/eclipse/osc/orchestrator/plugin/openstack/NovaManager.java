@@ -35,10 +35,10 @@ public class NovaManager {
     /**
      * Method to get the VM ID based on the virtual machine name.
      *
-     * @param osClient      Fully initialized client to connect to an Openstack installation.
-     * @param vmName Name of the VM in query.
+     * @param osClient Fully initialized client to connect to an Openstack installation.
+     * @param vmName   Name of the VM in query.
      * @return ID of the virtual machine. This is a unique value allocated by Openstack
-     *      for each VM created.
+     * for each VM created.
      */
     public static String getVmId(OSClient.OSClientV3 osClient, String vmName) {
         Optional<? extends Server> server;
@@ -54,9 +54,9 @@ public class NovaManager {
     /**
      * Method to create virtual machine to deploy a managed service.
      *
-     * @param osClient  Fully initialized client to connect to an Openstack installation.
+     * @param osClient Fully initialized client to connect to an Openstack installation.
      * @param artifact Artifact details of the virtual machine to be deployed.
-     * @param ocl Full OCL descriptor of the managed service to be deployed.
+     * @param ocl      Full OCL descriptor of the managed service to be deployed.
      */
     public void createVm(OSClient.OSClientV3 osClient, Artifact artifact, Ocl ocl) {
         osClient.compute().servers().boot(Builders

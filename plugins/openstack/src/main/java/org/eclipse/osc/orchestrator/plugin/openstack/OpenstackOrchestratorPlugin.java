@@ -31,12 +31,19 @@ import org.springframework.stereotype.Component;
 @Profile(value = "openstack")
 public class OpenstackOrchestratorPlugin implements OrchestratorPlugin {
 
-    private static final String SUCCESSFUL_INSTALLATION_LOG = "Kafka up and running"; //TODO - to be moved to Ocl?
+    private static final String SUCCESSFUL_INSTALLATION_LOG = "Kafka up and running";
+    //TODO - to be moved to Ocl?
     private final KeystoneManager keystoneManager;
     private final NovaManager novaManager;
 
     private final Map<String, Ocl> managedOcl = new HashMap<>();
 
+    /**
+     * Constructor to instantiate Plugin bean.
+     *
+     * @param keystoneManager KeystoneManager bean.
+     * @param novaManager     NovaManager bean.
+     */
     @Autowired
     public OpenstackOrchestratorPlugin(KeystoneManager keystoneManager, NovaManager novaManager) {
         log.info("Loading OpenstackOrchestratorPlugin");
@@ -84,7 +91,8 @@ public class OpenstackOrchestratorPlugin implements OrchestratorPlugin {
                     log.info("Starting bare VM via Nova ...");
                     try {
                         this.novaManager.createVm(osClient, artifact, ocl);
-                        log.info("VM with name created {} and Kafka is being installed on it", artifact.getName());
+                        log.info("VM with name created {} and Kafka is being installed on it",
+                                artifact.getName());
                     } catch (Exception e) {
                         log.warn("Virtual machine {} create failed with exception ",
                                 artifact.getName(), e);

@@ -38,8 +38,8 @@ public class SystemCmd {
     /**
      * Executes operating system command.
      *
-     * @param cmd command to be executed.
-     * @param stdErrOut object to which the output of the command is appended to.
+     * @param cmd        command to be executed.
+     * @param stdErrOut  object to which the output of the command is appended to.
      * @param waitSecond time to wait for the command to be completed.
      * @return returns true if command was successfully executed else returns false.
      */

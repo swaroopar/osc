@@ -10,8 +10,6 @@ import java.util.Set;
 import org.eclipse.osc.orchestrator.OrchestratorStorage;
 import org.springframework.context.annotation.Profile;
 
-import java.util.Set;
-
 /**
  * Storage bean for Huawei cloud plugin based on OBS storage service.
  */

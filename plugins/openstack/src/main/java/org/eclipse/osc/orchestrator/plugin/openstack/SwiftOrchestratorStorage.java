@@ -13,7 +13,6 @@ import org.openstack4j.model.common.Payloads;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.Environment;
-import org.springframework.stereotype.Component;
 
 /**
  * Storage implementation on Openstack cloud using Swift API.
@@ -29,7 +28,7 @@ public class SwiftOrchestratorStorage implements OrchestratorStorage {
      * Initiates the Storage bean.
      *
      * @param keystoneManager KeystoneManager bean.
-     * @param environment Environment bean.
+     * @param environment     Environment bean.
      */
     @Autowired
     public SwiftOrchestratorStorage(KeystoneManager keystoneManager, Environment environment) {
@@ -70,8 +69,10 @@ public class SwiftOrchestratorStorage implements OrchestratorStorage {
 
     private void createObjectStoreOnOpenstack() {
         String containerName = this.environment.getProperty("orchestrator.store.container", "osc");
-        String objectName = this.environment.getProperty("orchestrator.store.filename", "orchestrator.properties");
+        String objectName = this.environment.getProperty("orchestrator.store.filename",
+                "orchestrator.properties");
         this.keystoneManager.getClient().objectStorage().containers().create("osc");
-        this.keystoneManager.getClient().objectStorage().objects().put(containerName, objectName, Payloads.create(InputStream.nullInputStream()));
+        this.keystoneManager.getClient().objectStorage().objects()
+                .put(containerName, objectName, Payloads.create(InputStream.nullInputStream()));
     }
 }

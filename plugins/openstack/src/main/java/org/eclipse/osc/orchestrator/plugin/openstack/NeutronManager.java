@@ -41,7 +41,7 @@ public class NeutronManager {
      * @param osClient      Fully initialized client to connect to an Openstack installation.
      * @param vmNetworkName Name of the virtual network in query.
      * @return ID of the virtual network. This is a unique value allocated by Openstack
-     *      for each network created.
+     * for each network created.
      */
     public String getVmNetworkId(OSClient.OSClientV3 osClient, String vmNetworkName) {
         Optional<? extends Network> network;

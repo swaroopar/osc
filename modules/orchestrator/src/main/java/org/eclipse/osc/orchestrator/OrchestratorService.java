@@ -6,6 +6,9 @@
 
 package org.eclipse.osc.orchestrator;
 
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
@@ -32,6 +34,7 @@ public class OrchestratorService implements ApplicationListener<ApplicationEvent
 
     @Getter
     private final List<OrchestratorPlugin> plugins = new ArrayList<>();
+
     @Autowired
     public OrchestratorService(OclLoader oclLoader, OrchestratorStorage orchestratorStorage) {
         this.oclLoader = oclLoader;

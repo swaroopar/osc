@@ -6,13 +6,6 @@
 
 package org.eclipse.osc.orchestrator.plugin.huaweicloud;
 
-import lombok.extern.slf4j.Slf4j;
-import org.eclipse.osc.orchestrator.OrchestratorStorage;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
-import org.springframework.core.env.Environment;
-import org.springframework.stereotype.Component;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -22,6 +15,7 @@ import java.util.Set;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.osc.orchestrator.OrchestratorStorage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 

@@ -134,7 +134,7 @@ public class TerraformExecutor {
      * Executes terraform destroy command.
      *
      * @return true if all resources are successfully destroyed on the target infrastructure.
-     *          else false.
+     * else false.
      */
     public boolean tfDestroy() {
         // TODO: Dynamic variables need to be supported.
