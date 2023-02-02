@@ -1,3 +1,9 @@
+/*
+ * SPDX-License-Identifier: Apache-2.0
+ * SPDX-FileCopyrightText: Huawei Inc.
+ *
+ */
+
 package org.eclipse.osc.orchestrator.plugin.huaweicloud.builders.terraform;
 
 import java.util.ArrayList;
@@ -45,24 +51,3 @@ public class TfResources {
         return resources;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
