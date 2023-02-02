@@ -1,6 +1,5 @@
 package org.eclipse.osc.modules.ocl.loader.data.models;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.List;
 import lombok.Data;
 
@@ -10,7 +9,6 @@ import lombok.Data;
 @Data
 public class Compute {
 
-    @SuppressFBWarnings("EI_EXPOSE_REP")
     private List<Vm> vm;
 
 }

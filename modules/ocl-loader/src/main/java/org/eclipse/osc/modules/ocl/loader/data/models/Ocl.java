@@ -2,7 +2,6 @@ package org.eclipse.osc.modules.ocl.loader.data.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import java.io.IOException;
@@ -23,7 +22,6 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @Data
-@SuppressFBWarnings("EI_EXPOSE_REP")
 public class Ocl {
     private static ObjectMapper theMapper = new ObjectMapper();
     @NotBlank

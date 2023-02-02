@@ -1,6 +1,5 @@
 package org.eclipse.osc.api;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.osc.modules.ocl.loader.data.models.Ocl;
 import org.eclipse.osc.orchestrator.OrchestratorService;
@@ -25,7 +24,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class OrchestratorApi {
     private final OrchestratorService orchestratorService;
 
-    @SuppressFBWarnings("EI_EXPOSE_REP2")
     @Autowired
     public OrchestratorApi(OrchestratorService orchestratorService) {
         this.orchestratorService = orchestratorService;
