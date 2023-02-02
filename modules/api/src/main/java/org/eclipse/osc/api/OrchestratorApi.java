@@ -31,7 +31,7 @@ public class OrchestratorApi {
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.OK)
-    public void register(@RequestBody Ocl ocl) throws Exception {
+    public void register(@RequestBody Ocl ocl) {
         this.orchestratorService.registerManagedService(ocl);
     }
 
@@ -69,22 +69,19 @@ public class OrchestratorApi {
 
     @PostMapping("/start")
     @ResponseStatus(HttpStatus.OK)
-    public void start(@PathVariable("managedServiceName") String managedServiceName)
-            throws Exception {
+    public void start(@PathVariable("managedServiceName") String managedServiceName) {
         this.orchestratorService.startManagedService(managedServiceName);
     }
 
     @PostMapping("/stop")
     @ResponseStatus(HttpStatus.OK)
-    public void stop(@PathVariable("managedServiceName") String managedServiceName)
-            throws Exception {
+    public void stop(@PathVariable("managedServiceName") String managedServiceName) {
         this.orchestratorService.stopManagedService(managedServiceName);
     }
 
     @PutMapping("/update")
     @ResponseStatus(HttpStatus.OK)
-    public void update(@PathVariable("managedServiceName") String managedServiceName, Ocl ocl)
-            throws Exception {
+    public void update(@PathVariable("managedServiceName") String managedServiceName, Ocl ocl) {
         this.orchestratorService.updateManagedService(managedServiceName, ocl);
     }
 
