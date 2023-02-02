@@ -1,3 +1,9 @@
+/*
+ * SPDX-License-Identifier: Apache-2.0
+ * SPDX-FileCopyrightText: Huawei Inc.
+ *
+ */
+
 package org.eclipse.osc.api;
 
 import lombok.extern.slf4j.Slf4j;
@@ -31,13 +37,14 @@ public class OrchestratorApi {
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.OK)
-    public void register(@RequestBody Ocl ocl) {
+    public void register(@RequestBody Ocl ocl) throws Exception {
+        log.info("Registering managed service with name {}", ocl.getName());
         this.orchestratorService.registerManagedService(ocl);
     }
 
     @PostMapping("/register/fetch")
     @ResponseStatus(HttpStatus.OK)
-    public void fetch(@RequestHeader("ocl") String oclLocation) throws Exception {
+    public void fetch(@RequestHeader(value = "ocl") String oclLocation) throws Exception {
         this.orchestratorService.registerManagedService(oclLocation);
     }
 
@@ -62,33 +69,31 @@ public class OrchestratorApi {
     @ResponseStatus(HttpStatus.OK)
     public String services() {
         StringBuilder builder = new StringBuilder();
-        this.orchestratorService.getOrchestratorStorage().services()
-                .forEach(service -> builder.append(service).append("\n"));
+        this.orchestratorService.getStoredServices().forEach(service -> builder.append(service).append("\n"));
         return builder.toString();
     }
 
-    @PostMapping("/start")
+    @PostMapping("/start/{managedServiceName}")
     @ResponseStatus(HttpStatus.OK)
     public void start(@PathVariable("managedServiceName") String managedServiceName) {
         this.orchestratorService.startManagedService(managedServiceName);
     }
 
-    @PostMapping("/stop")
+    @PostMapping("/stop/{managedServiceName}")
     @ResponseStatus(HttpStatus.OK)
     public void stop(@PathVariable("managedServiceName") String managedServiceName) {
         this.orchestratorService.stopManagedService(managedServiceName);
     }
 
-    @PutMapping("/update")
+    @PutMapping("/update/{managedServiceName}")
     @ResponseStatus(HttpStatus.OK)
-    public void update(@PathVariable("managedServiceName") String managedServiceName, Ocl ocl) {
+    public void update(@PathVariable("managedServiceName") String managedServiceName, @RequestBody Ocl ocl) throws Exception {
         this.orchestratorService.updateManagedService(managedServiceName, ocl);
     }
 
-    @PutMapping("/update/fetch")
+    @PutMapping("/update/fetch/{managedServiceName}")
     @ResponseStatus(HttpStatus.OK)
-    public void update(@PathVariable("managedServiceName") String managedServiceName,
-                       @RequestHeader("ocl") String oclLocation) throws Exception {
+    public void update(@PathVariable("managedServiceName") String managedServiceName, @RequestHeader(value = "ocl") String oclLocation) throws Exception {
         this.orchestratorService.updateManagedService(managedServiceName, oclLocation);
     }
 

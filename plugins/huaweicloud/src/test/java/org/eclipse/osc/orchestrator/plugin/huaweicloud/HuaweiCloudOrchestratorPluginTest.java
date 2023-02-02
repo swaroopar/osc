@@ -1,3 +1,9 @@
+/*
+ * SPDX-License-Identifier: Apache-2.0
+ * SPDX-FileCopyrightText: Huawei Inc.
+ *
+ */
+
 package org.eclipse.osc.orchestrator.plugin.huaweicloud;
 
 import java.util.ArrayList;
@@ -56,10 +62,9 @@ public class HuaweiCloudOrchestratorPluginTest {
 
         orchestratorService.registerManagedService("file:./target/test-classes/huawei_test.json");
 
-        Assertions.assertEquals(1,
-                this.orchestratorService.getOrchestratorStorage().services().size());
+        Assertions.assertEquals(1, this.orchestratorService.getStoredServices().size());
         List<String> managedServicesList = new ArrayList<>(
-                this.orchestratorService.getOrchestratorStorage().services());
+                this.orchestratorService.getStoredServices());
         Assertions.assertEquals("kafka-service", managedServicesList.get(0));
 
         orchestratorService.startManagedService("kafka-service");

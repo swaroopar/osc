@@ -1,15 +1,21 @@
+/*
+ * SPDX-License-Identifier: Apache-2.0
+ * SPDX-FileCopyrightText: Huawei Inc.
+ *
+ */
+
 package org.eclipse.osc.orchestrator.plugin.huaweicloud;
 
 import java.util.Set;
 import org.eclipse.osc.orchestrator.OrchestratorStorage;
 import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Component;
+
+import java.util.Set;
 
 /**
  * Storage bean for Huawei cloud plugin based on OBS storage service.
  */
-@Component
-@Profile(value = "openstack")
+@Profile(value = "huaweicloud")
 public class ObsOrchestratorStorage implements OrchestratorStorage {
 
     public ObsOrchestratorStorage() {

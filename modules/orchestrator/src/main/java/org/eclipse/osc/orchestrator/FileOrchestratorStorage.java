@@ -1,3 +1,9 @@
+/*
+ * SPDX-License-Identifier: Apache-2.0
+ * SPDX-FileCopyrightText: Huawei Inc.
+ *
+ */
+
 package org.eclipse.osc.orchestrator;
 
 import java.io.File;
@@ -12,14 +18,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.env.Environment;
 
 /**
  * Default storage bean used by runtime when plugin has not provided its own storage bean
  * to store runtime information.
  */
 @Slf4j
-@Component
-@ConditionalOnMissingBean(type = "OrchestratorStorage")
 public class FileOrchestratorStorage implements OrchestratorStorage {
 
     private final Properties properties = new Properties();
@@ -31,7 +37,6 @@ public class FileOrchestratorStorage implements OrchestratorStorage {
      * @param environment Environment bean from SpringContext.
      * @throws IOException Exception when external resource cannot be read.
      */
-    @Autowired
     public FileOrchestratorStorage(Environment environment) throws IOException {
         log.info("No other storage beans found. Using default file storage.");
         this.file = new File(
