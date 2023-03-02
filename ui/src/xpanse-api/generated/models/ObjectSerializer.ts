@@ -3,15 +3,15 @@
  * SPDX-FileCopyrightText: Huawei Inc.
  */
 
+import { Billing } from './Billing';
 import { CloudServiceProvider } from './CloudServiceProvider';
 import { DeployVariable } from './DeployVariable';
-import { Billing } from './Billing';
-import { Flavor } from './Flavor';
-import { SystemStatus } from './SystemStatus';
-import { Oclv2 } from './Oclv2';
 import { Deployment } from './Deployment';
-import { ServiceStatus } from './ServiceStatus';
+import { Flavor } from './Flavor';
+import { Ocl } from './Ocl';
 import { Response } from './Response';
+import { ServiceStatus } from './ServiceStatus';
+import { SystemStatus } from './SystemStatus';
 
 
 /* tslint:disable:no-unused-variable */
@@ -49,7 +49,7 @@ let typeMap: { [index: string]: any } = {
   'DeployVariable': DeployVariable,
   'Deployment': Deployment,
   'Flavor': Flavor,
-  'Oclv2': Oclv2,
+  'Ocl': Ocl,
   'Response': Response,
   'ServiceStatus': ServiceStatus,
   'SystemStatus': SystemStatus

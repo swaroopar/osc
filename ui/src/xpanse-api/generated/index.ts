@@ -13,7 +13,5 @@ export * from './servers';
 export { RequiredError } from './apis/baseapi';
 
 export type { PromiseMiddleware as Middleware } from './middleware';
-export {
-  PromiseAdminApi as AdminApi, PromiseServiceApi as ServiceApi, PromiseServiceVendorApi as ServiceVendorApi
-} from './types/PromiseAPI';
+export { PromiseServiceApi as ServiceApi, PromiseServiceVendorApi as ServiceVendorApi } from './types/PromiseAPI';
 

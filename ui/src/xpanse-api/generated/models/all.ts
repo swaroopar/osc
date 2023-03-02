@@ -8,7 +8,7 @@ export * from './CloudServiceProvider';
 export * from './DeployVariable';
 export * from './Deployment';
 export * from './Flavor';
-export * from './Oclv2';
+export * from './Ocl';
 export * from './Response';
 export * from './ServiceStatus';
 export * from './SystemStatus';

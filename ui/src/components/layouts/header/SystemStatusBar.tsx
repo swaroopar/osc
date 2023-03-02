@@ -5,15 +5,15 @@
 
 import { Button, Space } from 'antd';
 import { useState } from 'react';
-import { SystemStatus, SystemStatusHealthStatusEnum } from '../../../xpanse-api/generated';
 import SystemStatusIcon from './SystemStatusIcon';
-import { adminApi } from '../../../xpanse-api/xpanseRestApiClient';
+import { SystemStatus, SystemStatusHealthStatusEnum } from '../../../xpanse-api/generated';
+import { serviceApi } from '../../../xpanse-api/xpanseRestApiClient';
 
 function SystemStatusBar(): JSX.Element {
   const [healthState, setHealthState] = useState<SystemStatusHealthStatusEnum>('NOK');
   const [isReloadSystemStatus, setReloadSystemStatus] = useState<boolean>(false);
 
-  adminApi
+  serviceApi
     .health()
     .then((systemStatus: SystemStatus) => setHealthState(systemStatus.healthStatus))
     .catch((error: any) => {
