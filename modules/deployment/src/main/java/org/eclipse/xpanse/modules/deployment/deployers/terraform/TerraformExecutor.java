@@ -168,4 +168,21 @@ public class TerraformExecutor {
             throw new TerraformExecutorException("Read state file failed.", ex);
         }
     }
+
+    /**
+     * Executes terraform validate command.
+     *
+     * @return true if validation of the terraform module is successful. else false.
+     */
+    public boolean tfValidate() {
+        if (!tfInit()) {
+            log.error("TFExecutor.tfInit failed.");
+            throw new TerraformExecutorException("TFExecutor.tfInit failed.");
+        }
+        StringBuilder out = new StringBuilder();
+        boolean exeRet = execute("terraform validate -json", out);
+        log.info(out.toString());
+        return exeRet;
+    }
+
 }

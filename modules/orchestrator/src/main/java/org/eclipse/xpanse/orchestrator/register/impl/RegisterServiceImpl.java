@@ -19,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.xpanse.modules.database.register.RegisterServiceEntity;
 import org.eclipse.xpanse.modules.models.enums.Csp;
+import org.eclipse.xpanse.modules.models.enums.DeployerKind;
 import org.eclipse.xpanse.modules.models.enums.ServiceState;
 import org.eclipse.xpanse.modules.models.query.RegisteredServiceQuery;
 import org.eclipse.xpanse.modules.models.resource.Ocl;
@@ -27,6 +28,7 @@ import org.eclipse.xpanse.modules.models.view.CategoryOclVo;
 import org.eclipse.xpanse.modules.models.view.OclDetailVo;
 import org.eclipse.xpanse.modules.models.view.ProviderOclVo;
 import org.eclipse.xpanse.modules.models.view.VersionOclVo;
+import org.eclipse.xpanse.orchestrator.OrchestratorService;
 import org.eclipse.xpanse.orchestrator.register.RegisterService;
 import org.eclipse.xpanse.orchestrator.register.RegisterServiceStorage;
 import org.eclipse.xpanse.orchestrator.utils.IconProcessorUtil;
@@ -48,6 +50,9 @@ public class RegisterServiceImpl implements RegisterService {
     private OclLoader oclLoader;
     @Resource
     private OpenApiUtil openApiUtil;
+
+    @Resource
+    private OrchestratorService orchestratorService;
 
 
     /**
@@ -149,6 +154,12 @@ public class RegisterServiceImpl implements RegisterService {
         if (Objects.nonNull(storage.findRegisteredService(newEntity))) {
             log.error("Service already registered.");
             throw new IllegalArgumentException("Service already registered.");
+        }
+        if (ocl.getDeployment().getKind() == DeployerKind.TERRAFORM) {
+            boolean isTerraformScriptValid = this.orchestratorService.getDeployment(ocl.getDeployment().getKind()).validate(ocl);
+            if (!isTerraformScriptValid) {
+                throw new IllegalArgumentException("Provided terraform script is not valid");
+            }
         }
         storage.store(newEntity);
         openApiUtil.generateServiceApi(newEntity);
