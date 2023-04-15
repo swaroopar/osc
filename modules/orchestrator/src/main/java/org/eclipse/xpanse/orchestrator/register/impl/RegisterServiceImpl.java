@@ -18,9 +18,12 @@ import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.xpanse.modules.database.register.RegisterServiceEntity;
+import org.eclipse.xpanse.modules.deployment.deployers.terraform.resource.TfValidateDiagnostics;
+import org.eclipse.xpanse.modules.deployment.deployers.terraform.resource.TfValidationResult;
 import org.eclipse.xpanse.modules.models.enums.Csp;
 import org.eclipse.xpanse.modules.models.enums.DeployerKind;
 import org.eclipse.xpanse.modules.models.enums.ServiceState;
+import org.eclipse.xpanse.modules.models.exceptions.TerraformScriptFormatInvalidException;
 import org.eclipse.xpanse.modules.models.query.RegisteredServiceQuery;
 import org.eclipse.xpanse.modules.models.resource.Ocl;
 import org.eclipse.xpanse.modules.models.utils.OclLoader;
@@ -156,9 +159,14 @@ public class RegisterServiceImpl implements RegisterService {
             throw new IllegalArgumentException("Service already registered.");
         }
         if (ocl.getDeployment().getKind() == DeployerKind.TERRAFORM) {
-            boolean isTerraformScriptValid = this.orchestratorService.getDeployment(ocl.getDeployment().getKind()).validate(ocl);
-            if (!isTerraformScriptValid) {
-                throw new IllegalArgumentException("Provided terraform script is not valid");
+            TfValidationResult tfValidationResult =
+                    this.orchestratorService.getDeployment(ocl.getDeployment().getKind())
+                            .validate(ocl);
+            if (!tfValidationResult.isValid()) {
+                throw new TerraformScriptFormatInvalidException(
+                        tfValidationResult.getDiagnostics().stream()
+                                .map(TfValidateDiagnostics::getDetail)
+                                .collect(Collectors.toList()));
             }
         }
         storage.store(newEntity);

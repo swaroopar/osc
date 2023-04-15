@@ -10,6 +10,7 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.xpanse.api.response.Response;
+import org.eclipse.xpanse.modules.models.exceptions.TerraformScriptFormatInvalidException;
 import org.eclipse.xpanse.api.response.ResultType;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageConversionException;
@@ -41,7 +42,7 @@ public class CommonExceptionHandler {
         StringBuilder sb = new StringBuilder();
         for (FieldError fieldError : bindingResult.getFieldErrors()) {
             sb.append(fieldError.getField()).append("：").append(fieldError.getDefaultMessage())
-                .append(", ");
+                    .append(", ");
         }
         return Response.errorResponse(ResultType.BAD_PARAMETERS, sb.toString());
     }
@@ -97,7 +98,7 @@ public class CommonExceptionHandler {
     @ExceptionHandler({IllegalArgumentException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Response handleIllegalArgumentException(IllegalArgumentException ex) {
-        log.error("handleNotFoundException: ", ex);
+        log.error("handleIllegalArgumentException: ", ex);
         String failMessage = ex.getMessage();
         return Response.errorResponse(ResultType.BAD_PARAMETERS, failMessage);
     }
@@ -111,5 +112,17 @@ public class CommonExceptionHandler {
         log.error("handleException: ", ex);
         String failMessage = ex.getClass().getName() + ":" + ex.getMessage();
         return Response.errorResponse(ResultType.RUNTIME_ERROR, failMessage);
+    }
+
+    /**
+     * Exception handler for IllegalArgumentException.
+     */
+    @ExceptionHandler({TerraformScriptFormatInvalidException.class})
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public Response handleTerraformScriptFormatInvalidException(
+            TerraformScriptFormatInvalidException ex) {
+        return Response.errorResponse(ResultCode.BAD_PARAMETERS,
+                String.join(", ", ex.getErrorReasons()));
     }
 }

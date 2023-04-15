@@ -20,12 +20,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.xpanse.modules.deployment.Deployment;
 import org.eclipse.xpanse.modules.deployment.deployers.terraform.exceptions.TerraformExecutorException;
+import org.eclipse.xpanse.modules.deployment.deployers.terraform.resource.TfValidationResult;
 import org.eclipse.xpanse.modules.deployment.utils.DeployEnvironments;
 import org.eclipse.xpanse.modules.models.enums.Csp;
 import org.eclipse.xpanse.modules.models.enums.DeployerKind;
 import org.eclipse.xpanse.modules.models.enums.TerraformExecState;
 import org.eclipse.xpanse.modules.models.resource.Ocl;
-import org.eclipse.xpanse.modules.models.resource.Region;
 import org.eclipse.xpanse.modules.models.service.DeployResult;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -141,7 +141,8 @@ public class TerraformDeployment implements Deployment {
         return getExecutor(envVariables, inputVariables, workspace);
     }
 
-    private TerraformExecutor getExecutor(Map<String, String> envVariables, Map<String, String> inputVariables, String workspace) {
+    private TerraformExecutor getExecutor(Map<String, String> envVariables,
+                                          Map<String, String> inputVariables, String workspace) {
         return new TerraformExecutor(envVariables, inputVariables, workspace);
     }
 
@@ -158,7 +159,7 @@ public class TerraformDeployment implements Deployment {
         String scriptPath = workspace + File.separator + SCRIPT_FILE_NAME;
         try {
             try (FileWriter verWriter = new FileWriter(verScriptPath);
-                    FileWriter scriptWriter = new FileWriter(scriptPath)) {
+                 FileWriter scriptWriter = new FileWriter(scriptPath)) {
                 verWriter.write(TerraformProviders.getProvider(csp).getProvider(region));
                 scriptWriter.write(script);
             }
@@ -227,16 +228,14 @@ public class TerraformDeployment implements Deployment {
         return DeployerKind.TERRAFORM;
     }
 
-    public boolean validate(Ocl ocl) {
-        boolean isScriptValid = false;
+    public TfValidationResult validate(Ocl ocl) {
         String workspace = getWorkspacePath(UUID.randomUUID().toString());
         // Create the workspace.
         buildWorkspace(workspace);
-        for (Region region : ocl.getCloudServiceProvider().getRegions()) {
-            createScriptFile(ocl.getCloudServiceProvider().getName(), region.getName(), workspace, ocl.getDeployment().getDeployer());
-            TerraformExecutor executor = getExecutor(new HashMap<>(), new HashMap<>(), workspace);
-            isScriptValid = executor.tfValidate();
-        }
-        return isScriptValid;
+        createScriptFile(ocl.getCloudServiceProvider().getName(),
+                ocl.getCloudServiceProvider().getRegions().get(0).getName(), workspace,
+                ocl.getDeployment().getDeployer());
+        TerraformExecutor executor = getExecutor(new HashMap<>(), new HashMap<>(), workspace);
+        return executor.tfValidate();
     }
 }
