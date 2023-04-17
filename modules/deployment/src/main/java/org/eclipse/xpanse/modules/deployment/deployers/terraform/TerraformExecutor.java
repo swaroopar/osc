@@ -173,17 +173,18 @@ public class TerraformExecutor {
     /**
      * Executes terraform validate command.
      *
-     * @return true if validation of the terraform module is successful. else false.
+     * @return TfValidationResult.
      */
     public TfValidationResult tfValidate() {
         if (!tfInit()) {
             log.error("TFExecutor.tfInit failed.");
             throw new TerraformExecutorException("TFExecutor.tfInit failed.");
         }
-        StringBuilder out = new StringBuilder();
-        execute("terraform validate -json", out);
+        SystemCmdResult systemCmdResult = execute("terraform validate -json");
+        log.info(systemCmdResult.getCommandOutput());
         try {
-             return new ObjectMapper().readValue(out.toString(), TfValidationResult.class);
+            return new ObjectMapper().readValue(systemCmdResult.getCommandOutput(),
+                    TfValidationResult.class);
         } catch (JsonProcessingException ex) {
             throw new IllegalStateException("Serialising string to object failed.", ex);
         }

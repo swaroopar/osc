@@ -159,7 +159,7 @@ public class TerraformDeployment implements Deployment {
         String scriptPath = workspace + File.separator + SCRIPT_FILE_NAME;
         try {
             try (FileWriter verWriter = new FileWriter(verScriptPath);
-                 FileWriter scriptWriter = new FileWriter(scriptPath)) {
+                    FileWriter scriptWriter = new FileWriter(scriptPath)) {
                 verWriter.write(TerraformProviders.getProvider(csp).getProvider(region));
                 scriptWriter.write(script);
             }
@@ -228,6 +228,9 @@ public class TerraformDeployment implements Deployment {
         return DeployerKind.TERRAFORM;
     }
 
+    /**
+     * Validates the Terraform script.
+     */
     public TfValidationResult validate(Ocl ocl) {
         String workspace = getWorkspacePath(UUID.randomUUID().toString());
         // Create the workspace.

@@ -17,7 +17,8 @@ import org.apache.commons.lang3.StringUtils;
 public enum ResultType {
     SUCCESS("success"),
     RUNTIME_ERROR("Runtime failure"),
-    BAD_PARAMETERS("Parameters invalid");
+    BAD_PARAMETERS("Parameters invalid"),
+    TERRAFORM_SCRIPT_INVALID("Parameters invalid");
 
     private final String value;
 

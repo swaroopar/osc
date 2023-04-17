@@ -311,6 +311,12 @@ public class OrchestratorService {
         deployTask.setDeployResourceHandler(plugin.getResourceHandler());
     }
 
+    /**
+     * Get Deployment bean available for the requested DeployerKind.
+     *
+     * @param deployerKind Deployer for which the Deployment bean is required.
+     * @return Deployment bean for the provided deployerKind.
+     */
     public Deployment getDeployment(DeployerKind deployerKind) {
         Deployment deployment = deploymentMap.get(deployerKind);
         if (Objects.isNull(deployment)) {
