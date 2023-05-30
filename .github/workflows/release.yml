@@ -44,8 +44,8 @@ jobs:
         id: new_version
         uses: christian-draeger/increment-semantic-version@1.1.0
         with:
-          current-version: env.CURRENT_VERSION
-          version-fragment: env.VERSION_FRAGMENT
+          current-version: ${{ env.CURRENT_VERSION }}
+          version-fragment: ${{ env.VERSION_FRAGMENT }}
 
       - name: Get new version
         run: echo ${{ steps.new_version.outputs.next-version }}
