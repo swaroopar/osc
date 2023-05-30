@@ -47,7 +47,17 @@ jobs:
           current-version: ${{ env.CURRENT_VERSION }}
           version-fragment: ${{ env.VERSION_FRAGMENT }}
 
-      - name: Get new version
+      - name: Set new version
         run: echo ${{ steps.new_version.outputs.next-version }}
+
+      - name: Set new version
+        run: mvn versions:set -DnewVersion=${{ steps.new_version.outputs.next-version }}
+
+      - name: Update release version
+        uses: EndBug/add-and-commit@v9
+        with:
+          message: [GitHub Action] Update release version
+          committer_name: GitHub Actions
+          committer_email: actions@github.com
 #      - name: Build
 #        run: mvn --batch-mode --update-snapshots --no-transfer-progress verify
