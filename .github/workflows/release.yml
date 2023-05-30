@@ -1,0 +1,26 @@
+---
+name: Xpanse Release Workflow
+on:
+  workflow_dispatch:
+    inputs:
+      ReleaseType:
+        type: choice
+        description: Defines how the version must be incremented
+        options:
+          - Major Version
+          - Minor Version
+          - Patch Version
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Set Up JDK 17
+        uses: actions/setup-java@v1
+        with:
+          java-version: 17
+      - name: Build
+        run: mvn --batch-mode --update-snapshots --no-transfer-progress verify
