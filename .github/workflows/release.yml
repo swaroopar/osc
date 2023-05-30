@@ -30,11 +30,11 @@ jobs:
 
       - name: Map input to next action
         run: |
-          if [[ ${{ github.event.inputs.ReleaseType }} == "Major Version" ]]; then
+          if [ ${{ github.event.inputs.ReleaseType }} == "Major Version" ]; then
             echo "VERSION_FRAGMENT=major" >> $GITHUB_ENV
-          elif [[ ${{ github.event.inputs.ReleaseType }} == "Minor Version" ]]; then
+          elif [ ${{ github.event.inputs.ReleaseType }} == "Minor Version" ]; then
             echo "VERSION_FRAGMENT=feature" >> $GITHUB_ENV
-          elif [[ ${{ github.event.inputs.ReleaseType }} == "Patch Version" ]]; then
+          elif [ ${{ github.event.inputs.ReleaseType }} == "Patch Version" ]; then
             echo "VERSION_FRAGMENT=bug" >> $GITHUB_ENV
           fi
 
