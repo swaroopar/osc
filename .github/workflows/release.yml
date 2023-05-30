@@ -53,11 +53,36 @@ jobs:
       - name: Set new version
         run: mvn versions:set -DnewVersion=${{ steps.new_version.outputs.next-version }}
 
-      - name: Update release version
-        uses: EndBug/add-and-commit@v9
+      - name: Release to Maven Central
+        env:
+          MAVEN_USERNAME: ${{ secrets.ORG_OSSRH_USERNAME }}
+          MAVEN_CENTRAL_TOKEN: ${{ secrets.ORG_OSSRH_PASSWORD }}
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.ORG_GPG_PASSPHRASE }}
+        run: |
+          export GPG_TTY=$(tty)
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          mvn -B --file pom.xml release:prepare release:perform
+
+      - name: Run JReleaser
+        uses: jreleaser/release-action@v2
+        env:
+          JRELEASER_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: JReleaser release output
+        if: always()
+        uses: actions/upload-artifact@v3
         with:
-          message: "[GitHub Action] Update release version"
-          committer_name: GitHub Actions
-          committer_email: actions@github.com
+          name: jreleaser-release
+          path: |
+            out/jreleaser/trace.log
+            out/jreleaser/output.properties  
+
+#      - name: Update release version
+#        uses: EndBug/add-and-commit@v9
+#        with:
+#          message: "[GitHub Action] Update release version"
+#          committer_name: GitHub Actions
+#          committer_email: actions@github.com
 #      - name: Build
 #        run: mvn --batch-mode --update-snapshots --no-transfer-progress verify
