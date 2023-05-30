@@ -18,9 +18,33 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+
       - name: Set Up JDK 17
         uses: actions/setup-java@v1
         with:
           java-version: 17
-      - name: Build
-        run: mvn --batch-mode --update-snapshots --no-transfer-progress verify
+
+      - name: Set current version env variable
+        run: |
+          echo "CURRENT_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
+
+      - name: Map input to next action
+        run: |
+          if [[  $github.event.inputs.ReleaseType == "Major Version" ]]; then
+            echo "VERSION_FRAGMENT=major" >> $GITHUB_ENV
+          if [[  $github.event.inputs.ReleaseType == "Minor Version" ]]; then
+            echo "VERSION_FRAGMENT=feature" >> $GITHUB_ENV
+          if [[  $github.event.inputs.ReleaseType == "Patch Version" ]]; then
+            echo "VERSION_FRAGMENT=bug" >> $GITHUB_ENV
+
+      - name: Set new version env variable
+        id: new_version
+        uses: christian-draeger/increment-semantic-version@1.1.0
+        with:
+          current-version: env.CURRENT_VERSION
+          version-fragment: env.VERSION_FRAGMENT
+
+      - name: Get new version
+        run: echo ${{ steps.new_version.outputs.next-version }}
+#      - name: Build
+#        run: mvn --batch-mode --update-snapshots --no-transfer-progress verify
