@@ -55,8 +55,8 @@ jobs:
 
       - name: Release to Maven Central
         env:
-          JRELEASER_NEXUS2_USERNAME: ${{ secrets.ORG_OSSRH_USERNAME }}
-          JRELEASER_NEXUS2_PASSWORD: ${{ secrets.ORG_OSSRH_PASSWORD }}
+          JRELEASER_NEXUS2_MAVEN_CENTRAL_USERNAME: ${{ secrets.ORG_OSSRH_USERNAME }}
+          JRELEASER_NEXUS2_MAVEN_CENTRAL_PASSWORD: ${{ secrets.ORG_OSSRH_PASSWORD }}
           JRELEASER_GPG_PASSPHRASE: ${{ secrets.ORG_GPG_PASSPHRASE }}
           JRELEASER_GPG_SECRET_KEY: ${{ secrets.ORG_GPG_PRIVATE_KEY }}
           JRELEASER_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
