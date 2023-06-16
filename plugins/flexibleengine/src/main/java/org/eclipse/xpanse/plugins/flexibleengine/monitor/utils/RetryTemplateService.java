@@ -47,6 +47,7 @@ public class RetryTemplateService {
     private static final int RETRY_TIMES = 5;
     private static final long DELAY_MILLISECONDS = 2000L;
     private static final double DELAY_MULTIPLIER = 1.5D;
+    private static final String PARAMETERS_REQUEST_ENTITY = "parameters";
     private final RestTemplate restTemplate = new RestTemplate();
 
     /**
@@ -60,7 +61,7 @@ public class RetryTemplateService {
             backoff = @Backoff(delay = DELAY_MILLISECONDS, multiplier = DELAY_MULTIPLIER))
     public Project queryProjectInfo(HttpRequestBase httpRequestBase) {
         HttpEntity<String> httpEntity =
-                new HttpEntity<>("parameters", getHttpHeaders(httpRequestBase));
+                new HttpEntity<>(PARAMETERS_REQUEST_ENTITY, getHttpHeaders(httpRequestBase));
         ResponseEntity<KeystoneListProjectsResponse> response =
                 restTemplate.exchange(httpRequestBase.getURI(), HttpMethod.GET, httpEntity,
                         KeystoneListProjectsResponse.class);
@@ -85,7 +86,7 @@ public class RetryTemplateService {
     public ShowMetricDataResponse queryMetricData(HttpRequestBase httpRequestBase)
             throws RestClientException {
         HttpEntity<String> httpEntity =
-                new HttpEntity<>("parameters", getHttpHeaders(httpRequestBase));
+                new HttpEntity<>(PARAMETERS_REQUEST_ENTITY, getHttpHeaders(httpRequestBase));
         ResponseEntity<ShowMetricDataResponse> responseEntity =
                 restTemplate.exchange(httpRequestBase.getURI(), HttpMethod.GET, httpEntity,
                         ShowMetricDataResponse.class);
@@ -106,7 +107,7 @@ public class RetryTemplateService {
             backoff = @Backoff(delay = DELAY_MILLISECONDS, multiplier = DELAY_MULTIPLIER))
     public ListMetricsResponse queryMetricItemList(HttpRequestBase httpRequestBase) {
         HttpEntity<String> httpEntity =
-                new HttpEntity<>("parameters", getHttpHeaders(httpRequestBase));
+                new HttpEntity<>(PARAMETERS_REQUEST_ENTITY, getHttpHeaders(httpRequestBase));
         ResponseEntity<ListMetricsResponse> responseEntity =
                 restTemplate.exchange(httpRequestBase.getURI(), HttpMethod.GET, httpEntity,
                         ListMetricsResponse.class);
@@ -151,29 +152,31 @@ public class RetryTemplateService {
     /**
      * Handling exception after the get request retried max times.
      *
-     * @param e               RestClientException
+     * @param restClientException               RestClientException
      * @param httpRequestBase httpRequestBase
      * @return null
      */
     @Recover
-    public Object recoverGetRequest(RestClientException e, HttpRequestBase httpRequestBase) {
+    public Object recoverGetRequest(RestClientException restClientException,
+                                    HttpRequestBase httpRequestBase) {
         log.error("RestTemplate get request[Url:{}] still failed after retried {} times.",
-                httpRequestBase.getURI(), RETRY_TIMES, e);
+                httpRequestBase.getURI(), RETRY_TIMES, restClientException);
         return null;
     }
 
     /**
      * Handling exception after the post request retried max times.
      *
-     * @param e               RestClientException
+     * @param restClientException               RestClientException
      * @param httpRequestBase httpRequestBase
      * @return null
      */
     @Recover
-    public Object recoverPostRequest(RestClientException e, HttpRequestBase httpRequestBase,
+    public Object recoverPostRequest(RestClientException restClientException,
+                                     HttpRequestBase httpRequestBase,
                                      String requestBody) {
         log.error("RestTemplate post request[Url:{},Body:{}] still failed after retried {} times.",
-                httpRequestBase.getURI(), RETRY_TIMES, requestBody, e);
+                httpRequestBase.getURI(), RETRY_TIMES, requestBody, restClientException);
         return null;
     }
 

@@ -29,6 +29,7 @@ import org.eclipse.xpanse.modules.models.monitor.enums.MetricItemType;
 import org.eclipse.xpanse.modules.models.monitor.enums.MetricType;
 import org.eclipse.xpanse.modules.models.monitor.enums.MetricUnit;
 import org.eclipse.xpanse.modules.models.service.deploy.DeployResource;
+import org.eclipse.xpanse.modules.models.utils.CharacterConstants;
 import org.eclipse.xpanse.modules.plugin.monitor.MetricRequest;
 import org.eclipse.xpanse.modules.plugin.monitor.ResourceMetricRequest;
 import org.eclipse.xpanse.modules.plugin.monitor.ServiceMetricRequest;
@@ -56,6 +57,10 @@ public class FlexibleEngineMonitorConverter {
 
     public static final long SIX_MONTH_MILLISECONDS = 180 * 24 * 3600 * 1000;
 
+    private static final String ID_LABEL = "id";
+    private static final String NAME_LABEL = "name";
+    private static final String REGION_PROPERTY = "region";
+
     private static final Map<String, String> HEADER_MAP = new HashMap<>();
 
     private static MetricItem convertDatapointForBatchMetricToMetricItem(
@@ -77,9 +82,11 @@ public class FlexibleEngineMonitorConverter {
         return new StringBuilder(FlexibleEngineMonitorConstants.PROTOCOL_HTTPS)
                 .append(FlexibleEngineMonitorConstants.CES_ENDPOINT_PREFIX)
                 .append(region)
-                .append(FlexibleEngineMonitorConstants.ENDPOINT_SUFFIX).append("/")
-                .append(FlexibleEngineMonitorConstants.CES_API_VERSION).append("/")
-                .append(projectId).append("/")
+                .append(FlexibleEngineMonitorConstants.ENDPOINT_SUFFIX)
+                .append(CharacterConstants.FORWARD_SLASH)
+                .append(FlexibleEngineMonitorConstants.CES_API_VERSION)
+                .append(CharacterConstants.FORWARD_SLASH)
+                .append(projectId).append(CharacterConstants.FORWARD_SLASH)
                 .append(FlexibleEngineMonitorConstants.BATCH_METRIC_PATH);
 
     }
@@ -129,29 +136,33 @@ public class FlexibleEngineMonitorConverter {
     }
 
     private static <T extends MetricRequest> void checkNullParamAndFillValue(T metricRequest) {
-        Long from = metricRequest.getFrom();
-        Long to = metricRequest.getTo();
-        if (Objects.isNull(from)) {
-            from = System.currentTimeMillis()
+        Long metricRequestFrom = metricRequest.getFrom();
+        Long metricRequestTo = metricRequest.getTo();
+        if (Objects.isNull(metricRequestFrom)) {
+            metricRequestFrom = System.currentTimeMillis()
                     - FlexibleEngineMonitorConstants.FIVE_MINUTES_MILLISECONDS;
-            metricRequest.setFrom(from);
+            metricRequest.setFrom(metricRequestFrom);
         }
-        if (Objects.isNull(to)) {
-            to = System.currentTimeMillis();
-            metricRequest.setTo(to);
+        if (Objects.isNull(metricRequestTo)) {
+            metricRequestTo = System.currentTimeMillis();
+            metricRequest.setTo(metricRequestTo);
         }
         if (Objects.isNull(metricRequest.getGranularity())) {
-            if (to - from <= FOUR_HOUR_MILLISECONDS) {
+            if (metricRequestTo - metricRequestFrom <= FOUR_HOUR_MILLISECONDS) {
                 metricRequest.setGranularity(FlexibleEngineMonitorConstants.PERIOD_REAL_TIME_INT);
-            } else if (to - from > FOUR_HOUR_MILLISECONDS && to - from <= ONE_DAY_MILLISECONDS) {
+            } else if (metricRequestTo - metricRequestFrom > FOUR_HOUR_MILLISECONDS
+                    && metricRequestTo - metricRequestFrom <= ONE_DAY_MILLISECONDS) {
                 metricRequest.setGranularity(
                         FlexibleEngineMonitorConstants.PERIOD_FIVE_MINUTES_INT);
-            } else if (to - from > ONE_DAY_MILLISECONDS && to - from <= THREE_DAY_MILLISECONDS) {
+            } else if (metricRequestTo - metricRequestFrom > ONE_DAY_MILLISECONDS
+                     && metricRequestTo - metricRequestFrom <= THREE_DAY_MILLISECONDS) {
                 metricRequest.setGranularity(
                         FlexibleEngineMonitorConstants.PERIOD_TWENTY_MINUTES_INT);
-            } else if (to - from > THREE_DAY_MILLISECONDS && to - from <= TEN_DAY_MILLISECONDS) {
+            } else if (metricRequestTo - metricRequestFrom > THREE_DAY_MILLISECONDS
+                     && metricRequestTo - metricRequestFrom <= TEN_DAY_MILLISECONDS) {
                 metricRequest.setGranularity(FlexibleEngineMonitorConstants.PERIOD_ONE_HOUR_INT);
-            } else if (to - from > TEN_DAY_MILLISECONDS && to - from <= ONE_MONTH_MILLISECONDS) {
+            } else if (metricRequestTo - metricRequestFrom > TEN_DAY_MILLISECONDS
+                     && metricRequestTo - metricRequestFrom <= ONE_MONTH_MILLISECONDS) {
                 metricRequest.setGranularity(FlexibleEngineMonitorConstants.PERIOD_FOUR_HOURS_INT);
             } else {
                 metricRequest.setGranularity(FlexibleEngineMonitorConstants.PERIOD_ONE_DAY_INT);
@@ -177,7 +188,7 @@ public class FlexibleEngineMonitorConverter {
      * @return Return request url.
      */
     public String buildListMetricsUrl(DeployResource deployResource, String projectId) {
-        String region = deployResource.getProperties().get("region");
+        String region = deployResource.getProperties().get(REGION_PROPERTY);
         StringBuilder listMetricsBasicUrl =
                 getQueryListMetricsBasicUrl(region, projectId, deployResource.getResourceId());
         return listMetricsBasicUrl.toString();
@@ -188,10 +199,13 @@ public class FlexibleEngineMonitorConverter {
         return new StringBuilder(FlexibleEngineMonitorConstants.PROTOCOL_HTTPS)
                 .append(FlexibleEngineMonitorConstants.CES_ENDPOINT_PREFIX)
                 .append(region)
-                .append(FlexibleEngineMonitorConstants.ENDPOINT_SUFFIX).append("/")
-                .append(FlexibleEngineMonitorConstants.CES_API_VERSION).append("/")
-                .append(projectId).append("/")
-                .append(FlexibleEngineMonitorConstants.LIST_METRICS_PATH).append("?")
+                .append(FlexibleEngineMonitorConstants.ENDPOINT_SUFFIX)
+                .append(CharacterConstants.FORWARD_SLASH)
+                .append(FlexibleEngineMonitorConstants.CES_API_VERSION)
+                .append(CharacterConstants.FORWARD_SLASH)
+                .append(projectId).append(CharacterConstants.FORWARD_SLASH)
+                .append(FlexibleEngineMonitorConstants.LIST_METRICS_PATH)
+                .append(CharacterConstants.QUESTION_MARK)
                 .append("dim.0=")
                 .append(FlexibleEngineMonitorConstants.DIM0_PREFIX).append(resourceId);
     }
@@ -208,7 +222,7 @@ public class FlexibleEngineMonitorConverter {
             String projectId,
             MetricInfoList metricInfo) {
         DeployResource resource = resourceMetricRequest.getDeployResource();
-        String region = resource.getProperties().get("region");
+        String region = resource.getProperties().get(REGION_PROPERTY);
         String basicUrl = getQueryMetricBasicUrl(region, projectId).toString();
         if (StringUtils.isNotBlank(region)) {
             StringBuilder url = new StringBuilder(basicUrl);
@@ -239,11 +253,11 @@ public class FlexibleEngineMonitorConverter {
         Metric metric = new Metric();
         metric.setName(metricInfo.getMetricName());
         Map<String, String> labels = new HashMap<>();
-        labels.put("id", deployResource.getResourceId());
-        labels.put("name", deployResource.getName());
+        labels.put(ID_LABEL, deployResource.getResourceId());
+        labels.put(NAME_LABEL, deployResource.getName());
         metric.setLabels(labels);
         metric.setType(MetricType.GAUGE);
-        if (metricInfo.getUnit().equals("%")) {
+        if (metricInfo.getUnit().equals(CharacterConstants.PERCENTAGE_SYMBOL)) {
             metric.setUnit(MetricUnit.PERCENTAGE);
         } else {
             metric.setUnit(MetricUnit.getByValue(metricInfo.getUnit()));
@@ -279,11 +293,12 @@ public class FlexibleEngineMonitorConverter {
                             Metric metric = new Metric();
                             metric.setName(metricInfoList.getMetricName());
                             Map<String, String> labels = new HashMap<>();
-                            labels.put("id", deployResource.getResourceId());
-                            labels.put("name", deployResource.getName());
+                            labels.put(ID_LABEL, deployResource.getResourceId());
+                            labels.put(NAME_LABEL, deployResource.getName());
                             metric.setLabels(labels);
                             metric.setType(MetricType.GAUGE);
-                            if (metricInfoList.getUnit().equals("%")) {
+                            if (metricInfoList.getUnit()
+                                    .equals(CharacterConstants.PERCENTAGE_SYMBOL)) {
                                 metric.setUnit(MetricUnit.PERCENTAGE);
                             } else {
                                 metric.setUnit(MetricUnit.getByValue(metricInfoList.getUnit()));
@@ -345,10 +360,13 @@ public class FlexibleEngineMonitorConverter {
         return new StringBuilder(FlexibleEngineMonitorConstants.PROTOCOL_HTTPS)
                 .append(FlexibleEngineMonitorConstants.CES_ENDPOINT_PREFIX)
                 .append(region)
-                .append(FlexibleEngineMonitorConstants.ENDPOINT_SUFFIX).append("/")
-                .append(FlexibleEngineMonitorConstants.CES_API_VERSION).append("/")
-                .append(projectId).append("/")
-                .append(FlexibleEngineMonitorConstants.METRIC_PATH).append("?");
+                .append(FlexibleEngineMonitorConstants.ENDPOINT_SUFFIX)
+                .append(CharacterConstants.FORWARD_SLASH)
+                .append(FlexibleEngineMonitorConstants.CES_API_VERSION)
+                .append(CharacterConstants.FORWARD_SLASH)
+                .append(projectId).append(CharacterConstants.FORWARD_SLASH)
+                .append(FlexibleEngineMonitorConstants.METRIC_PATH)
+                .append(CharacterConstants.QUESTION_MARK);
 
     }
 
@@ -362,8 +380,10 @@ public class FlexibleEngineMonitorConverter {
         return new StringBuilder(FlexibleEngineMonitorConstants.PROTOCOL_HTTPS)
                 .append(FlexibleEngineMonitorConstants.IAM_ENDPOINT_PREFIX)
                 .append(region)
-                .append(FlexibleEngineMonitorConstants.ENDPOINT_SUFFIX).append("/")
-                .append(FlexibleEngineMonitorConstants.IAM_API_VERSION).append("/")
+                .append(FlexibleEngineMonitorConstants.ENDPOINT_SUFFIX)
+                .append(CharacterConstants.FORWARD_SLASH)
+                .append(FlexibleEngineMonitorConstants.IAM_API_VERSION)
+                .append(CharacterConstants.FORWARD_SLASH)
                 .append(FlexibleEngineMonitorConstants.PROJECTS_PATH).append("?")
                 .append("name=").append(region);
     }

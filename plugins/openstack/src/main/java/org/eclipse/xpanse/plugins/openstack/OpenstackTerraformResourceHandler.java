@@ -36,7 +36,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class OpenstackTerraformResourceHandler implements DeployResourceHandler {
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     /**
      * Handler of Openstack for the DeployResult.
@@ -49,9 +49,8 @@ public class OpenstackTerraformResourceHandler implements DeployResourceHandler 
         TfState tfState;
         try {
             var stateFile = deployResult.getPrivateProperties().get("stateFile");
-            tfState = objectMapper.readValue(stateFile, TfState.class);
+            tfState = OBJECT_MAPPER.readValue(stateFile, TfState.class);
         } catch (IOException ex) {
-            log.error("Parse terraform state content failed.");
             throw new TerraformExecutorException("Parse terraform state content failed.", ex);
         }
         if (Objects.nonNull(tfState)) {

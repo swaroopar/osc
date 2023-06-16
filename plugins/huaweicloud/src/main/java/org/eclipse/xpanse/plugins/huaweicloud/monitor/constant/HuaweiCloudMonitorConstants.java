@@ -9,7 +9,7 @@ package org.eclipse.xpanse.plugins.huaweicloud.monitor.constant;
 /**
  * Huawei Monitor Constant.
  */
-public class HuaweiCloudMonitorConstants {
+public final class HuaweiCloudMonitorConstants {
 
     public static final String IAM = "AK_SK";
     public static final String HW_ACCESS_KEY = "HW_ACCESS_KEY";

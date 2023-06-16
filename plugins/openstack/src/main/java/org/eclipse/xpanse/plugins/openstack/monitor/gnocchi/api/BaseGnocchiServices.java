@@ -18,7 +18,22 @@ import org.openstack4j.openstack.internal.BaseOpenStackService;
 public class BaseGnocchiServices extends BaseOpenStackService {
 
     protected BaseGnocchiServices() {
-        super(ServiceType.TELEMETRY, EndpointFunction.instance);
+        super(ServiceType.TELEMETRY, EndpointFunction.INSTANCE);
+    }
+
+    /**
+     * Converts arrays to list.
+     *
+     * @param type Gets array of the type.
+     * @param <T> Type of the contents of the array.
+     * @return returns a list with the contents of the array received.
+     */
+    protected <T> List<T> wrapList(T[] type) {
+        if (type != null) {
+            return Lists.newArrayList(type);
+        }
+        return Collections.emptyList();
+
     }
 
     /**
@@ -27,19 +42,11 @@ public class BaseGnocchiServices extends BaseOpenStackService {
     private static class EndpointFunction implements Function<String, String> {
 
         static final EndpointFunction
-                instance = new EndpointFunction();
+                INSTANCE = new EndpointFunction();
 
         @Override
         public String apply(String input) {
             return input;
         }
-    }
-
-    protected <T> List<T> wrapList(T[] type) {
-        if (type != null) {
-            return Lists.newArrayList(type);
-        }
-        return Collections.emptyList();
-
     }
 }

@@ -51,7 +51,9 @@ import org.springframework.util.CollectionUtils;
 @Component
 public class MetricsService {
 
-    private static final ObjectMapper objectMapper = new ObjectMapper();
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+    private static final String BITS_PER_SECOND = "bit/s";
+    private static final String REGION_PROPERTY = "region";
 
     private final FlexibleEngineMonitorConverter flexibleEngineMonitorConverter;
 
@@ -105,13 +107,15 @@ public class MetricsService {
                 }
             }
         }
+        // CHECKSTYLE OFF: IllegalCatch
         try {
             requestBase = Client.get(accessKey, securityKey, url,
                     flexibleEngineMonitorConverter.getHeaders());
-        } catch (Exception e) {
-            log.error("Build Get Request of the FlexibleEngine API error.", e);
+        } catch (Exception exception) {
+            log.error("Build Get Request of the FlexibleEngine API error.", exception);
         }
         return requestBase;
+        // CHECKSTYLE ON: IllegalCatch
     }
 
     /**
@@ -139,13 +143,15 @@ public class MetricsService {
                 }
             }
         }
+        // CHECKSTYLE OFF: IllegalCatch
         try {
             requestBase = Client.post(accessKey, securityKey, url,
                     flexibleEngineMonitorConverter.getHeaders(), postBody);
-        } catch (Exception e) {
-            log.error("Build Post Request of the FlexibleEngine API error.", e);
+        } catch (Exception exception) {
+            log.error("Build Post Request of the FlexibleEngine API error.", exception);
         }
         return requestBase;
+        // CHECKSTYLE ON: IllegalCatch
     }
 
     private Project queryProjectInfo(AbstractCredentialInfo credential, String url) {
@@ -167,11 +173,11 @@ public class MetricsService {
                                                              BatchListMetricDataRequest request,
                                                              String url) {
         try {
-            String requestBody = objectMapper.writeValueAsString(request.getBody());
+            String requestBody = OBJECT_MAPPER.writeValueAsString(request.getBody());
             HttpRequestBase requestBase = buildPostRequest(credential, url, requestBody);
             return retryTemplateService.batchQueryMetricData(requestBase, requestBody);
-        } catch (JsonProcessingException e) {
-            log.error("BatchQueryMetricData JsonProcessingException.", e);
+        } catch (JsonProcessingException jsonProcessingException) {
+            log.error("BatchQueryMetricData JsonProcessingException.", jsonProcessingException);
         }
         return null;
     }
@@ -199,7 +205,7 @@ public class MetricsService {
                 Csp.FLEXIBLE_ENGINE, resourceMetricRequest.getXpanseUserName(),
                 CredentialType.VARIABLES);
         DeployResource deployResource = resourceMetricRequest.getDeployResource();
-        String region = deployResource.getProperties().get("region");
+        String region = deployResource.getProperties().get(REGION_PROPERTY);
         MonitorResourceType resourceType = resourceMetricRequest.getMonitorResourceType();
         if (StringUtils.isNotBlank(region)) {
             String projectQueryUrl =
@@ -248,7 +254,7 @@ public class MetricsService {
                 Csp.FLEXIBLE_ENGINE, serviceMetricRequest.getXpanseUserName(),
                 CredentialType.VARIABLES);
         MonitorResourceType resourceType = serviceMetricRequest.getMonitorResourceType();
-        String region = deployResources.get(0).getProperties().get("region");
+        String region = deployResources.get(0).getProperties().get(REGION_PROPERTY);
         Project project = null;
         if (StringUtils.isNotBlank(region)) {
             String projectQueryUrl =
@@ -374,7 +380,7 @@ public class MetricsService {
             MetricInfoList defaultMetricInfo = new MetricInfoList();
             defaultMetricInfo.setNamespace(FlexibleEngineNameSpaceKind.ECS_SYS.toValue());
             defaultMetricInfo.setMetricName(FlexibleEngineMonitorMetrics.VM_NETWORK_BANDWIDTH_IN);
-            defaultMetricInfo.setUnit("bit/s");
+            defaultMetricInfo.setUnit(BITS_PER_SECOND);
             return defaultMetricInfo;
         }
         if (MonitorResourceType.VM_NETWORK_OUTGOING.equals(type)) {
@@ -386,7 +392,7 @@ public class MetricsService {
             MetricInfoList defaultMetricInfo = new MetricInfoList();
             defaultMetricInfo.setNamespace(FlexibleEngineNameSpaceKind.ECS_SYS.toValue());
             defaultMetricInfo.setMetricName(FlexibleEngineMonitorMetrics.VM_NETWORK_BANDWIDTH_OUT);
-            defaultMetricInfo.setUnit("bit/s");
+            defaultMetricInfo.setUnit(BITS_PER_SECOND);
             return defaultMetricInfo;
         }
         return null;

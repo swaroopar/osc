@@ -104,8 +104,8 @@ public class KeystoneManager {
     private static String getIpAddressFromUrl(String url) {
         try {
             return InetAddress.getByName(new URL(url).getHost()).getHostAddress();
-        } catch (UnknownHostException | MalformedURLException e) {
-            throw new RuntimeException(e);
+        } catch (UnknownHostException | MalformedURLException runtimeException) {
+            throw new RuntimeException(runtimeException);
         }
     }
 

@@ -51,6 +51,9 @@ import org.springframework.util.CollectionUtils;
 @Component
 public class HuaweiCloudMetricsService {
 
+    private static final String BITS_PER_SECOND = "bit/s";
+    private static final String REGION_PROPERTY = "region";
+
     private final HuaweiCloudMonitorClient huaweiCloudMonitorClient;
 
     private final HuaweiCloudMonitorCache huaweiCloudMonitorCache;
@@ -90,7 +93,7 @@ public class HuaweiCloudMetricsService {
         clearExpiredMetricCache(deployResource.getResourceId());
         ICredential icredential = getIcredential(credential);
         CesClient client = huaweiCloudMonitorClient.getCesClient(icredential,
-                deployResource.getProperties().get("region"));
+                deployResource.getProperties().get(REGION_PROPERTY));
         List<MetricInfoList> targetMetricInfoList =
                 getTargetMetricInfoList(deployResource, monitorResourceType,
                         client);
@@ -101,12 +104,13 @@ public class HuaweiCloudMetricsService {
             ShowMetricDataResponse showMetricDataResponse =
                     client.showMetricDataInvoker(showMetricDataRequest)
                             .retryTimes(HuaweiCloudRetryStrategy.DEFAULT_RETRY_TIMES)
-                            .retryCondition((resp, ex) -> Objects.nonNull(ex)
+                            .retryCondition((resp, exception) -> Objects.nonNull(exception)
                                     &&
-                                    ServiceResponseException.class.isAssignableFrom(ex.getClass())
-                                    && (((ServiceResponseException) ex).getHttpStatusCode()
+                                    ServiceResponseException.class.isAssignableFrom(
+                                            exception.getClass())
+                                    && (((ServiceResponseException) exception).getHttpStatusCode()
                                     == HuaweiCloudRetryStrategy.ERROR_CODE_TOO_MANY_REQUESTS
-                                    || ((ServiceResponseException) ex).getHttpStatusCode()
+                                    || ((ServiceResponseException) exception).getHttpStatusCode()
                                     == HuaweiCloudRetryStrategy.ERROR_CODE_INTERNAL_SERVER_ERROR))
                             .backoffStrategy(
                                     new HuaweiCloudRetryStrategy(
@@ -149,7 +153,7 @@ public class HuaweiCloudMetricsService {
         MonitorResourceType monitorResourceType = serviceMetricRequest.getMonitorResourceType();
         ICredential icredential = getIcredential(credential);
         CesClient client = huaweiCloudMonitorClient.getCesClient(icredential,
-                deployResources.get(0).getProperties().get("region"));
+                deployResources.get(0).getProperties().get(REGION_PROPERTY));
         Map<String, List<MetricInfoList>> deployResourceMetricInfoMap = new HashMap<>();
         for (DeployResource deployResource : deployResources) {
             clearExpiredMetricCache(deployResource.getResourceId());
@@ -163,11 +167,12 @@ public class HuaweiCloudMetricsService {
         BatchListMetricDataResponse batchListMetricDataResponse =
                 client.batchListMetricDataInvoker(batchListMetricDataRequest)
                         .retryTimes(HuaweiCloudRetryStrategy.DEFAULT_RETRY_TIMES)
-                        .retryCondition((resp, ex) -> Objects.nonNull(ex)
-                                && ServiceResponseException.class.isAssignableFrom(ex.getClass())
-                                && (((ServiceResponseException) ex).getHttpStatusCode()
+                        .retryCondition((resp, exception) -> Objects.nonNull(exception)
+                                && ServiceResponseException.class.isAssignableFrom(
+                                exception.getClass())
+                                && (((ServiceResponseException) exception).getHttpStatusCode()
                                 == HuaweiCloudRetryStrategy.ERROR_CODE_TOO_MANY_REQUESTS
-                                || ((ServiceResponseException) ex).getHttpStatusCode()
+                                || ((ServiceResponseException) exception).getHttpStatusCode()
                                 == HuaweiCloudRetryStrategy.ERROR_CODE_INTERNAL_SERVER_ERROR))
                         .backoffStrategy(
                                 new HuaweiCloudRetryStrategy(
@@ -210,11 +215,11 @@ public class HuaweiCloudMetricsService {
                 huaweiCloudToXpanseDataModelConverter.buildListMetricsRequest(deployResource);
         ListMetricsResponse listMetricsResponse = client.listMetricsInvoker(request)
                 .retryTimes(HuaweiCloudRetryStrategy.DEFAULT_RETRY_TIMES)
-                .retryCondition((resp, ex) -> Objects.nonNull(ex)
-                        && ServiceResponseException.class.isAssignableFrom(ex.getClass())
-                        && (((ServiceResponseException) ex).getHttpStatusCode()
+                .retryCondition((resp, exception) -> Objects.nonNull(exception)
+                        && ServiceResponseException.class.isAssignableFrom(exception.getClass())
+                        && (((ServiceResponseException) exception).getHttpStatusCode()
                         == HuaweiCloudRetryStrategy.ERROR_CODE_TOO_MANY_REQUESTS
-                        || ((ServiceResponseException) ex).getHttpStatusCode()
+                        || ((ServiceResponseException) exception).getHttpStatusCode()
                         == HuaweiCloudRetryStrategy.ERROR_CODE_INTERNAL_SERVER_ERROR))
                 .backoffStrategy(
                         new HuaweiCloudRetryStrategy(HuaweiCloudRetryStrategy.DEFAULT_DELAY_MILLIS))
@@ -278,7 +283,7 @@ public class HuaweiCloudMetricsService {
             MetricInfoList defaultMetricInfo = new MetricInfoList();
             defaultMetricInfo.setNamespace(HuaweiCloudNameSpaceKind.ECS_SYS.toValue());
             defaultMetricInfo.setMetricName(HuaweiCloudMonitorMetrics.VM_NETWORK_BANDWIDTH_IN);
-            defaultMetricInfo.setUnit("bit/s");
+            defaultMetricInfo.setUnit(BITS_PER_SECOND);
             return defaultMetricInfo;
         }
         if (MonitorResourceType.VM_NETWORK_OUTGOING.equals(type)) {
@@ -290,7 +295,7 @@ public class HuaweiCloudMetricsService {
             MetricInfoList defaultMetricInfo = new MetricInfoList();
             defaultMetricInfo.setNamespace(HuaweiCloudNameSpaceKind.ECS_SYS.toValue());
             defaultMetricInfo.setMetricName(HuaweiCloudMonitorMetrics.VM_NETWORK_BANDWIDTH_OUT);
-            defaultMetricInfo.setUnit("bit/s");
+            defaultMetricInfo.setUnit(BITS_PER_SECOND);
             return defaultMetricInfo;
         }
         return null;

@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
  * Class to handle all Gnocchi resources services - <a href="https://gnocchi.osci.io/rest.html#resources">Resources</a>.
  */
 @Component
-public class ResourcesService extends BaseGnocchiServices {
+public final class ResourcesService extends BaseGnocchiServices {
 
     public InstanceResource getInstanceResourceInfoById(String resourceId) {
         return get(InstanceResource.class, uri("/v1/resource/instance/%s", resourceId)).execute();

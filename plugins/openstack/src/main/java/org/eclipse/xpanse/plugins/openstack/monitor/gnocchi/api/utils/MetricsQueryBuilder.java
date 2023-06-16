@@ -6,6 +6,7 @@
 package org.eclipse.xpanse.plugins.openstack.monitor.gnocchi.api.utils;
 
 import java.util.Objects;
+import org.eclipse.xpanse.modules.models.utils.CharacterConstants;
 import org.eclipse.xpanse.plugins.openstack.monitor.gnocchi.models.filter.MetricsFilter;
 import org.springframework.stereotype.Component;
 
@@ -28,18 +29,18 @@ public class MetricsQueryBuilder {
         }
         if (Objects.nonNull(metricsFilter.getEnd())) {
             if (!stringBuilder.isEmpty()) {
-                stringBuilder.append("&");
+                stringBuilder.append(CharacterConstants.AMPERSAND_SYMBOL);
             }
             stringBuilder.append("end=").append(metricsFilter.getEnd());
         }
         if (Objects.nonNull(metricsFilter.getGranularity())) {
             if (!stringBuilder.isEmpty()) {
-                stringBuilder.append("&");
+                stringBuilder.append(CharacterConstants.AMPERSAND_SYMBOL);
             }
             stringBuilder.append("granularity=").append(metricsFilter.getGranularity());
         }
         if (!stringBuilder.isEmpty()) {
-            stringBuilder.insert(0, "?");
+            stringBuilder.insert(0, CharacterConstants.QUESTION_MARK);
         }
         return stringBuilder.toString();
     }

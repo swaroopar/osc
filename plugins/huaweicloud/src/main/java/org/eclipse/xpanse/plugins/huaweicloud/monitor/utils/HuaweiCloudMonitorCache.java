@@ -35,7 +35,7 @@ public class HuaweiCloudMonitorCache {
             new ConcurrentHashMap<>();
     @Setter
     @Getter
-    private long lastClearTime = 0L;
+    private long lastClearTime;
 
     /**
      * Set Metric Cache.

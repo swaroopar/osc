@@ -31,6 +31,7 @@ import org.eclipse.xpanse.modules.models.monitor.enums.MetricItemType;
 import org.eclipse.xpanse.modules.models.monitor.enums.MetricType;
 import org.eclipse.xpanse.modules.models.monitor.enums.MetricUnit;
 import org.eclipse.xpanse.modules.models.service.deploy.DeployResource;
+import org.eclipse.xpanse.modules.models.utils.CharacterConstants;
 import org.eclipse.xpanse.modules.plugin.monitor.MetricRequest;
 import org.eclipse.xpanse.modules.plugin.monitor.ResourceMetricRequest;
 import org.eclipse.xpanse.modules.plugin.monitor.ServiceMetricRequest;
@@ -44,6 +45,9 @@ import org.springframework.util.CollectionUtils;
 @Slf4j
 @Component
 public class HuaweiCloudToXpanseDataModelConverter {
+
+    private static final String ID_LABEL = "id";
+    private static final String NAME_LABEL = "name";
 
     /**
      * Build ListMetricsRequest for HuaweiCloud Monitor client.
@@ -103,11 +107,11 @@ public class HuaweiCloudToXpanseDataModelConverter {
         Metric metric = new Metric();
         metric.setName(metricInfoList.getMetricName());
         Map<String, String> labels = new HashMap<>();
-        labels.put("id", deployResource.getResourceId());
-        labels.put("name", deployResource.getName());
+        labels.put(ID_LABEL, deployResource.getResourceId());
+        labels.put(NAME_LABEL, deployResource.getName());
         metric.setLabels(labels);
         metric.setType(MetricType.GAUGE);
-        if (metricInfoList.getUnit().equals("%")) {
+        if (metricInfoList.getUnit().equals(CharacterConstants.PERCENTAGE_SYMBOL)) {
             metric.setUnit(MetricUnit.PERCENTAGE);
         } else {
             metric.setUnit(MetricUnit.getByValue(metricInfoList.getUnit()));
@@ -162,11 +166,12 @@ public class HuaweiCloudToXpanseDataModelConverter {
                             Metric metric = new Metric();
                             metric.setName(metricInfoList.getMetricName());
                             Map<String, String> labels = new HashMap<>();
-                            labels.put("id", deployResource.getResourceId());
-                            labels.put("name", deployResource.getName());
+                            labels.put(ID_LABEL, deployResource.getResourceId());
+                            labels.put(NAME_LABEL, deployResource.getName());
                             metric.setLabels(labels);
                             metric.setType(MetricType.GAUGE);
-                            if (metricInfoList.getUnit().equals("%")) {
+                            if (metricInfoList.getUnit()
+                                    .equals(CharacterConstants.PERCENTAGE_SYMBOL)) {
                                 metric.setUnit(MetricUnit.PERCENTAGE);
                             } else {
                                 metric.setUnit(MetricUnit.getByValue(metricInfoList.getUnit()));

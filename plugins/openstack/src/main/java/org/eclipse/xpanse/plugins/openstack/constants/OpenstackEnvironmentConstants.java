@@ -9,7 +9,7 @@ package org.eclipse.xpanse.plugins.openstack.constants;
  * Defines all the environment variables that must be set for the Openstack plugin to function
  * fully.
  */
-public class OpenstackEnvironmentConstants {
+public final class OpenstackEnvironmentConstants {
 
     public static final String USERNAME = "OS_USERNAME";
     public static final String PASSWORD = "OS_PASSWORD";

@@ -32,45 +32,50 @@ import org.slf4j.LoggerFactory;
  */
 public class CustomEndPointResolver implements EndpointURLResolver {
     private static final Logger LOG = LoggerFactory.getLogger(CustomEndPointResolver.class);
+
+    private static final int HASH_CODE = 31;
     private static final Map<Key, String>
             CACHE = new ConcurrentHashMap<>();
     private static final boolean LEGACY_EP_HANDLING = Boolean.getBoolean(LEGACY_EP_RESOLVING_PROP);
     private String publicHostIp;
 
     @Override
-    public String findURLV2(URLResolverParams p) {
-        if (p.type == null) {
-            return p.access.getEndpoint();
+    public String findURLV2(URLResolverParams urlResolverParams) {
+        if (urlResolverParams.type == null) {
+            return urlResolverParams.access.getEndpoint();
         }
 
         Key
-                key = Key.of(p.access.getCacheIdentifier(), p.type, p.perspective, p.region);
+                key = Key.of(urlResolverParams.access.getCacheIdentifier(), urlResolverParams.type,
+                urlResolverParams.perspective, urlResolverParams.region);
         String url = CACHE.get(key);
 
         if (url != null) {
             return url;
         }
 
-        url = resolveV2(p);
+        url = resolveV2(urlResolverParams);
 
         if (url != null) {
             return url;
-        } else if (p.region != null) {
-            throw RegionEndpointNotFoundException.create(p.region, p.type.getServiceName());
+        } else if (urlResolverParams.region != null) {
+            throw RegionEndpointNotFoundException.create(urlResolverParams.region,
+                    urlResolverParams.type.getServiceName());
         }
 
-        return p.access.getEndpoint();
+        return urlResolverParams.access.getEndpoint();
     }
 
     @Override
-    public String findURLV3(URLResolverParams p) {
+    public String findURLV3(URLResolverParams urlResolverParams) {
 
-        if (p.type == null) {
-            return p.token.getEndpoint();
+        if (urlResolverParams.type == null) {
+            return urlResolverParams.token.getEndpoint();
         }
 
         Key
-                key = Key.of(p.token.getCacheIdentifier(), p.type, p.perspective, p.region);
+                key = Key.of(urlResolverParams.token.getCacheIdentifier(), urlResolverParams.type,
+                urlResolverParams.perspective, urlResolverParams.region);
 
         String url = CACHE.get(key);
 
@@ -78,52 +83,56 @@ public class CustomEndPointResolver implements EndpointURLResolver {
             return url;
         }
 
-        url = resolveV3(p);
+        url = resolveV3(urlResolverParams);
 
         if (url != null) {
             CACHE.put(key, url);
             return url;
-        } else if (p.region != null) {
-            throw RegionEndpointNotFoundException.create(p.region, p.type.getServiceName());
+        } else if (urlResolverParams.region != null) {
+            throw RegionEndpointNotFoundException.create(urlResolverParams.region,
+                    urlResolverParams.type.getServiceName());
         }
 
-        return p.token.getEndpoint();
+        return urlResolverParams.token.getEndpoint();
     }
 
-    private String resolveV2(URLResolverParams p) {
+    private String resolveV2(URLResolverParams urlResolverParams) {
         SortedSetMultimap<String, ? extends Access.Service> catalog =
-                p.access.getAggregatedCatalog();
-        SortedSet<? extends Access.Service> services = catalog.get(p.type.getServiceName());
+                urlResolverParams.access.getAggregatedCatalog();
+        SortedSet<? extends Access.Service> services =
+                catalog.get(urlResolverParams.type.getServiceName());
 
         if (services.isEmpty()) {
-            services = catalog.get(p.type.getType());
+            services = catalog.get(urlResolverParams.type.getType());
         }
 
         if (!services.isEmpty()) {
-            Access.Service sc = p.getV2Resolver().resolveV2(p.type, services);
-            for (Endpoint ep : sc.getEndpoints()) {
-                if (p.region != null && !p.region.equalsIgnoreCase(ep.getRegion())) {
+            Access.Service service =
+                    urlResolverParams.getV2Resolver().resolveV2(urlResolverParams.type, services);
+            for (Endpoint endpoint : service.getEndpoints()) {
+                if (urlResolverParams.region != null
+                        && !urlResolverParams.region.equalsIgnoreCase(endpoint.getRegion())) {
                     continue;
                 }
 
-                if (sc.getServiceType() == ServiceType.NETWORK) {
-                    sc.getEndpoints().get(0).toBuilder().type(sc.getServiceType().name());
+                if (service.getServiceType() == ServiceType.NETWORK) {
+                    service.getEndpoints().get(0).toBuilder().type(service.getServiceType().name());
                 }
 
-                if (p.perspective == null) {
-                    return getEndpointUrl(p.access, ep);
+                if (urlResolverParams.perspective == null) {
+                    return getEndpointUrl(urlResolverParams.access, endpoint);
                 }
 
-                return switch (p.perspective) {
-                    case ADMIN -> ep.getAdminURL().toString();
-                    case INTERNAL -> ep.getInternalURL().toString();
-                    default -> ep.getPublicURL().toString();
+                return switch (urlResolverParams.perspective) {
+                    case ADMIN -> endpoint.getAdminURL().toString();
+                    case INTERNAL -> endpoint.getInternalURL().toString();
+                    default -> endpoint.getPublicURL().toString();
                 };
             }
         } else {
             //if no catalog returned, if is identity service, just return endpoint
-            if (ServiceType.IDENTITY.equals(p.type)) {
-                return p.access.getEndpoint();
+            if (ServiceType.IDENTITY.equals(urlResolverParams.type)) {
+                return urlResolverParams.access.getEndpoint();
             }
         }
         return null;
@@ -138,31 +147,27 @@ public class CustomEndPointResolver implements EndpointURLResolver {
         if (token.getCatalog() == null) {
             if (ServiceType.IDENTITY.equals(urlResolverParams.type)) {
                 return token.getEndpoint();
-            } else {
-                return null;
             }
+            return null;
         }
 
         for (Service service : token.getCatalog()) {
             // Special handling for metric to get the correct end point.
-            if ((urlResolverParams.type == ServiceType.TELEMETRY
-                    && service.getType().equals("metric"))
-                    || (urlResolverParams.type == ServiceType.forName(service.getType())
-                    || urlResolverParams.type == ServiceType.forName(service.getName()))) {
+            if (urlResolverParams.type == ServiceType.TELEMETRY
+                    && service.getType().equals("metric")
+                    || urlResolverParams.type == ServiceType.forName(service.getType())
+                    || urlResolverParams.type == ServiceType.forName(service.getName())) {
                 if (urlResolverParams.perspective == null) {
                     urlResolverParams.perspective = Facing.PUBLIC;
                 }
+                for (org.openstack4j.model.identity.v3.Endpoint endpoint : service.getEndpoints()) {
 
-                for (org.openstack4j.model.identity.v3.Endpoint ep : service.getEndpoints()) {
-
-                    if (matches(ep, urlResolverParams)) {
-                        return ep.getUrl().toString();
+                    if (matches(endpoint, urlResolverParams)) {
+                        return endpoint.getUrl().toString();
                     }
                 }
             }
         }
-
-
         return null;
     }
 
@@ -170,15 +175,15 @@ public class CustomEndPointResolver implements EndpointURLResolver {
      * Returns <code>true</code> for any endpoint that matches a given
      * {@link URLResolverParams}.
      *
-     * @param endpoint Endpoint to be resolved
-     * @param p        URL parameters
+     * @param endpoint          Endpoint to be resolved
+     * @param urlResolverParams URL parameters
      * @return returns if endpoint matches
      */
     private boolean matches(org.openstack4j.model.identity.v3.Endpoint endpoint,
-                            URLResolverParams p) {
-        boolean matches = endpoint.getIface() == p.perspective;
-        if (Optional.ofNullable(p.region).isPresent()) {
-            matches &= endpoint.getRegion().equals(p.region);
+                            URLResolverParams urlResolverParams) {
+        boolean matches = endpoint.getIface() == urlResolverParams.perspective;
+        if (Optional.ofNullable(urlResolverParams.region).isPresent()) {
+            matches &= endpoint.getRegion().equals(urlResolverParams.region);
         }
         return matches;
     }
@@ -209,8 +214,8 @@ public class CustomEndPointResolver implements EndpointURLResolver {
         if (publicHostIp == null) {
             try {
                 publicHostIp = new URI(access.getEndpoint()).getHost();
-            } catch (URISyntaxException e) {
-                LOG.error(e.getMessage(), e);
+            } catch (URISyntaxException uriSyntaxException) {
+                LOG.error(uriSyntaxException.getMessage(), uriSyntaxException);
             }
         }
         return publicHostIp;
@@ -245,6 +250,16 @@ public class CustomEndPointResolver implements EndpointURLResolver {
             } else {
                 return uid.equals(other.uid);
             }
+        }
+
+        @Override
+        public int hashCode() {
+            int result = 1;
+            result = HASH_CODE * result
+                    + (this.perspective == null ? 0 : this.perspective.hashCode());
+            result = HASH_CODE * result + (this.type == null ? 0 : this.type.hashCode());
+            result = HASH_CODE * result + (this.uid == null ? 0 : this.uid.hashCode());
+            return result;
         }
     }
 }

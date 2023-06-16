@@ -15,11 +15,20 @@ import org.eclipse.xpanse.modules.models.service.deploy.enums.DeployResourceKind
  * Enum for DeployResourceKind and FlexibleEngine Resource Property.
  */
 public enum FlexibleEngineResourceProperty {
-    FlexibleEngine_VM_PROPERTY(DeployResourceKind.VM, new FlexibleEngineVmProperty()),
-    FlexibleEngine_VOLUME_PROPERTY(DeployResourceKind.VOLUME, new FlexibleEngineVolumeProperty()),
-    FlexibleEngine_VPC_PROPERTY(DeployResourceKind.VPC, new FlexibleEngineVpcProperty()),
-    FlexibleEngine_PUBLICIP_PROPERTY(DeployResourceKind.PUBLIC_IP,
+    FLEXIBLE_ENGINE_VM_PROPERTY(DeployResourceKind.VM, new FlexibleEngineVmProperty()),
+    FLEXIBLE_ENGINE_VOLUME_PROPERTY(DeployResourceKind.VOLUME, new FlexibleEngineVolumeProperty()),
+    FLEXIBLE_ENGINE_VPC_PROPERTY(DeployResourceKind.VPC, new FlexibleEngineVpcProperty()),
+    FLEXIBLE_ENGINE_PUBLIC_IP_PROPERTY(DeployResourceKind.PUBLIC_IP,
             new FlexibleEnginePublicIpProperty());
+
+    private static final String IP_PROPERTY_NAME = "ip";
+    private static final String IMAGE_NAME_PROPERTY_NAME = "image_name";
+    private static final String IMAGE_ID_PROPERTY_NAME = "image_id";
+    private static final String REGION_PROPERTY_NAME = "region";
+    private static final String VPC_PROPERTY_NAME = "vpc";
+    private static final String SUBNET_PROPERTY_NAME = "subnet";
+    private static final String SIZE_PROPERTY_NAME = "size";
+    private static final String TYPE_PROPERTY_NAME = "type";
 
     private final DeployResourceKind resourceKind;
     private final Map<String, String> properties;
@@ -53,11 +62,11 @@ public enum FlexibleEngineResourceProperty {
         /**
          * Init method to put property key and value.
          */
-        public FlexibleEngineVmProperty() {
-            this.put("ip", "access_ip_v4");
-            this.put("image_id", "image_id");
-            this.put("image_name", "image_name");
-            this.put("region", "region");
+        FlexibleEngineVmProperty() {
+            this.put(IP_PROPERTY_NAME, "access_ip_v4");
+            this.put(IMAGE_ID_PROPERTY_NAME, IMAGE_ID_PROPERTY_NAME);
+            this.put(IMAGE_NAME_PROPERTY_NAME, IMAGE_NAME_PROPERTY_NAME);
+            this.put(REGION_PROPERTY_NAME, REGION_PROPERTY_NAME);
             this.put("project_id", "owner");
         }
     }
@@ -70,8 +79,8 @@ public enum FlexibleEngineResourceProperty {
         /**
          * Init method to put property key and value.
          */
-        public FlexibleEnginePublicIpProperty() {
-            this.put("ip", "address");
+        FlexibleEnginePublicIpProperty() {
+            this.put(IP_PROPERTY_NAME, "address");
         }
     }
 
@@ -83,9 +92,9 @@ public enum FlexibleEngineResourceProperty {
         /**
          * Init method to put property key and value.
          */
-        public FlexibleEngineVolumeProperty() {
-            this.put("size", "size");
-            this.put("type", "volume_type");
+        FlexibleEngineVolumeProperty() {
+            this.put(SIZE_PROPERTY_NAME, SIZE_PROPERTY_NAME);
+            this.put(TYPE_PROPERTY_NAME, "volume_type");
         }
     }
 
@@ -97,9 +106,9 @@ public enum FlexibleEngineResourceProperty {
         /**
          * Init method to put property key and value.
          */
-        public FlexibleEngineVpcProperty() {
-            this.put("vpc", "vpc_id");
-            this.put("subnet", "subnet_id");
+        FlexibleEngineVpcProperty() {
+            this.put(VPC_PROPERTY_NAME, "vpc_id");
+            this.put(SUBNET_PROPERTY_NAME, "subnet_id");
         }
     }
 }
