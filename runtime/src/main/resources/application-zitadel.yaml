@@ -1,0 +1,40 @@
+server:
+  port: 18090
+  servlet:
+    context-path: /
+  error:
+    include-stacktrace: never
+
+spring:
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+    deserialization:
+      # deals with single and multi-valued JWT claims
+      accept-single-value-as-array: true
+  security:
+    oauth2:
+      resourceserver:
+        opaquetoken:
+          introspection-uri: http://localhost:8080/oauth/v2/introspect
+          client-id: 220940276158496771@eclipse-xpanse
+          client-secret: 4X1PSswbu7dBekhOEyKBbBAdvyekyxRiDAauqscioCLT0WeYaWNTfaNzwcysU4K5
+logging:
+  level:
+    root: info
+    demo: debug
+    org:
+      springframework:
+        web: info
+        security: debug
+
+
+springdoc:
+  show-login-endpoint: true
+  swagger-ui:
+    oauth:
+      clientId: 221085548461228035@eclipse-xpanse
+      use-pkce-with-authorization-code-grant: true
+  oAuthFlow:
+    authorizationUrl: http://localhost:8080/oauth/v2/authorize
+    tokenUrl: http://localhost:8080/oauth/v2/token
