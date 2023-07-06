@@ -1,5 +1,4 @@
 server:
-  port: 18090
   servlet:
     context-path: /
   error:
@@ -16,9 +15,9 @@ spring:
     oauth2:
       resourceserver:
         opaquetoken:
-          introspection-uri: http://localhost:8080/oauth/v2/introspect
-          client-id: 220940276158496771@eclipse-xpanse
-          client-secret: 4X1PSswbu7dBekhOEyKBbBAdvyekyxRiDAauqscioCLT0WeYaWNTfaNzwcysU4K5
+          introspection-uri: https://iam.xpanse.site/oauth/v2/introspect
+          client-id: 221665786966638595@eclipse-xpanse
+          client-secret: 2S7yZR4jWauyE3wLHM1h5asc0WNWdBUXAw2Ill3Pmu0qM4D3LWBCwikXbsG81ycl
 logging:
   level:
     root: info
@@ -33,8 +32,8 @@ springdoc:
   show-login-endpoint: true
   swagger-ui:
     oauth:
-      clientId: 221085548461228035@eclipse-xpanse
+      clientId: 221664356859969539@eclipse-xpanse
       use-pkce-with-authorization-code-grant: true
   oAuthFlow:
-    authorizationUrl: http://localhost:8080/oauth/v2/authorize
-    tokenUrl: http://localhost:8080/oauth/v2/token
+    authorizationUrl: https://iam.xpanse.site/oauth/v2/authorize
+    tokenUrl: https://iam.xpanse.site/oauth/v2/token
