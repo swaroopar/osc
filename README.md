@@ -9,6 +9,10 @@
  <a href="https://github.com/eclipse-xpanse/xpanse/actions/workflows/coverage.yml" target="_blank">
     <img src="https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/eclipse-xpanse-bot/3d9c022b98734fbf615c21136abe4add/raw/xpanse-coverage.json" alt="coverage">
   </a>
+
+<a href="https://opensource.org/licenses/Apache-2.0" target="_blank">
+    <img src="https://img.shields.io/badge/License-Apache_2.0-blue.svg" alt="license">
+  </a>
 </p>
 
 Xpanse is an Open Source project allowing to easily implement native managed service on any cloud service provider. This
@@ -182,3 +186,9 @@ result in build failure.
 All files in the repository must contain a license header in the format mentioned in [License Header](license.header).
 
 The static code analysis framework will also validate if the license exists in the specified format.
+
+## Special thanks to
+
+[JetBrains](https://www.jetbrains.com/opensource) for supporting this project.
+
+<img src="https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg" width="120px" alt="JetBrains logo">
