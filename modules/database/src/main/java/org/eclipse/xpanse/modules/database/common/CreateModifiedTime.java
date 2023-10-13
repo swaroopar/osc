@@ -26,11 +26,11 @@ public class CreateModifiedTime {
 
 
     @CreatedDate
-    @Column(name = "CREATE_TIME")
+    @Column(name = "CREATE_TIME", columnDefinition="TIMESTAMP")
     private OffsetDateTime createTime;
 
     @LastModifiedDate
-    @Column(name = "LAST_MODIFIED_TIME")
+    @Column(name = "LAST_MODIFIED_TIME", columnDefinition="TIMESTAMP")
     private OffsetDateTime  lastModifiedTime;
 
 }
