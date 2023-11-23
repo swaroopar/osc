@@ -208,6 +208,16 @@
                 <version>${archunit.version}</version>
                 <scope>test</scope>
             </dependency>
+            <dependency>
+                <groupId>io.opentelemetry</groupId>
+                <artifactId>opentelemetry-bom</artifactId>
+                <version>1.32.0</version>
+            </dependency>
+            <dependency>
+                <groupId>io.opentelemetry</groupId>
+                <artifactId>opentelemetry-instrumentation-bom-alpha</artifactId>
+                <version>1.32.0-alpha</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
     <repositories>
