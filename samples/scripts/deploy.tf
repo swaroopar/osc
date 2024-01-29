@@ -1,3 +1,8 @@
+variable "region" {
+      type        = string
+      description = "The region to be used by the service."
+    }
+
 variable "flavor_id" {
       type        = string
       default     = "c7.large.2"
