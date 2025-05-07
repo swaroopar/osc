@@ -6,21 +6,24 @@
 package org.eclipse.xpanse.modules.models.common.enums;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.xpanse.modules.models.common.exceptions.UnsupportedEnumValueException;
 
 /** Cloud service providers. */
 public enum Csp {
-    HUAWEI_CLOUD("HuaweiCloud"),
-    FLEXIBLE_ENGINE("FlexibleEngine"),
-    OPENSTACK_TESTLAB("OpenstackTestlab"),
-    PLUS_SERVER("PlusServer"),
-    REGIO_CLOUD("RegioCloud"),
-    ALIBABA_CLOUD("AlibabaCloud"),
-    AWS("aws"),
-    AZURE("azure"),
-    GCP("GoogleCloudPlatform");
+    @JsonProperty("HuaweiCloud") HUAWEI_CLOUD("HuaweiCloud"),
+
+    @JsonProperty("FlexibleEngine")FLEXIBLE_ENGINE("FlexibleEngine"),
+    @JsonProperty("OpenstackTestlab") OPENSTACK_TESTLAB("OpenstackTestlab"),
+    @JsonProperty("PlusServer") PLUS_SERVER("PlusServer"),
+    @JsonProperty("RegioCloud")REGIO_CLOUD("RegioCloud"),
+    @JsonProperty("AlibabaCloud")ALIBABA_CLOUD("AlibabaCloud"),
+    @JsonProperty("aws")AWS("aws"),
+    @JsonProperty("azure")AZURE("azure"),
+    @JsonProperty("GoogleCloudPlatform")GCP("GoogleCloudPlatform");
 
     private final String value;
 

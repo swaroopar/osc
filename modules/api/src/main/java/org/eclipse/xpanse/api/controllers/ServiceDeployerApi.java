@@ -36,6 +36,7 @@ import org.eclipse.xpanse.modules.models.service.deployment.DeployRequest;
 import org.eclipse.xpanse.modules.models.service.deployment.DeployResource;
 import org.eclipse.xpanse.modules.models.service.deployment.DeploymentStatusUpdate;
 import org.eclipse.xpanse.modules.models.service.deployment.ModifyRequest;
+import org.eclipse.xpanse.modules.models.service.deployment.SimpleDeployRequest;
 import org.eclipse.xpanse.modules.models.service.enums.DeployResourceKind;
 import org.eclipse.xpanse.modules.models.service.enums.ServiceDeploymentState;
 import org.eclipse.xpanse.modules.models.service.order.ServiceOrder;
@@ -43,6 +44,8 @@ import org.eclipse.xpanse.modules.models.service.view.DeployedService;
 import org.eclipse.xpanse.modules.models.service.view.DeployedServiceDetails;
 import org.eclipse.xpanse.modules.models.service.view.VendorHostedDeployedServiceDetails;
 import org.eclipse.xpanse.modules.models.servicetemplate.view.UserOrderableServiceVo;
+import org.springframework.ai.tool.annotation.Tool;
+import org.springframework.ai.tool.annotation.ToolParam;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.CacheControl;
@@ -78,6 +81,7 @@ public class ServiceDeployerApi {
     @Resource private DeployService deployService;
     @Resource private ServiceLockConfigService lockConfigService;
     @Resource private ServiceDetailsViewManager serviceDetailsViewManager;
+    @Resource private ServiceCatalogApi serviceCatalogApi;
 
     /**
      * Get details of the managed service by serviceId.
@@ -155,22 +159,27 @@ public class ServiceDeployerApi {
      */
     @Tag(name = "Service", description = "APIs to manage the services")
     @Operation(description = "List details of deployed services using parameters.")
+    @Tool(description = "List details of deployed services using parameters.")
     @GetMapping(value = "/services/details", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    @AuditApiRequest(methodName = "getCspFromRequestUri")
     public List<DeployedService> getAllDeployedServicesWithDetails(
+            @ToolParam(description = "category of the service", required = false)
             @Parameter(name = "categoryName", description = "category of the service")
                     @RequestParam(name = "categoryName", required = false)
                     Category category,
+            @ToolParam(description = "name of the cloud service provider", required = false)
             @Parameter(name = "cspName", description = "name of the cloud service provider")
                     @RequestParam(name = "cspName", required = false)
                     Csp csp,
+            @ToolParam(description = "name of the service", required = false)
             @Parameter(name = "serviceName", description = "name of the service")
                     @RequestParam(name = "serviceName", required = false)
                     String serviceName,
+            @ToolParam(description = "version of the service", required = false)
             @Parameter(name = "serviceVersion", description = "version of the service")
                     @RequestParam(name = "serviceVersion", required = false)
                     String serviceVersion,
+            @ToolParam(description = "deployment state of the service", required = false)
             @Parameter(name = "serviceState", description = "deployment state of the service")
                     @RequestParam(name = "serviceState", required = false)
                     ServiceDeploymentState serviceState) {
@@ -195,6 +204,40 @@ public class ServiceDeployerApi {
     @AuditApiRequest(methodName = "getCspFromRequestUri")
     @OrderFailedApiResponses
     public ServiceOrder deploy(@Valid @RequestBody DeployRequest deployRequest) {
+        return this.deployService.createOrderToDeployNewService(deployRequest);
+    }
+
+    /**
+     * Create an order task to deploy new service using approved service template.
+     *
+     * @param simpleDeployRequest the request to deploy new service.
+     * @return UUID
+     */
+    @Tag(name = "Service", description = "APIs to manage the services")
+    @Operation(
+            description =
+                    "Create an order task to deploy new service using approved service template.")
+    @Tool(
+            description =
+                    "Create an order task to deploy new service using approved service template.")
+    @PostMapping(value = "/services/simple", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    @AuditApiRequest(methodName = "getCspFromRequestUri")
+    @OrderFailedApiResponses
+    public ServiceOrder simpleDeploy(@ToolParam @Valid @RequestBody SimpleDeployRequest simpleDeployRequest) {
+        UserOrderableServiceVo userOrderableServiceVo = serviceCatalogApi.getOrderableServiceDetailsById(
+                simpleDeployRequest.getServiceTemplateId());
+        DeployRequest deployRequest = new DeployRequest();
+        deployRequest.setCategory(userOrderableServiceVo.getCategory());
+        deployRequest.setCsp(userOrderableServiceVo.getCsp());
+        deployRequest.setServiceHostingType(userOrderableServiceVo.getServiceHostingType());
+        deployRequest.setBillingMode(userOrderableServiceVo.getBilling().getDefaultBillingMode());
+        deployRequest.setFlavor(
+                userOrderableServiceVo.getFlavors().getServiceFlavors().getFirst().getName());
+        deployRequest.setEulaAccepted(true);
+        deployRequest.setRegion(userOrderableServiceVo.getRegions().getFirst());
+        deployRequest.setServiceName(userOrderableServiceVo.getName());
+        deployRequest.setVersion(userOrderableServiceVo.getVersion());
         return this.deployService.createOrderToDeployNewService(deployRequest);
     }
 
@@ -414,5 +457,9 @@ public class ServiceDeployerApi {
     private CacheControl getCacheControl() {
         long durationTime = this.duration > 0 ? this.duration : 60;
         return CacheControl.maxAge(durationTime, TimeUnit.MINUTES).mustRevalidate();
+    }
+
+    public ServiceOrder deployService(DeployRequest deployRequest) {
+        return this.deployService.createOrderToDeployNewService(deployRequest);
     }
 }

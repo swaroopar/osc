@@ -57,7 +57,7 @@ public class DeployRequest implements Serializable {
 
     /** The csp of the Service. */
     @NotNull
-    @Schema(description = "The csp of the Service.")
+    @Schema(description = "The csp of the Service.", allowableValues = "HuaweiCloud, azure, aws")
     private Csp csp;
 
     /** The flavor of the Service. */
@@ -80,7 +80,8 @@ public class DeployRequest implements Serializable {
             additionalProperties = Schema.AdditionalPropertiesValue.TRUE)
     private Map<String, Object> serviceRequestProperties;
 
-    @Schema(description = "The availability zones to deploy the service instance.")
+    @Schema(description = "The availability zones to deploy the service instance. " +
+            "The key is the 'varName' field in the serviceAvailabilityConfig of the service template and the value must be taken by calling the getAvailabilityZones method")
     private Map<String, String> availabilityZones;
 
     @Schema(description = "The flag to determine if the user has accepted the EULA terms.")

@@ -86,7 +86,6 @@ public class Ocl implements Serializable {
     private FlavorsWithPrice flavors;
 
     @Valid
-    @NotNull
     @Schema(description = "The billing policy of the managed service")
     private Billing billing;
 

@@ -13,6 +13,7 @@ import static org.eclipse.xpanse.modules.security.auth.common.RoleConstants.ROLE
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import java.util.Comparator;
@@ -30,6 +31,8 @@ import org.eclipse.xpanse.modules.models.servicetemplate.enums.ServiceHostingTyp
 import org.eclipse.xpanse.modules.models.servicetemplate.exceptions.ServiceTemplateUnavailableException;
 import org.eclipse.xpanse.modules.models.servicetemplate.view.UserOrderableServiceVo;
 import org.eclipse.xpanse.modules.servicetemplate.ServiceTemplateManage;
+import org.springframework.ai.tool.annotation.Tool;
+import org.springframework.ai.tool.annotation.ToolParam;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
@@ -68,24 +71,31 @@ public class ServiceCatalogApi {
             name = "ServiceCatalog",
             description = "APIs to query the services which are available for the user to order.")
     @Operation(description = "List of all approved services which are available for user to order.")
+    @Tool(description = "List of all approved services which are available for user to order.")
     @GetMapping(
             value = "/catalog/services",
             produces = {MediaType.APPLICATION_JSON_VALUE, "application/hal+json"})
     @ResponseStatus(HttpStatus.OK)
     @AuditApiRequest(methodName = "getCspFromRequestUri")
     public List<UserOrderableServiceVo> getOrderableServices(
+            @ToolParam(description = "category of the service")
             @Parameter(name = "categoryName", description = "category of the service")
                     @RequestParam(name = "categoryName", required = false)
                     Category categoryName,
+            @ToolParam(description = "name of the cloud service provider")
+            @Schema(allowableValues = {"aws", "HuaweiCloud", "Google"})
             @Parameter(name = "cspName", description = "name of the cloud service provider")
                     @RequestParam(name = "cspName", required = false)
                     Csp cspName,
+            @ToolParam(description = "name of the service", required = false)
             @Parameter(name = "serviceName", description = "name of the service")
                     @RequestParam(name = "serviceName", required = false)
                     String serviceName,
+            @ToolParam(required = false, description = "version of the service")
             @Parameter(name = "serviceVersion", description = "version of the service")
                     @RequestParam(name = "serviceVersion", required = false)
                     String serviceVersion,
+            @ToolParam(required = false, description = "who hosts ths cloud resources")
             @Parameter(name = "serviceHostingType", description = "who hosts ths cloud resources")
                     @RequestParam(name = "serviceHostingType", required = false)
                     ServiceHostingType serviceHostingType) {
@@ -119,12 +129,13 @@ public class ServiceCatalogApi {
             name = "ServiceCatalog",
             description = "APIs to query the services which are available for the user to order.")
     @Operation(description = "Get deployable service by id.")
+    @Tool(description = "Get deployable service by id.")
     @GetMapping(
             value = "/catalog/services/{serviceTemplateId}",
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    @AuditApiRequest(methodName = "getCspFromServiceTemplateId", paramTypes = UUID.class)
     public UserOrderableServiceVo getOrderableServiceDetailsById(
+            @ToolParam(description = "The id of orderable service.")
             @Parameter(name = "serviceTemplateId", description = "The id of orderable service.")
                     @PathVariable("serviceTemplateId")
                     UUID serviceTemplateId) {
