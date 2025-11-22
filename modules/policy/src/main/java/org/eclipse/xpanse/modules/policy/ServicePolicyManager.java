@@ -14,6 +14,7 @@ import java.util.Objects;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.eclipse.xpanse.modules.database.servicepolicy.ServicePolicyEntity;
 import org.eclipse.xpanse.modules.database.servicepolicy.ServicePolicyStorage;
 import org.eclipse.xpanse.modules.database.servicetemplate.ServiceTemplateEntity;
@@ -184,7 +185,7 @@ public class ServicePolicyManager {
         if (!CollectionUtils.isEmpty(existingService.getServicePolicyList())) {
             String newPolicyUniqueKey = getPolicyUniqueKey(newPolicy);
             for (ServicePolicyEntity servicePolicyEntity : existingService.getServicePolicyList()) {
-                if (StringUtils.equals(
+                if (Strings.CS.equals(
                         newPolicyUniqueKey, getPolicyUniqueKey(servicePolicyEntity))) {
                     String errMsg =
                             String.format(
@@ -264,7 +265,7 @@ public class ServicePolicyManager {
 
         boolean updatePolicy =
                 StringUtils.isNotBlank(updateRequest.getPolicy())
-                        && !StringUtils.equals(
+                        && !Strings.CS.equals(
                                 updateRequest.getPolicy(), existingPolicy.getPolicy());
         if (updatePolicy) {
             policyManager.validatePolicy(updateRequest.getPolicy());

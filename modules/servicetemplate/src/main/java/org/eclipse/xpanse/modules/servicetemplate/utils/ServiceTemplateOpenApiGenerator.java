@@ -6,8 +6,6 @@
 package org.eclipse.xpanse.modules.servicetemplate.utils;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.constraints.NotNull;
 import java.io.BufferedReader;
 import java.io.File;
@@ -44,12 +42,15 @@ import org.eclipse.xpanse.modules.models.servicetemplate.exceptions.ServiceTempl
 import org.eclipse.xpanse.modules.orchestrator.PluginManager;
 import org.eclipse.xpanse.modules.security.auth.zitadel.ZitadelIdentityProviderService;
 import org.eclipse.xpanse.modules.security.config.SecurityProperties;
+import org.jspecify.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.lang.Nullable;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 
 /** Bean to generate OpenApi files for registered services. */
 @Component
@@ -289,8 +290,11 @@ public class ServiceTemplateOpenApiGenerator {
         String propertiesRequiredStr = null;
         // schema of availabilityZones.
         String availabilityZonesSchemaStr = null;
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        ObjectMapper mapper =
+                JsonMapper.builder()
+                        .changeDefaultPropertyInclusion(
+                                incl -> incl.withValueInclusion(JsonInclude.Include.NON_NULL))
+                        .build();
 
         try {
             createRequiredStr = mapper.writeValueAsString(getRequiredFields(new DeployRequest()));
@@ -326,7 +330,7 @@ public class ServiceTemplateOpenApiGenerator {
                     getSchemaOfAvailabilityZones(
                             registerService.getOcl().getDeployment().getServiceAvailabilityConfig(),
                             mapper);
-        } catch (JsonProcessingException e) {
+        } catch (JacksonException e) {
             log.error("Failed to write value as string.", e);
         }
         // CHECKSTYLE OFF: LineLength
@@ -760,7 +764,7 @@ public class ServiceTemplateOpenApiGenerator {
                                 mapper.writeValueAsString(
                                         convertAvailabilityZonesToOpenApiSpec(availabilityZones)));
             }
-        } catch (JsonProcessingException e) {
+        } catch (JacksonException e) {
             log.error("Failed to get schema of availability zones.", e);
         }
         return availabilityZonesSchemaStr;

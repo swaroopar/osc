@@ -28,7 +28,7 @@ public class HmacSecurityFilter {
     }
 
     @Bean
-    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    SecurityFilterChain filterChain(HttpSecurity http) {
         http.addFilterAfter(hmacAuthenticationFilter, AnonymousAuthenticationFilter.class)
                 .securityMatcher("/webhook/**")
                 .csrf(AbstractHttpConfigurer::disable);

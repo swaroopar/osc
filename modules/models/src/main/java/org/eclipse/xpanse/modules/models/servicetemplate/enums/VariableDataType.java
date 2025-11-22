@@ -7,7 +7,7 @@ package org.eclipse.xpanse.modules.models.servicetemplate.enums;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.eclipse.xpanse.modules.models.common.exceptions.UnsupportedEnumValueException;
 
 /** Variable data types. */
@@ -27,7 +27,7 @@ public enum VariableDataType {
     @JsonCreator
     public static VariableDataType getByValue(String type) {
         for (VariableDataType variableDataType : values()) {
-            if (StringUtils.equalsIgnoreCase(variableDataType.type, type)) {
+            if (Strings.CI.equals(variableDataType.type, type)) {
                 return variableDataType;
             }
         }

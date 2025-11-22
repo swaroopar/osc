@@ -6,8 +6,6 @@
 
 package org.eclipse.xpanse.modules.credential;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileWriter;
@@ -33,13 +31,15 @@ import org.eclipse.xpanse.modules.orchestrator.OrchestratorPlugin;
 import org.eclipse.xpanse.modules.orchestrator.PluginManager;
 import org.eclipse.xpanse.modules.security.auth.zitadel.ZitadelIdentityProviderService;
 import org.eclipse.xpanse.modules.security.config.SecurityProperties;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.event.ApplicationStartedEvent;
 import org.springframework.context.ApplicationListener;
-import org.springframework.lang.NonNull;
-import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.ObjectMapper;
 
 /** Class for credentialApi generation. */
 @Slf4j
@@ -273,11 +273,7 @@ public class CredentialOpenApiGenerator implements ApplicationListener<Applicati
                 credentialVariable ->
                         credentialVariable.setValue(credentialVariable.getDescription()));
         String exampleString = "";
-        try {
-            exampleString = OBJECT_MAPPER.writeValueAsString(variables);
-        } catch (JsonProcessingException e) {
-            log.error("Failed to write value as string.", e);
-        }
+        exampleString = OBJECT_MAPPER.writeValueAsString(variables);
         return exampleString;
     }
 
@@ -287,8 +283,7 @@ public class CredentialOpenApiGenerator implements ApplicationListener<Applicati
                 .collect(Collectors.toList());
     }
 
-    private String getApiDocsJson(CredentialVariables credentialVariables)
-            throws JsonProcessingException {
+    private String getApiDocsJson(CredentialVariables credentialVariables) throws JacksonException {
         String serviceUrl = getServiceUrl();
         String cspValuesStr = OBJECT_MAPPER.writeValueAsString(getActiveCspValues());
         String securityConfigList = getSecurityConfigList();

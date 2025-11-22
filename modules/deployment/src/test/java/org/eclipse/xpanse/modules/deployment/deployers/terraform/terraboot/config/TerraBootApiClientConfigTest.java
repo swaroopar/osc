@@ -12,8 +12,7 @@ import org.eclipse.xpanse.modules.deployment.deployers.terraform.terraboot.gener
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.autoconfigure.RefreshAutoConfiguration;
-import org.springframework.context.annotation.Import;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
@@ -25,7 +24,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
         properties = {
             "xpanse.deployer.terra-boot.endpoint=http://localhost:9090",
         })
-@Import(RefreshAutoConfiguration.class)
+@EnableConfigurationProperties(value = DeploymentProperties.class)
 @ActiveProfiles("terra-boot")
 @ExtendWith(SpringExtension.class)
 class TerraBootApiClientConfigTest {

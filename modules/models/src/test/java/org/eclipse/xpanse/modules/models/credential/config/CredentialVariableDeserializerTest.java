@@ -11,13 +11,13 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.fasterxml.jackson.core.JsonFactory;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import org.eclipse.xpanse.modules.models.credential.CredentialVariable;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import tools.jackson.core.JsonParser;
+import tools.jackson.core.json.JsonFactory;
+import tools.jackson.databind.ObjectMapper;
 
 /** Test of CredentialVariableDeserializer. */
 class CredentialVariableDeserializerTest {
@@ -36,8 +36,9 @@ class CredentialVariableDeserializerTest {
                         + " \"isMandatory\": true, \"isSensitive\": false, \"value\":"
                         + " \"variableValue\"}";
 
-        JsonFactory jsonFactory = objectMapper.getFactory();
-        JsonParser jsonParser = jsonFactory.createParser(json);
+        JsonFactory jsonFactory = new JsonFactory();
+        JsonParser jsonParser =
+                jsonFactory.createParser(objectMapper._deserializationContext(), json);
 
         CredentialVariableDeserializer deserializer = new CredentialVariableDeserializer();
         CredentialVariable credentialVariable = deserializer.deserialize(jsonParser, null);
@@ -55,8 +56,9 @@ class CredentialVariableDeserializerTest {
                 "{\"name\": null, \"description\": null, \"isMandatory\": null, \"isSensitive\":"
                         + " null, \"value\": null}";
 
-        JsonFactory jsonFactory = objectMapper.getFactory();
-        JsonParser jsonParser = jsonFactory.createParser(json);
+        JsonFactory jsonFactory = new JsonFactory();
+        JsonParser jsonParser =
+                jsonFactory.createParser(objectMapper._deserializationContext(), json);
 
         CredentialVariableDeserializer deserializer = new CredentialVariableDeserializer();
         CredentialVariable credentialVariable = deserializer.deserialize(jsonParser, null);
@@ -69,13 +71,14 @@ class CredentialVariableDeserializerTest {
     }
 
     @Test
-    public void testDeserializeWithMissingFields() throws IOException {
+    public void testDeserializeWithMissingFields() {
         String json =
                 "{\"name\": \"variableName\", \"description\": null, \"isMandatory\": true,"
                         + " \"isSensitive\": null, \"value\": \"variableValue\"}";
 
-        JsonFactory jsonFactory = objectMapper.getFactory();
-        JsonParser jsonParser = jsonFactory.createParser(json);
+        JsonFactory jsonFactory = new JsonFactory();
+        JsonParser jsonParser =
+                jsonFactory.createParser(objectMapper._deserializationContext(), json);
 
         CredentialVariableDeserializer deserializer = new CredentialVariableDeserializer();
         CredentialVariable credentialVariable = deserializer.deserialize(jsonParser, null);

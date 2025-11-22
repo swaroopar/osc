@@ -19,7 +19,7 @@ import java.util.Objects;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.activiti.engine.runtime.ProcessInstance;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.eclipse.xpanse.api.config.AuditApiRequest;
 import org.eclipse.xpanse.modules.database.service.ServiceDeploymentEntity;
 import org.eclipse.xpanse.modules.database.serviceorder.ServiceOrderEntity;
@@ -102,7 +102,7 @@ public class ServicePortingApi {
                 this.serviceDeploymentEntityHandler.getServiceDeploymentEntity(
                         servicePortingRequest.getOriginalServiceId());
         String userId = this.userServiceHelper.getCurrentUserId();
-        if (!StringUtils.equals(userId, deployServiceEntity.getUserId())) {
+        if (!Strings.CS.equals(userId, deployServiceEntity.getUserId())) {
             String errorMsg =
                     String.format(
                             "No permission to %s owned by other users.",

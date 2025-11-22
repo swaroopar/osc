@@ -22,7 +22,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 
 import com.c4_soft.springaddons.security.oauth2.test.annotations.WithJwt;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.huaweicloud.sdk.core.invoker.SyncInvoker;
 import com.huaweicloud.sdk.ecs.v2.model.ListServerAzInfo;
 import com.huaweicloud.sdk.ecs.v2.model.ListServerAzInfoRequest;
@@ -82,14 +81,15 @@ import org.openstack4j.api.OSClient;
 import org.openstack4j.openstack.OSFactory;
 import org.openstack4j.openstack.networking.domain.NeutronAvailabilityZone;
 import org.springframework.beans.BeanUtils;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import tools.jackson.core.type.TypeReference;
 
 /** Test for ServiceDeployerApi. */
 @SuppressWarnings("unchecked")

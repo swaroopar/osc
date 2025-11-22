@@ -7,7 +7,7 @@ package org.eclipse.xpanse.modules.observability.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 
 /** Defines possible status from otel-collector health-check extension. */
 public enum CollectorStatus {
@@ -30,7 +30,7 @@ public enum CollectorStatus {
     @JsonCreator
     public CollectorStatus getByValue(String value) {
         for (CollectorStatus collectorStatus : values()) {
-            if (StringUtils.endsWithIgnoreCase(collectorStatus.value, value)) {
+            if (Strings.CI.endsWith(collectorStatus.value, value)) {
                 return collectorStatus;
             }
         }

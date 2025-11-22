@@ -1,8 +1,12 @@
 package org.eclipse.xpanse.modules.policy.policyman.generated.api;
 
+import jakarta.validation.constraints.*;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.eclipse.xpanse.modules.policy.policyman.generated.ApiClient;
+import org.eclipse.xpanse.modules.policy.policyman.generated.BaseApi;
 import org.eclipse.xpanse.modules.policy.policyman.generated.model.SystemStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
@@ -15,26 +19,19 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClientException;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@jakarta.annotation.Generated(
+        value = "org.openapitools.codegen.languages.JavaClientCodegen",
+        comments = "Generator version: 7.17.0")
 @Component("org.eclipse.xpanse.modules.policy.policyman.generated.api.AdminApi")
-public class AdminApi {
-    private ApiClient apiClient;
+public class AdminApi extends BaseApi {
 
     public AdminApi() {
-        this(new ApiClient());
+        super(new ApiClient());
     }
 
     @Autowired
     public AdminApi(ApiClient apiClient) {
-        this.apiClient = apiClient;
-    }
-
-    public ApiClient getApiClient() {
-        return apiClient;
-    }
-
-    public void setApiClient(ApiClient apiClient) {
-        this.apiClient = apiClient;
+        super(apiClient);
     }
 
     /**
@@ -103,5 +100,44 @@ public class AdminApi {
                 localVarContentType,
                 localVarAuthNames,
                 localReturnType);
+    }
+
+    @Override
+    public <T> ResponseEntity<T> invokeAPI(
+            String url, HttpMethod method, Object request, ParameterizedTypeReference<T> returnType)
+            throws RestClientException {
+        String localVarPath = url.replace(apiClient.getBasePath(), "");
+        Object localVarPostBody = request;
+
+        final Map<String, Object> uriVariables = new HashMap<String, Object>();
+        final MultiValueMap<String, String> localVarQueryParams =
+                new LinkedMultiValueMap<String, String>();
+        final HttpHeaders localVarHeaderParams = new HttpHeaders();
+        final MultiValueMap<String, String> localVarCookieParams =
+                new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, Object> localVarFormParams =
+                new LinkedMultiValueMap<String, Object>();
+
+        final String[] localVarAccepts = {"application/json"};
+        final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String[] localVarContentTypes = {};
+        final MediaType localVarContentType =
+                apiClient.selectHeaderContentType(localVarContentTypes);
+
+        String[] localVarAuthNames = new String[] {};
+
+        return apiClient.invokeAPI(
+                localVarPath,
+                method,
+                uriVariables,
+                localVarQueryParams,
+                localVarPostBody,
+                localVarHeaderParams,
+                localVarCookieParams,
+                localVarFormParams,
+                localVarAccept,
+                localVarContentType,
+                localVarAuthNames,
+                returnType);
     }
 }

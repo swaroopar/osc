@@ -7,7 +7,7 @@ package org.eclipse.xpanse.modules.logging;
 
 import java.io.IOException;
 import java.util.Set;
-import org.springframework.lang.NonNull;
+import org.jspecify.annotations.NonNull;
 import org.zalando.logbook.Correlation;
 import org.zalando.logbook.HttpLogFormatter;
 import org.zalando.logbook.HttpRequest;

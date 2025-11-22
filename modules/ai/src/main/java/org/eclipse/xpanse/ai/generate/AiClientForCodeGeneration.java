@@ -9,7 +9,6 @@ package org.eclipse.xpanse.ai.generate;
 import static org.eclipse.xpanse.ai.generate.PromptTemplateVariables.APPLICATION_NAME_VAR;
 import static org.eclipse.xpanse.ai.generate.PromptTemplateVariables.BACKEND_NAME_VAR;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -31,6 +30,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
+import tools.jackson.databind.json.JsonMapper;
 
 /** Client bean that interacts with an LLM provider. */
 @Component
@@ -38,7 +38,7 @@ import org.springframework.stereotype.Component;
 @Profile("ai")
 public class AiClientForCodeGeneration {
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final JsonMapper jsonMapper = new JsonMapper();
 
     private static final String SYSTEM_PROMPT_FILE = "system-prompt.txt";
 
@@ -84,7 +84,7 @@ public class AiClientForCodeGeneration {
                         .content();
         log.info("Original Response: {}", response);
         CodeGenerationResponseItem[] codeGenerationResponse =
-                objectMapper.readValue(response, CodeGenerationResponseItem[].class);
+                jsonMapper.readValue(response, CodeGenerationResponseItem[].class);
         return processAndWriteToFiles(codeGenerationResponse);
     }
 

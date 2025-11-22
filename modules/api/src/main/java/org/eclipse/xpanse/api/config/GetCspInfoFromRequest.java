@@ -8,8 +8,6 @@ package org.eclipse.xpanse.api.config;
 import static org.eclipse.xpanse.modules.logging.LoggingKeyConstant.ORDER_ID;
 import static org.eclipse.xpanse.modules.logging.LoggingKeyConstant.SERVICE_ID;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import java.net.URI;
 import java.net.URL;
 import java.util.List;
@@ -39,13 +37,15 @@ import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
+import tools.jackson.dataformat.yaml.YAMLFactory;
+import tools.jackson.dataformat.yaml.YAMLMapper;
 
 /** Bean provide methods to get the csp info. */
 @Slf4j
 @Component
 public class GetCspInfoFromRequest {
 
-    private final ObjectMapper yamlMapper = new ObjectMapper(new YAMLFactory());
+    private final YAMLMapper yamlMapper = new YAMLMapper(new YAMLFactory());
     private final ServiceTemplateStorage serviceTemplateStorage;
     private final ServiceDeploymentStorage deployServiceStorage;
     private final ServicePolicyStorage servicePolicyStorage;
@@ -85,7 +85,7 @@ public class GetCspInfoFromRequest {
     public Csp getCspFromOclLocation(String url) {
         try {
             URL urlObj = URI.create(url).toURL();
-            Ocl ocl = yamlMapper.readValue(urlObj, Ocl.class);
+            Ocl ocl = yamlMapper.readValue(urlObj.openStream(), Ocl.class);
             return ocl.getCloudServiceProvider().getName();
         } catch (Exception e) {
             log.error("Get Csp of Ocl with url:{} failed.", url, e);

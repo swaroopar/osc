@@ -7,7 +7,7 @@ package org.eclipse.xpanse.modules.models.billing.enums;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.eclipse.xpanse.modules.models.common.exceptions.UnsupportedEnumValueException;
 
 /** Enums of Currency. */
@@ -26,7 +26,7 @@ public enum Currency {
     @JsonCreator
     public static Currency getByValue(String value) {
         for (Currency enumeration : values()) {
-            if (StringUtils.equalsIgnoreCase(enumeration.value, value)) {
+            if (Strings.CI.equals(enumeration.value, value)) {
                 return enumeration;
             }
         }

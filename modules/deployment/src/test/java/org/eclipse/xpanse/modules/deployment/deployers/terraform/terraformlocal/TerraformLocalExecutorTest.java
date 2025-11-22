@@ -12,7 +12,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.io.FileWriter;
 import java.net.URI;
@@ -38,11 +37,11 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.autoconfigure.RefreshAutoConfiguration;
-import org.springframework.context.annotation.Import;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import tools.jackson.databind.ObjectMapper;
 
 @ContextConfiguration(
         classes = {
@@ -60,7 +59,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
             "xpanse.order.order-status.long-polling-seconds=10",
             "xpanse.order.order-status.polling-interval-seconds=5"
         })
-@Import(RefreshAutoConfiguration.class)
+@EnableConfigurationProperties(
+        value = {GitProperties.class, OrderProperties.class, DeploymentProperties.class})
 @ExtendWith(SpringExtension.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class TerraformLocalExecutorTest {

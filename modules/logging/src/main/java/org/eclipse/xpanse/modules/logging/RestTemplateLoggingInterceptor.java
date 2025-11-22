@@ -9,12 +9,12 @@ package org.eclipse.xpanse.modules.logging;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import lombok.extern.slf4j.Slf4j;
+import org.jspecify.annotations.NonNull;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
-import org.springframework.lang.NonNull;
 import org.springframework.util.StreamUtils;
 
 /** The class logs HTTP requests and responses made by RestTemplate. */
@@ -26,7 +26,7 @@ public class RestTemplateLoggingInterceptor implements ClientHttpRequestIntercep
     @NonNull
     public ClientHttpResponse intercept(
             @NonNull HttpRequest request,
-            @NonNull byte[] body,
+            byte[] body,
             @NonNull ClientHttpRequestExecution execution)
             throws IOException {
         long startTime = System.currentTimeMillis();

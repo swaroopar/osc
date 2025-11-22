@@ -6,9 +6,6 @@
 
 package org.eclipse.xpanse.modules.workflow.config;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import java.io.IOException;
 import java.util.Objects;
 import javax.sql.DataSource;
@@ -34,6 +31,9 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.cfg.DateTimeFeature;
+import tools.jackson.databind.json.JsonMapper;
 
 /** Activiti configuration class. */
 @Configuration
@@ -134,9 +134,6 @@ public class ActivitiConfig {
     /** Assembling the ObjectMapper object. */
     @Bean
     public ObjectMapper objectMapper() {
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.registerModule(new JavaTimeModule());
-        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-        return objectMapper;
+        return JsonMapper.builder().disable(DateTimeFeature.WRITE_DATE_KEYS_AS_TIMESTAMPS).build();
     }
 }

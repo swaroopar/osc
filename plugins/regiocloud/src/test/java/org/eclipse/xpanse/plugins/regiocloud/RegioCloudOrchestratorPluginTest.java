@@ -48,8 +48,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.autoconfigure.RefreshAutoConfiguration;
-import org.springframework.context.annotation.Import;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.core.env.Environment;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
@@ -59,7 +58,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @TestPropertySource(properties = {"xpanse.plugins.regiocloud.service-template.auto-approve=true"})
 @ContextConfiguration(
         classes = {RegioCloudOrchestratorPlugin.class, RegioCloudPluginProperties.class})
-@Import(RefreshAutoConfiguration.class)
+@EnableConfigurationProperties(value = RegioCloudPluginProperties.class)
 @ExtendWith(SpringExtension.class)
 class RegioCloudOrchestratorPluginTest {
 

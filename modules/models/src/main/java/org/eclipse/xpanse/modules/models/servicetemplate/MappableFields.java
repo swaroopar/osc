@@ -7,7 +7,7 @@ package org.eclipse.xpanse.modules.models.servicetemplate;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.eclipse.xpanse.modules.models.common.exceptions.UnsupportedEnumValueException;
 
 /**
@@ -29,7 +29,7 @@ public enum MappableFields {
     @JsonCreator
     public static MappableFields getByValue(String field) {
         for (MappableFields mappableFields : values()) {
-            if (StringUtils.equalsIgnoreCase(mappableFields.field, field)) {
+            if (Strings.CI.equals(mappableFields.field, field)) {
                 return mappableFields;
             }
         }

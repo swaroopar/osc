@@ -7,7 +7,7 @@ package org.eclipse.xpanse.modules.models.service.enums;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.eclipse.xpanse.modules.models.common.exceptions.UnsupportedEnumValueException;
 
 /** Defines possible states of a managed service. */
@@ -35,7 +35,7 @@ public enum ServiceDeploymentState {
     @JsonCreator
     public static ServiceDeploymentState getByValue(String state) {
         for (ServiceDeploymentState serviceState : values()) {
-            if (StringUtils.equalsIgnoreCase(serviceState.state, state)) {
+            if (Strings.CI.equals(serviceState.state, state)) {
                 return serviceState;
             }
         }

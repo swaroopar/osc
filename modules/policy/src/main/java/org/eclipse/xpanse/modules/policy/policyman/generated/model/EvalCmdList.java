@@ -22,17 +22,19 @@ import java.util.Objects;
 
 /** EvalCmdList */
 @JsonPropertyOrder({EvalCmdList.JSON_PROPERTY_INPUT, EvalCmdList.JSON_PROPERTY_POLICY_LIST})
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@jakarta.annotation.Generated(
+        value = "org.openapitools.codegen.languages.JavaClientCodegen",
+        comments = "Generator version: 7.17.0")
 public class EvalCmdList {
     public static final String JSON_PROPERTY_INPUT = "input";
-    private String input;
+    @jakarta.annotation.Nonnull private String input;
 
     public static final String JSON_PROPERTY_POLICY_LIST = "policy_list";
-    private List<String> policyList = new ArrayList<>();
+    @jakarta.annotation.Nonnull private List<String> policyList = new ArrayList<>();
 
     public EvalCmdList() {}
 
-    public EvalCmdList input(String input) {
+    public EvalCmdList input(@jakarta.annotation.Nonnull String input) {
 
         this.input = input;
         return this;
@@ -45,19 +47,19 @@ public class EvalCmdList {
      */
     @jakarta.annotation.Nonnull
     @NotNull
-    @JsonProperty(JSON_PROPERTY_INPUT)
+    @JsonProperty(value = JSON_PROPERTY_INPUT, required = true)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
     public String getInput() {
         return input;
     }
 
-    @JsonProperty(JSON_PROPERTY_INPUT)
+    @JsonProperty(value = JSON_PROPERTY_INPUT, required = true)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
-    public void setInput(String input) {
+    public void setInput(@jakarta.annotation.Nonnull String input) {
         this.input = input;
     }
 
-    public EvalCmdList policyList(List<String> policyList) {
+    public EvalCmdList policyList(@jakarta.annotation.Nonnull List<String> policyList) {
 
         this.policyList = policyList;
         return this;
@@ -78,15 +80,15 @@ public class EvalCmdList {
      */
     @jakarta.annotation.Nonnull
     @NotNull
-    @JsonProperty(JSON_PROPERTY_POLICY_LIST)
+    @JsonProperty(value = JSON_PROPERTY_POLICY_LIST, required = true)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
     public List<String> getPolicyList() {
         return policyList;
     }
 
-    @JsonProperty(JSON_PROPERTY_POLICY_LIST)
+    @JsonProperty(value = JSON_PROPERTY_POLICY_LIST, required = true)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
-    public void setPolicyList(List<String> policyList) {
+    public void setPolicyList(@jakarta.annotation.Nonnull List<String> policyList) {
         this.policyList = policyList;
     }
 

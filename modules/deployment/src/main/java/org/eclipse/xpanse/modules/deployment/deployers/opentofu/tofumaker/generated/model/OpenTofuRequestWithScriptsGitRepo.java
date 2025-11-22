@@ -35,7 +35,7 @@ import java.util.UUID;
 })
 @jakarta.annotation.Generated(
         value = "org.openapitools.codegen.languages.JavaClientCodegen",
-        comments = "Generator version: 7.11.0")
+        comments = "Generator version: 7.17.0")
 public class OpenTofuRequestWithScriptsGitRepo {
     public static final String JSON_PROPERTY_REQUEST_ID = "requestId";
     @jakarta.annotation.Nonnull private UUID requestId;
@@ -114,13 +114,13 @@ public class OpenTofuRequestWithScriptsGitRepo {
      * @return requestId
      */
     @jakarta.annotation.Nonnull
-    @JsonProperty(JSON_PROPERTY_REQUEST_ID)
+    @JsonProperty(value = JSON_PROPERTY_REQUEST_ID, required = true)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
     public UUID getRequestId() {
         return requestId;
     }
 
-    @JsonProperty(JSON_PROPERTY_REQUEST_ID)
+    @JsonProperty(value = JSON_PROPERTY_REQUEST_ID, required = true)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
     public void setRequestId(@jakarta.annotation.Nonnull UUID requestId) {
         this.requestId = requestId;
@@ -139,13 +139,13 @@ public class OpenTofuRequestWithScriptsGitRepo {
      * @return requestType
      */
     @jakarta.annotation.Nonnull
-    @JsonProperty(JSON_PROPERTY_REQUEST_TYPE)
+    @JsonProperty(value = JSON_PROPERTY_REQUEST_TYPE, required = true)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
     public RequestTypeEnum getRequestType() {
         return requestType;
     }
 
-    @JsonProperty(JSON_PROPERTY_REQUEST_TYPE)
+    @JsonProperty(value = JSON_PROPERTY_REQUEST_TYPE, required = true)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
     public void setRequestType(@jakarta.annotation.Nonnull RequestTypeEnum requestType) {
         this.requestType = requestType;
@@ -164,13 +164,13 @@ public class OpenTofuRequestWithScriptsGitRepo {
      * @return openTofuVersion
      */
     @jakarta.annotation.Nonnull
-    @JsonProperty(JSON_PROPERTY_OPEN_TOFU_VERSION)
+    @JsonProperty(value = JSON_PROPERTY_OPEN_TOFU_VERSION, required = true)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
     public String getOpenTofuVersion() {
         return openTofuVersion;
     }
 
-    @JsonProperty(JSON_PROPERTY_OPEN_TOFU_VERSION)
+    @JsonProperty(value = JSON_PROPERTY_OPEN_TOFU_VERSION, required = true)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
     public void setOpenTofuVersion(@jakarta.annotation.Nonnull String openTofuVersion) {
         this.openTofuVersion = openTofuVersion;
@@ -190,13 +190,13 @@ public class OpenTofuRequestWithScriptsGitRepo {
      * @return isPlanOnly
      */
     @jakarta.annotation.Nonnull
-    @JsonProperty(JSON_PROPERTY_IS_PLAN_ONLY)
+    @JsonProperty(value = JSON_PROPERTY_IS_PLAN_ONLY, required = true)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
     public Boolean getIsPlanOnly() {
         return isPlanOnly;
     }
 
-    @JsonProperty(JSON_PROPERTY_IS_PLAN_ONLY)
+    @JsonProperty(value = JSON_PROPERTY_IS_PLAN_ONLY, required = true)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
     public void setIsPlanOnly(@jakarta.annotation.Nonnull Boolean isPlanOnly) {
         this.isPlanOnly = isPlanOnly;
@@ -220,13 +220,13 @@ public class OpenTofuRequestWithScriptsGitRepo {
      * @return variables
      */
     @jakarta.annotation.Nonnull
-    @JsonProperty(JSON_PROPERTY_VARIABLES)
+    @JsonProperty(value = JSON_PROPERTY_VARIABLES, required = true)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
     public Map<String, Object> getVariables() {
         return variables;
     }
 
-    @JsonProperty(JSON_PROPERTY_VARIABLES)
+    @JsonProperty(value = JSON_PROPERTY_VARIABLES, required = true)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
     public void setVariables(@jakarta.annotation.Nonnull Map<String, Object> variables) {
         this.variables = variables;
@@ -255,13 +255,13 @@ public class OpenTofuRequestWithScriptsGitRepo {
      * @return envVariables
      */
     @jakarta.annotation.Nullable
-    @JsonProperty(JSON_PROPERTY_ENV_VARIABLES)
+    @JsonProperty(value = JSON_PROPERTY_ENV_VARIABLES, required = false)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public Map<String, String> getEnvVariables() {
         return envVariables;
     }
 
-    @JsonProperty(JSON_PROPERTY_ENV_VARIABLES)
+    @JsonProperty(value = JSON_PROPERTY_ENV_VARIABLES, required = false)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public void setEnvVariables(@jakarta.annotation.Nullable Map<String, String> envVariables) {
         this.envVariables = envVariables;
@@ -279,13 +279,13 @@ public class OpenTofuRequestWithScriptsGitRepo {
      * @return tfState
      */
     @jakarta.annotation.Nullable
-    @JsonProperty(JSON_PROPERTY_TF_STATE)
+    @JsonProperty(value = JSON_PROPERTY_TF_STATE, required = false)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public String getTfState() {
         return tfState;
     }
 
-    @JsonProperty(JSON_PROPERTY_TF_STATE)
+    @JsonProperty(value = JSON_PROPERTY_TF_STATE, required = false)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public void setTfState(@jakarta.annotation.Nullable String tfState) {
         this.tfState = tfState;
@@ -304,13 +304,13 @@ public class OpenTofuRequestWithScriptsGitRepo {
      * @return gitRepoDetails
      */
     @jakarta.annotation.Nonnull
-    @JsonProperty(JSON_PROPERTY_GIT_REPO_DETAILS)
+    @JsonProperty(value = JSON_PROPERTY_GIT_REPO_DETAILS, required = true)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
     public OpenTofuScriptsGitRepoDetails getGitRepoDetails() {
         return gitRepoDetails;
     }
 
-    @JsonProperty(JSON_PROPERTY_GIT_REPO_DETAILS)
+    @JsonProperty(value = JSON_PROPERTY_GIT_REPO_DETAILS, required = true)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
     public void setGitRepoDetails(
             @jakarta.annotation.Nonnull OpenTofuScriptsGitRepoDetails gitRepoDetails) {

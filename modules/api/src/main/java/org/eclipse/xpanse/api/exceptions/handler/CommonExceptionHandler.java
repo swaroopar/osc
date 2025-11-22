@@ -9,8 +9,6 @@ package org.eclipse.xpanse.api.exceptions.handler;
 import static org.eclipse.xpanse.modules.logging.LoggingKeyConstant.ORDER_ID;
 import static org.eclipse.xpanse.modules.logging.LoggingKeyConstant.SERVICE_ID;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -20,6 +18,7 @@ import java.util.Objects;
 import java.util.Set;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.eclipse.xpanse.modules.models.common.exceptions.ClientApiCallFailedException;
 import org.eclipse.xpanse.modules.models.common.exceptions.ClientAuthenticationFailedException;
 import org.eclipse.xpanse.modules.models.common.exceptions.GitRepoCloneException;
@@ -45,13 +44,15 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.json.JsonMapper;
 
 /** Exception handler for the REST API. */
 @Slf4j
 @RestControllerAdvice
 public class CommonExceptionHandler {
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final JsonMapper jsonMapper = new JsonMapper();
 
     /**
      * Get error response.
@@ -74,7 +75,7 @@ public class CommonExceptionHandler {
 
     /** Exception handler for MethodArgumentNotValidException. */
     @ExceptionHandler({MethodArgumentNotValidException.class})
-    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_CONTENT)
     @ResponseBody
     @SuppressWarnings("unchecked")
     public ErrorResponse handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
@@ -88,7 +89,7 @@ public class CommonExceptionHandler {
             if (Objects.nonNull(codes)) {
                 List<String> errorCodeList = Arrays.asList(codes);
                 String annotationName = errorCodeList.getLast();
-                if (StringUtils.equals(annotationName, "UniqueElements")) {
+                if (Strings.CS.equals(annotationName, "UniqueElements")) {
                     if (Objects.nonNull(values) && values instanceof List) {
                         String errorValues = findDuplicatesItemsString((List<Object>) values);
                         errorMsg =
@@ -151,7 +152,7 @@ public class CommonExceptionHandler {
 
     /** Exception handler for ResponseInvalidException. */
     @ExceptionHandler({ResponseInvalidException.class})
-    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_CONTENT)
     @ResponseBody
     public ErrorResponse handleResponseInvalidException(ResponseInvalidException ex) {
         return getErrorResponse(ErrorType.INVALID_RESPONSE, ex.getErrorReasons());
@@ -188,7 +189,7 @@ public class CommonExceptionHandler {
 
     /** Exception handler for UnsupportedEnumValueException. */
     @ExceptionHandler({UnsupportedEnumValueException.class})
-    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_CONTENT)
     @ResponseBody
     public ErrorResponse handleUnsupportedEnumValueException(UnsupportedEnumValueException ex) {
         return getErrorResponse(
@@ -197,7 +198,7 @@ public class CommonExceptionHandler {
 
     /** Exception handler for MethodArgumentTypeMismatchException. */
     @ExceptionHandler({MethodArgumentTypeMismatchException.class})
-    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_CONTENT)
     @ResponseBody
     public ErrorResponse handleMethodArgumentTypeMismatchException(
             MethodArgumentTypeMismatchException ex) {
@@ -273,8 +274,8 @@ public class CommonExceptionHandler {
 
     private String getItemString(Object item) {
         try {
-            return objectMapper.writeValueAsString(item);
-        } catch (JsonProcessingException e) {
+            return jsonMapper.writeValueAsString(item);
+        } catch (JacksonException e) {
             log.error("Failed to convert item to json string:{}", item, e);
             return item.toString();
         }

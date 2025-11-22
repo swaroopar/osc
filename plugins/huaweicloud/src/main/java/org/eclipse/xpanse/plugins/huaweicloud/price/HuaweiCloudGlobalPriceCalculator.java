@@ -21,6 +21,7 @@ import java.util.Objects;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.eclipse.xpanse.modules.models.billing.Price;
 import org.eclipse.xpanse.modules.models.billing.Resource;
 import org.eclipse.xpanse.modules.models.billing.enums.Currency;
@@ -93,9 +94,9 @@ public class HuaweiCloudGlobalPriceCalculator {
 
     private String getPriceCalculatorUrlBySite(String site) {
         String requestUrl;
-        if (StringUtils.equalsIgnoreCase(HuaweiCloudConstants.CHINESE_MAINLAND_SITE, site)) {
+        if (Strings.CI.equals(HuaweiCloudConstants.CHINESE_MAINLAND_SITE, site)) {
             requestUrl = huaweiCloudPluginProperties.getChinesePriceCalculatorUrl();
-        } else if (StringUtils.equalsIgnoreCase(HuaweiCloudConstants.EUROPE_SITE, site)) {
+        } else if (Strings.CI.equals(HuaweiCloudConstants.EUROPE_SITE, site)) {
             requestUrl = huaweiCloudPluginProperties.getEuropeanPriceCalculatorUrl();
         } else {
             requestUrl = huaweiCloudPluginProperties.getInternationalPriceCalculatorUrl();
@@ -154,8 +155,7 @@ public class HuaweiCloudGlobalPriceCalculator {
         requestBody.put("periodType", 4);
         requestBody.put("periodNum", 1);
         requestBody.put("subscriptionNum", 1);
-        if (!StringUtils.equalsIgnoreCase(
-                HuaweiCloudConstants.EUROPE_SITE, request.getSiteName())) {
+        if (!Strings.CI.equals(HuaweiCloudConstants.EUROPE_SITE, request.getSiteName())) {
             requestBody.put("siteCode", getSiteCodeByRegionName(region));
         }
         List<Resource> resources = request.getFlavorRatingMode().getResourceUsage().getResources();

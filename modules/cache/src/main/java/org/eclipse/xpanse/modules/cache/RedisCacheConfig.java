@@ -24,7 +24,6 @@ import org.eclipse.xpanse.modules.models.system.enums.BackendSystemType;
 import org.eclipse.xpanse.modules.models.system.enums.HealthStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -37,7 +36,7 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.JacksonJsonRedisSerializer;
 import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
@@ -49,17 +48,13 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 public class RedisCacheConfig {
 
     private final RedisConnectionFactory connectionFactory;
-    private final RedisProperties redisProperties;
     private final CacheProperties cacheProperties;
 
     /** Constructor method. */
     @Autowired
     public RedisCacheConfig(
-            RedisConnectionFactory connectionFactory,
-            RedisProperties redisProperties,
-            CacheProperties cacheProperties) {
+            RedisConnectionFactory connectionFactory, CacheProperties cacheProperties) {
         this.connectionFactory = connectionFactory;
-        this.redisProperties = redisProperties;
         this.cacheProperties = cacheProperties;
     }
 
@@ -113,8 +108,8 @@ public class RedisCacheConfig {
             return config.getHostName() + ":" + config.getPort();
         } catch (Exception e) {
             log.error("Failed to get redis endpoint by connectionFactory.", e);
-            return this.redisProperties.getHost() + ":" + this.redisProperties.getPort();
         }
+        return "";
     }
 
     private RedisCacheConfiguration getRegionAzsCache() {
@@ -188,8 +183,7 @@ public class RedisCacheConfig {
         RedisTemplate<String, AbstractCredentialInfo> template = new RedisTemplate<>();
         template.setConnectionFactory(connectionFactory);
         template.setKeySerializer(new StringRedisSerializer());
-        template.setValueSerializer(
-                new Jackson2JsonRedisSerializer<>(AbstractCredentialInfo.class));
+        template.setValueSerializer(new JacksonJsonRedisSerializer<>(AbstractCredentialInfo.class));
         template.afterPropertiesSet();
         return template;
     }
@@ -217,7 +211,7 @@ public class RedisCacheConfig {
     // Jackson2JsonRedisSerializer for Object.
     private RedisSerializationContext.SerializationPair<Object> getJsonRedisSerializer() {
         return RedisSerializationContext.SerializationPair.fromSerializer(
-                new Jackson2JsonRedisSerializer<>(Object.class));
+                new JacksonJsonRedisSerializer<>(Object.class));
     }
 
     // JdkSerializationRedisSerializer for Set, Array, Map etc.
@@ -229,6 +223,6 @@ public class RedisCacheConfig {
     private RedisSerializationContext.SerializationPair<AbstractCredentialInfo>
             getCredentialValueSerializer() {
         return RedisSerializationContext.SerializationPair.fromSerializer(
-                new Jackson2JsonRedisSerializer<>(AbstractCredentialInfo.class));
+                new JacksonJsonRedisSerializer<>(AbstractCredentialInfo.class));
     }
 }

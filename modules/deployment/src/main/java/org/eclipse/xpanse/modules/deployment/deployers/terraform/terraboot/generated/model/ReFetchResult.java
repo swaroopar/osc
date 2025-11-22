@@ -29,7 +29,7 @@ import java.util.UUID;
 })
 @jakarta.annotation.Generated(
         value = "org.openapitools.codegen.languages.JavaClientCodegen",
-        comments = "Generator version: 7.11.0")
+        comments = "Generator version: 7.17.0")
 public class ReFetchResult {
     public static final String JSON_PROPERTY_REQUEST_ID = "requestId";
     @jakarta.annotation.Nonnull private UUID requestId;
@@ -94,13 +94,13 @@ public class ReFetchResult {
      * @return requestId
      */
     @jakarta.annotation.Nonnull
-    @JsonProperty(JSON_PROPERTY_REQUEST_ID)
+    @JsonProperty(value = JSON_PROPERTY_REQUEST_ID, required = true)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
     public UUID getRequestId() {
         return requestId;
     }
 
-    @JsonProperty(JSON_PROPERTY_REQUEST_ID)
+    @JsonProperty(value = JSON_PROPERTY_REQUEST_ID, required = true)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
     public void setRequestId(@jakarta.annotation.Nonnull UUID requestId) {
         this.requestId = requestId;
@@ -118,13 +118,13 @@ public class ReFetchResult {
      * @return state
      */
     @jakarta.annotation.Nonnull
-    @JsonProperty(JSON_PROPERTY_STATE)
+    @JsonProperty(value = JSON_PROPERTY_STATE, required = true)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
     public StateEnum getState() {
         return state;
     }
 
-    @JsonProperty(JSON_PROPERTY_STATE)
+    @JsonProperty(value = JSON_PROPERTY_STATE, required = true)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
     public void setState(@jakarta.annotation.Nonnull StateEnum state) {
         this.state = state;
@@ -143,13 +143,13 @@ public class ReFetchResult {
      * @return terraformResult
      */
     @jakarta.annotation.Nullable
-    @JsonProperty(JSON_PROPERTY_TERRAFORM_RESULT)
+    @JsonProperty(value = JSON_PROPERTY_TERRAFORM_RESULT, required = false)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public TerraformResult getTerraformResult() {
         return terraformResult;
     }
 
-    @JsonProperty(JSON_PROPERTY_TERRAFORM_RESULT)
+    @JsonProperty(value = JSON_PROPERTY_TERRAFORM_RESULT, required = false)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public void setTerraformResult(@jakarta.annotation.Nullable TerraformResult terraformResult) {
         this.terraformResult = terraformResult;
@@ -167,13 +167,13 @@ public class ReFetchResult {
      * @return errorMessage
      */
     @jakarta.annotation.Nullable
-    @JsonProperty(JSON_PROPERTY_ERROR_MESSAGE)
+    @JsonProperty(value = JSON_PROPERTY_ERROR_MESSAGE, required = false)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public String getErrorMessage() {
         return errorMessage;
     }
 
-    @JsonProperty(JSON_PROPERTY_ERROR_MESSAGE)
+    @JsonProperty(value = JSON_PROPERTY_ERROR_MESSAGE, required = false)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public void setErrorMessage(@jakarta.annotation.Nullable String errorMessage) {
         this.errorMessage = errorMessage;

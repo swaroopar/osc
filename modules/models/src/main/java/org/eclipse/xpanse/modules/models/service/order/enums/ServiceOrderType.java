@@ -7,7 +7,7 @@ package org.eclipse.xpanse.modules.models.service.order.enums;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.eclipse.xpanse.modules.models.common.exceptions.UnsupportedEnumValueException;
 
 /** Enumeration class for types of service order tasks. */
@@ -40,7 +40,7 @@ public enum ServiceOrderType {
     @JsonCreator
     public static ServiceOrderType getByValue(String type) {
         for (ServiceOrderType item : values()) {
-            if (StringUtils.equalsIgnoreCase(type, item.type)) {
+            if (Strings.CI.equals(type, item.type)) {
                 return item;
             }
         }

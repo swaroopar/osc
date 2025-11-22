@@ -13,15 +13,14 @@ import org.eclipse.xpanse.modules.security.config.SecurityProperties;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.autoconfigure.RefreshAutoConfiguration;
-import org.springframework.context.annotation.Import;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.util.ReflectionTestUtils;
 
 @ContextConfiguration(classes = {UserServiceHelper.class, SecurityProperties.class})
-@Import(RefreshAutoConfiguration.class)
+@EnableConfigurationProperties
 @ExtendWith(SpringExtension.class)
 class UserServiceHelperTest {
 

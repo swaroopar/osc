@@ -6,8 +6,6 @@
 
 package org.eclipse.xpanse.ai.template;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import io.pebbletemplates.pebble.PebbleEngine;
 import io.pebbletemplates.pebble.template.PebbleTemplate;
 import java.io.IOException;
@@ -25,6 +23,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ResourceUtils;
+import tools.jackson.dataformat.yaml.YAMLFactory;
+import tools.jackson.dataformat.yaml.YAMLMapper;
 
 /** Generates a service template and registers it. */
 @Slf4j
@@ -54,7 +54,7 @@ public class ServiceTemplateGenerator {
         templateContext.put("image_name", String.format(imageFullUrl, aiApplicationType.toValue()));
         templateContext.put("name", aiApplicationType.toValue());
 
-        String serviceTemplate = null;
+        String serviceTemplate;
         try {
             serviceTemplate =
                     executeTemplate(
@@ -86,9 +86,9 @@ public class ServiceTemplateGenerator {
     }
 
     private ServiceTemplateRequestInfo createOcl(String oclTemplate) {
-        ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
+        YAMLMapper yamlMapper = new YAMLMapper(new YAMLFactory());
         try {
-            Ocl ocl = mapper.readValue(oclTemplate, Ocl.class);
+            Ocl ocl = yamlMapper.readValue(oclTemplate, Ocl.class);
             return serviceTemplateApi.createServiceTemplate(ocl);
         } catch (Exception e) {
             log.error("Failed to register service template", e);

@@ -6,8 +6,6 @@
 
 package org.eclipse.xpanse.plugins.openstack.common.resourcehandler;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -24,6 +22,8 @@ import org.eclipse.xpanse.modules.models.service.deployment.DeployResult;
 import org.eclipse.xpanse.modules.orchestrator.deployment.DeployResourceHandler;
 import org.eclipse.xpanse.modules.orchestrator.deployment.DeployResourceProperties;
 import org.springframework.stereotype.Component;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.ObjectMapper;
 
 /** Terraform resource handler for Openstack. */
 @Component
@@ -44,7 +44,7 @@ public class OpenstackTerraformResourceHandler implements DeployResourceHandler 
         try {
             var stateFile = deployResult.getTfStateContent();
             tfState = objectMapper.readValue(stateFile, TfState.class);
-        } catch (IOException ex) {
+        } catch (JacksonException ex) {
             log.error("Parse terraform state content failed.");
             throw new TerraformExecutorException("Parse terraform state content failed.", ex);
         }

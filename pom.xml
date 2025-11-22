@@ -19,7 +19,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.5.7</version>
+        <version>4.0.0</version>
     </parent>
     <licenses>
         <license>
@@ -34,7 +34,7 @@
     </modules>
     <properties>
         <java.version>25</java.version>
-        <spring-boot.version>3.5.7</spring-boot.version>
+        <spring-boot.version>4.0.0</spring-boot.version>
         <spring.retry.version>2.0.11</spring.retry.version>
         <junit-jupiter.version>6.0.0</junit-jupiter.version>
         <lombok.version>1.18.42</lombok.version>
@@ -47,7 +47,7 @@
         <springdoc.version>2.8.9</springdoc.version>
         <slf4j-api.version>2.0.17</slf4j-api.version>
         <hibernate-validator.version>9.0.1.Final</hibernate-validator.version>
-        <hypersistence-utils-hibernate.version>3.9.4</hypersistence-utils-hibernate.version>
+        <hypersistence-utils-hibernate.version>3.12.0</hypersistence-utils-hibernate.version>
         <mockito.version>5.19.0</mockito.version>
         <testcontainers.version>1.20.5</testcontainers.version>
         <apache.commons.io.version>2.20.0</apache.commons.io.version>
@@ -60,7 +60,6 @@
         <json.smart.version>2.5.0</json.smart.version>
         <spring.oauth.addon.test.version>8.1.24</spring.oauth.addon.test.version>
         <openstack4j.version>3.12</openstack4j.version>
-        <jackson.databind.version>2.15.2</jackson.databind.version>
         <huaweicloud.sdk.version>3.1.170</huaweicloud.sdk.version>
         <maven.clean.plugin.version>3.5.0</maven.clean.plugin.version>
         <maven.compile.plugin.version>3.14.0</maven.compile.plugin.version>
@@ -69,7 +68,7 @@
         <maven.dependency.plugin.version>3.9.0</maven.dependency.plugin.version>
         <maven.surefire.plugin.version>3.5.4</maven.surefire.plugin.version>
         <maven.resources.plugin.version>3.3.1</maven.resources.plugin.version>
-        <openapi.generator.plugin.version>7.16.0</openapi.generator.plugin.version>
+        <openapi.generator.plugin.version>7.17.0</openapi.generator.plugin.version>
         <snakeyaml.version>2.2</snakeyaml.version>
         <json-schema-validator.version>1.5.6</json-schema-validator.version>
         <archunit.version>1.4.1</archunit.version>
@@ -80,19 +79,18 @@
         <java.uuid.generator.version>5.1.1</java.uuid.generator.version>
         <jgit.version>7.3.0.202506031305-r</jgit.version>
         <semver4j.version>6.0.0</semver4j.version>
-        <github-api.version>1.327</github-api.version>
+        <github-api.version>1.330</github-api.version>
         <springdoc.openapi.plugin.version>1.5</springdoc.openapi.plugin.version>
         <swagger.parser.version>2.1.35</swagger.parser.version>
         <swagger.core.v3.version>2.2.39</swagger.core.v3.version>
         <hcl4j.version>0.9.8</hcl4j.version>
-        <jackson.datatype.jsr310.version>2.20.1</jackson.datatype.jsr310.version>
         <spotless.version>3.0.0</spotless.version>
         <liquibase.version>5.0.1</liquibase.version>
         <org.reflections.version>0.10.2</org.reflections.version>
         <docker.java.version>3.7.0</docker.java.version>
         <pebble.version>3.2.4</pebble.version>
         <apache.commons.compress.version>1.28.0</apache.commons.compress.version>
-        <spring.ai.version>1.0.3</spring.ai.version>
+        <spring.ai.version>1.1.0</spring.ai.version>
         <spotbugs.plugin.version>4.9.3.2</spotbugs.plugin.version>
         <spotbugs.annotations.version>4.9.8</spotbugs.annotations.version>
         <spring.cloud.version>2025.0.0</spring.cloud.version>
@@ -189,7 +187,11 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
+            <artifactId>spring-boot-starter-webmvc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webmvc-test</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -351,6 +353,16 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${maven.compile.plugin.version}</version>
                 <configuration>
+<!--                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </path>
+                        <path>
+                            <groupId>org.hibernate.orm</groupId>
+                            <artifactId>hibernate-processor</artifactId> &lt;!&ndash; CHANGED from hibernate-jpamodelgen &ndash;&gt;
+                        </path>
+                    </annotationProcessorPaths>-->
                     <source>${java.version}</source>
                     <target>${java.version}</target>
                     <compilerArgs>

@@ -20,8 +20,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.autoconfigure.RefreshAutoConfiguration;
-import org.springframework.context.annotation.Import;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
@@ -30,7 +29,7 @@ import org.springframework.web.client.RestClientException;
 
 @ContextConfiguration(classes = {PolicyManager.class, PolicyManProperties.class})
 @TestPropertySource(properties = {"xpanse.policy-man.endpoint=http://localhost:9090"})
-@Import(RefreshAutoConfiguration.class)
+@EnableConfigurationProperties
 @ExtendWith(SpringExtension.class)
 class PolicyManagerTest {
 

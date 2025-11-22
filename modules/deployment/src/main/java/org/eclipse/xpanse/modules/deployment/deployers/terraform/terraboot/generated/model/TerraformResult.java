@@ -32,7 +32,7 @@ import java.util.UUID;
 })
 @jakarta.annotation.Generated(
         value = "org.openapitools.codegen.languages.JavaClientCodegen",
-        comments = "Generator version: 7.11.0")
+        comments = "Generator version: 7.17.0")
 public class TerraformResult {
     public static final String JSON_PROPERTY_REQUEST_ID = "requestId";
     @jakarta.annotation.Nonnull private UUID requestId;
@@ -71,13 +71,13 @@ public class TerraformResult {
      * @return requestId
      */
     @jakarta.annotation.Nonnull
-    @JsonProperty(JSON_PROPERTY_REQUEST_ID)
+    @JsonProperty(value = JSON_PROPERTY_REQUEST_ID, required = true)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
     public UUID getRequestId() {
         return requestId;
     }
 
-    @JsonProperty(JSON_PROPERTY_REQUEST_ID)
+    @JsonProperty(value = JSON_PROPERTY_REQUEST_ID, required = true)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
     public void setRequestId(@jakarta.annotation.Nonnull UUID requestId) {
         this.requestId = requestId;
@@ -95,13 +95,13 @@ public class TerraformResult {
      * @return commandStdOutput
      */
     @jakarta.annotation.Nullable
-    @JsonProperty(JSON_PROPERTY_COMMAND_STD_OUTPUT)
+    @JsonProperty(value = JSON_PROPERTY_COMMAND_STD_OUTPUT, required = false)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public String getCommandStdOutput() {
         return commandStdOutput;
     }
 
-    @JsonProperty(JSON_PROPERTY_COMMAND_STD_OUTPUT)
+    @JsonProperty(value = JSON_PROPERTY_COMMAND_STD_OUTPUT, required = false)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public void setCommandStdOutput(@jakarta.annotation.Nullable String commandStdOutput) {
         this.commandStdOutput = commandStdOutput;
@@ -119,13 +119,13 @@ public class TerraformResult {
      * @return commandStdError
      */
     @jakarta.annotation.Nullable
-    @JsonProperty(JSON_PROPERTY_COMMAND_STD_ERROR)
+    @JsonProperty(value = JSON_PROPERTY_COMMAND_STD_ERROR, required = false)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public String getCommandStdError() {
         return commandStdError;
     }
 
-    @JsonProperty(JSON_PROPERTY_COMMAND_STD_ERROR)
+    @JsonProperty(value = JSON_PROPERTY_COMMAND_STD_ERROR, required = false)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public void setCommandStdError(@jakarta.annotation.Nullable String commandStdError) {
         this.commandStdError = commandStdError;
@@ -143,13 +143,13 @@ public class TerraformResult {
      * @return terraformState
      */
     @jakarta.annotation.Nullable
-    @JsonProperty(JSON_PROPERTY_TERRAFORM_STATE)
+    @JsonProperty(value = JSON_PROPERTY_TERRAFORM_STATE, required = false)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public String getTerraformState() {
         return terraformState;
     }
 
-    @JsonProperty(JSON_PROPERTY_TERRAFORM_STATE)
+    @JsonProperty(value = JSON_PROPERTY_TERRAFORM_STATE, required = false)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public void setTerraformState(@jakarta.annotation.Nullable String terraformState) {
         this.terraformState = terraformState;
@@ -178,13 +178,13 @@ public class TerraformResult {
      * @return generatedFileContentMap
      */
     @jakarta.annotation.Nullable
-    @JsonProperty(JSON_PROPERTY_GENERATED_FILE_CONTENT_MAP)
+    @JsonProperty(value = JSON_PROPERTY_GENERATED_FILE_CONTENT_MAP, required = false)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public Map<String, String> getGeneratedFileContentMap() {
         return generatedFileContentMap;
     }
 
-    @JsonProperty(JSON_PROPERTY_GENERATED_FILE_CONTENT_MAP)
+    @JsonProperty(value = JSON_PROPERTY_GENERATED_FILE_CONTENT_MAP, required = false)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public void setGeneratedFileContentMap(
             @jakarta.annotation.Nullable Map<String, String> generatedFileContentMap) {
@@ -204,13 +204,13 @@ public class TerraformResult {
      * @return terraformVersionUsed
      */
     @jakarta.annotation.Nullable
-    @JsonProperty(JSON_PROPERTY_TERRAFORM_VERSION_USED)
+    @JsonProperty(value = JSON_PROPERTY_TERRAFORM_VERSION_USED, required = false)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public String getTerraformVersionUsed() {
         return terraformVersionUsed;
     }
 
-    @JsonProperty(JSON_PROPERTY_TERRAFORM_VERSION_USED)
+    @JsonProperty(value = JSON_PROPERTY_TERRAFORM_VERSION_USED, required = false)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public void setTerraformVersionUsed(@jakarta.annotation.Nullable String terraformVersionUsed) {
         this.terraformVersionUsed = terraformVersionUsed;
@@ -229,13 +229,13 @@ public class TerraformResult {
      * @return commandSuccessful
      */
     @jakarta.annotation.Nullable
-    @JsonProperty(JSON_PROPERTY_COMMAND_SUCCESSFUL)
+    @JsonProperty(value = JSON_PROPERTY_COMMAND_SUCCESSFUL, required = false)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public Boolean getCommandSuccessful() {
         return commandSuccessful;
     }
 
-    @JsonProperty(JSON_PROPERTY_COMMAND_SUCCESSFUL)
+    @JsonProperty(value = JSON_PROPERTY_COMMAND_SUCCESSFUL, required = false)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public void setCommandSuccessful(@jakarta.annotation.Nullable Boolean commandSuccessful) {
         this.commandSuccessful = commandSuccessful;

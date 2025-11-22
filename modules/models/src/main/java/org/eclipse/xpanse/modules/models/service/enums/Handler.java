@@ -7,7 +7,7 @@ package org.eclipse.xpanse.modules.models.service.enums;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.eclipse.xpanse.modules.models.common.exceptions.UnsupportedEnumValueException;
 
 /** The kind of the service order handler. */
@@ -31,7 +31,7 @@ public enum Handler {
     @JsonCreator
     public static Handler getByValue(String name) {
         for (Handler handler : values()) {
-            if (StringUtils.equalsIgnoreCase(handler.value, name)) {
+            if (Strings.CI.equals(handler.value, name)) {
                 return handler;
             }
         }

@@ -21,7 +21,7 @@ import java.util.Objects;
 @JsonPropertyOrder({TerraformValidateDiagnostics.JSON_PROPERTY_DETAIL})
 @jakarta.annotation.Generated(
         value = "org.openapitools.codegen.languages.JavaClientCodegen",
-        comments = "Generator version: 7.11.0")
+        comments = "Generator version: 7.17.0")
 public class TerraformValidateDiagnostics {
     public static final String JSON_PROPERTY_DETAIL = "detail";
     @jakarta.annotation.Nullable private String detail;
@@ -40,13 +40,13 @@ public class TerraformValidateDiagnostics {
      * @return detail
      */
     @jakarta.annotation.Nullable
-    @JsonProperty(JSON_PROPERTY_DETAIL)
+    @JsonProperty(value = JSON_PROPERTY_DETAIL, required = false)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public String getDetail() {
         return detail;
     }
 
-    @JsonProperty(JSON_PROPERTY_DETAIL)
+    @JsonProperty(value = JSON_PROPERTY_DETAIL, required = false)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public void setDetail(@jakarta.annotation.Nullable String detail) {
         this.detail = detail;

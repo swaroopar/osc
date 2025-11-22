@@ -1,6 +1,5 @@
 package org.eclipse.xpanse.plugins.flexibleengine.reourcehandler;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.net.URI;
 import org.apache.commons.collections.CollectionUtils;
@@ -9,6 +8,7 @@ import org.eclipse.xpanse.modules.models.service.deployment.DeployResult;
 import org.eclipse.xpanse.plugins.flexibleengine.resourcehandler.FlexibleEngineTerraformResourceHandler;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import tools.jackson.databind.ObjectMapper;
 
 class FlexibleEngineTerraformResourceHandlerTest {
 
@@ -21,7 +21,9 @@ class FlexibleEngineTerraformResourceHandlerTest {
     void handler() throws IOException {
         TfState tfState =
                 objectMapper.readValue(
-                        URI.create("file:src/test/resources/flexible-tfstate.json").toURL(),
+                        URI.create("file:src/test/resources/flexible-tfstate.json")
+                                .toURL()
+                                .openStream(),
                         TfState.class);
         DeployResult deployResult = new DeployResult();
         deployResult.setTfStateContent(objectMapper.writeValueAsString(tfState));
@@ -34,7 +36,9 @@ class FlexibleEngineTerraformResourceHandlerTest {
     void handler_destroy() throws IOException {
         TfState tfState =
                 objectMapper.readValue(
-                        URI.create("file:src/test/resources/flexible-tfstate-destroy.json").toURL(),
+                        URI.create("file:src/test/resources/flexible-tfstate-destroy.json")
+                                .toURL()
+                                .openStream(),
                         TfState.class);
         DeployResult deployResult = new DeployResult();
         deployResult.setTfStateContent(objectMapper.writeValueAsString(tfState));

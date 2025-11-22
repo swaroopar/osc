@@ -7,7 +7,7 @@ package org.eclipse.xpanse.modules.models.billing.enums;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.eclipse.xpanse.modules.models.common.exceptions.UnsupportedEnumValueException;
 
 /** Enum of PricingPeriod. */
@@ -28,7 +28,7 @@ public enum PricingPeriod {
     @JsonCreator
     public static PricingPeriod getByValue(String value) {
         for (PricingPeriod enumeration : values()) {
-            if (StringUtils.equalsIgnoreCase(enumeration.value, value)) {
+            if (Strings.CI.equals(enumeration.value, value)) {
                 return enumeration;
             }
         }

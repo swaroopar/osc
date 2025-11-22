@@ -20,17 +20,19 @@ import java.util.Objects;
 
 /** EvalCmd */
 @JsonPropertyOrder({EvalCmd.JSON_PROPERTY_INPUT, EvalCmd.JSON_PROPERTY_POLICY})
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@jakarta.annotation.Generated(
+        value = "org.openapitools.codegen.languages.JavaClientCodegen",
+        comments = "Generator version: 7.17.0")
 public class EvalCmd {
     public static final String JSON_PROPERTY_INPUT = "input";
-    private String input;
+    @jakarta.annotation.Nonnull private String input;
 
     public static final String JSON_PROPERTY_POLICY = "policy";
-    private String policy;
+    @jakarta.annotation.Nonnull private String policy;
 
     public EvalCmd() {}
 
-    public EvalCmd input(String input) {
+    public EvalCmd input(@jakarta.annotation.Nonnull String input) {
 
         this.input = input;
         return this;
@@ -43,19 +45,19 @@ public class EvalCmd {
      */
     @jakarta.annotation.Nonnull
     @NotNull
-    @JsonProperty(JSON_PROPERTY_INPUT)
+    @JsonProperty(value = JSON_PROPERTY_INPUT, required = true)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
     public String getInput() {
         return input;
     }
 
-    @JsonProperty(JSON_PROPERTY_INPUT)
+    @JsonProperty(value = JSON_PROPERTY_INPUT, required = true)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
-    public void setInput(String input) {
+    public void setInput(@jakarta.annotation.Nonnull String input) {
         this.input = input;
     }
 
-    public EvalCmd policy(String policy) {
+    public EvalCmd policy(@jakarta.annotation.Nonnull String policy) {
 
         this.policy = policy;
         return this;
@@ -68,15 +70,15 @@ public class EvalCmd {
      */
     @jakarta.annotation.Nonnull
     @NotNull
-    @JsonProperty(JSON_PROPERTY_POLICY)
+    @JsonProperty(value = JSON_PROPERTY_POLICY, required = true)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
     public String getPolicy() {
         return policy;
     }
 
-    @JsonProperty(JSON_PROPERTY_POLICY)
+    @JsonProperty(value = JSON_PROPERTY_POLICY, required = true)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
-    public void setPolicy(String policy) {
+    public void setPolicy(@jakarta.annotation.Nonnull String policy) {
         this.policy = policy;
     }
 

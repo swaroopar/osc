@@ -9,10 +9,10 @@ package org.eclipse.xpanse.modules.logging;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import org.jspecify.annotations.NonNull;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.client.ClientHttpResponse;
-import org.springframework.lang.NonNull;
 
 /**
  * The class wraps a ClientHttpResponse and provides easy access to its properties as a byte array.

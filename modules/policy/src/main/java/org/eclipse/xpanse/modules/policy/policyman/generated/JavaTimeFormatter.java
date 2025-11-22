@@ -21,9 +21,10 @@ import java.time.format.DateTimeParseException;
  * generated for java clients when {@code AbstractJavaCodegen#dateLibrary} specified as {@code
  * java8}.
  */
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@jakarta.annotation.Generated(
+        value = "org.openapitools.codegen.languages.JavaClientCodegen",
+        comments = "Generator version: 7.17.0")
 public class JavaTimeFormatter {
-
     private DateTimeFormatter offsetDateTimeFormatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
 
     /**

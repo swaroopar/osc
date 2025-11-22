@@ -5,15 +5,6 @@
 
 package org.eclipse.xpanse.modules.models.credential.config;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-import java.io.IOException;
-import java.io.Serial;
 import java.util.List;
 import java.util.function.Function;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +14,14 @@ import org.eclipse.xpanse.modules.models.credential.AbstractCredentialInfo;
 import org.eclipse.xpanse.modules.models.credential.CredentialVariable;
 import org.eclipse.xpanse.modules.models.credential.CredentialVariables;
 import org.eclipse.xpanse.modules.models.credential.enums.CredentialType;
+import tools.jackson.core.JsonParser;
+import tools.jackson.databind.DeserializationContext;
+import tools.jackson.databind.DeserializationFeature;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.deser.std.StdDeserializer;
+import tools.jackson.databind.exc.MismatchedInputException;
+import tools.jackson.databind.json.JsonMapper;
+import tools.jackson.databind.module.SimpleModule;
 
 /**
  * Custom deserializer for AbstractCredentialInfo class. This deserializer is used to deserialize
@@ -31,8 +30,6 @@ import org.eclipse.xpanse.modules.models.credential.enums.CredentialType;
  */
 @Slf4j
 public class AbstractCredentialInfoDeserializer extends StdDeserializer<AbstractCredentialInfo> {
-
-    @Serial private static final long serialVersionUID = 20240611000123L;
 
     /** Default constructor. */
     public AbstractCredentialInfoDeserializer() {
@@ -46,29 +43,28 @@ public class AbstractCredentialInfoDeserializer extends StdDeserializer<Abstract
 
     @Override
     public AbstractCredentialInfo deserialize(
-            JsonParser jsonParser, DeserializationContext deserializationContext)
-            throws IOException {
-        JsonNode node = jsonParser.getCodec().readTree(jsonParser);
+            JsonParser jsonParser, DeserializationContext deserializationContext) {
+        JsonNode node = jsonParser.readValueAsTree();
         Csp csp;
         try {
-            csp = Csp.getByValue(node.get("csp").asText());
+            csp = Csp.getByValue(node.get("csp").asString());
         } catch (Exception e) {
-            log.error("Unsupported csp value: {}", node.get("csp").asText());
+            log.error("Unsupported csp value: {}", node.get("csp").asString());
             return null;
         }
         CredentialType type;
         try {
-            type = CredentialType.getByValue(node.get("type").asText());
+            type = CredentialType.getByValue(node.get("type").asString());
         } catch (UnsupportedEnumValueException e) {
-            log.error("Unsupported credential type: {}", node.get("type").asText());
+            log.error("Unsupported credential type: {}", node.get("type").asString());
             return null;
         }
 
         try {
-            String site = safeGet(node, "site", JsonNode::asText);
-            String name = safeGet(node, "name", JsonNode::asText);
-            String description = safeGet(node, "description", JsonNode::asText);
-            String userId = safeGet(node, "userId", JsonNode::asText);
+            String site = safeGet(node, "site", JsonNode::asString);
+            String name = safeGet(node, "name", JsonNode::asString);
+            String description = safeGet(node, "description", JsonNode::asString);
+            String userId = safeGet(node, "userId", JsonNode::asString);
             Integer timeToLive = safeGet(node, "timeToLive", JsonNode::asInt);
             List<CredentialVariable> variables =
                     deserializeCredentialVariables(node.get("variables"));
@@ -93,19 +89,24 @@ public class AbstractCredentialInfoDeserializer extends StdDeserializer<Abstract
     }
 
     private List<CredentialVariable> deserializeCredentialVariables(JsonNode node) {
-        ObjectMapper mapper = new ObjectMapper();
-        SimpleModule module = new SimpleModule();
-        module.addDeserializer(CredentialVariable.class, new CredentialVariableDeserializer());
-        mapper.registerModule(module);
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        JsonMapper jsonMapper =
+                JsonMapper.builder()
+                        .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+                        .addModule(
+                                new SimpleModule()
+                                        .addDeserializer(
+                                                CredentialVariable.class,
+                                                new CredentialVariableDeserializer()))
+                        .build();
         List<CredentialVariable> credentialVariable = null;
         try {
             credentialVariable =
-                    mapper.convertValue(
+                    jsonMapper.convertValue(
                             node,
-                            mapper.getTypeFactory()
+                            jsonMapper
+                                    .getTypeFactory()
                                     .constructCollectionType(List.class, CredentialVariable.class));
-        } catch (IllegalArgumentException e) {
+        } catch (MismatchedInputException e) {
             log.error("Deserialize CredentialVariables with value:{} failed.", node, e);
         }
         return credentialVariable;

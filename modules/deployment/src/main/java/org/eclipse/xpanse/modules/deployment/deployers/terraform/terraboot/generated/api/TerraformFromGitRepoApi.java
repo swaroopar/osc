@@ -26,7 +26,7 @@ import org.springframework.web.client.RestClientException;
 
 @jakarta.annotation.Generated(
         value = "org.openapitools.codegen.languages.JavaClientCodegen",
-        comments = "Generator version: 7.11.0")
+        comments = "Generator version: 7.17.0")
 @Component(
         "org.eclipse.xpanse.modules.deployment.deployers.terraform.terraboot.generated.api.TerraformFromGitRepoApi")
 public class TerraformFromGitRepoApi extends BaseApi {

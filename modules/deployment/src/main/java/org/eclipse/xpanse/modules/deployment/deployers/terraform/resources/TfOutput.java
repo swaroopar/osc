@@ -8,10 +8,11 @@ package org.eclipse.xpanse.modules.deployment.deployers.terraform.resources;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 
 /** TfOutput class. */
 @Slf4j
@@ -19,7 +20,10 @@ import lombok.extern.slf4j.Slf4j;
 public class TfOutput {
 
     private static final ObjectMapper MAPPER =
-            new ObjectMapper().setSerializationInclusion(JsonInclude.Include.NON_NULL);
+            JsonMapper.builder()
+                    .changeDefaultPropertyInclusion(
+                            incl -> incl.withValueInclusion(JsonInclude.Include.NON_NULL))
+                    .build();
 
     private String type;
     private String value;
@@ -56,7 +60,7 @@ public class TfOutput {
     private String getJsonString(Object object) {
         try {
             return MAPPER.writeValueAsString(object);
-        } catch (JsonProcessingException e) {
+        } catch (JacksonException e) {
             log.error("Failed to convert object to json string:{}", object, e);
         }
         return null;

@@ -93,8 +93,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.autoconfigure.RefreshAutoConfiguration;
-import org.springframework.context.annotation.Import;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
@@ -126,7 +125,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
             "OPENSTACK_TESTLAB_AUTH_URL=http://127.0.0.1/identity/v3",
             "xpanse.plugins.openstacktestlab.service-template.auto-approve=true"
         })
-@Import(RefreshAutoConfiguration.class)
+@EnableConfigurationProperties(value = OpenstackTestlabPluginProperties.class)
 class OpenstackTestlabOrchestratorPluginTest {
     @RegisterExtension
     static WireMockExtension wireMockExtension =

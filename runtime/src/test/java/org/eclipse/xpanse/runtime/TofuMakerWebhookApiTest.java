@@ -15,7 +15,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 
 import com.c4_soft.springaddons.security.oauth2.test.annotations.WithJwt;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.net.URI;
 import java.util.Collections;
 import java.util.List;
@@ -37,8 +36,8 @@ import org.eclipse.xpanse.runtime.util.ApisTestCommon;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.BeanUtils;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -46,6 +45,7 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import tools.jackson.databind.ObjectMapper;
 
 /** test for WebhookApi. */
 @Slf4j

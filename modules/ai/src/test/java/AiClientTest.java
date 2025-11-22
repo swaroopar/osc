@@ -7,25 +7,22 @@ import org.eclipse.xpanse.modules.models.ai.enums.AiApplicationType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.autoconfigure.RefreshAutoConfiguration;
-import org.springframework.context.annotation.Import;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-@ExtendWith(SpringExtension.class)
+// @ExtendWith(SpringExtension.class)
 @ContextConfiguration(
         classes = {
             AiClientForCodeGeneration.class,
             AiClientConfiguration.class,
             ApplicationGenerationManager.class,
             DockerImageManage.class,
-            AiProperties.class
+            AiProperties.class,
         })
-@Import(RefreshAutoConfiguration.class)
+@EnableConfigurationProperties(value = {AiProperties.class})
 @TestPropertySource(
         properties = {
             "xpanse.ai.llm.provider-api-endpoint-url=http://localhost:11434",

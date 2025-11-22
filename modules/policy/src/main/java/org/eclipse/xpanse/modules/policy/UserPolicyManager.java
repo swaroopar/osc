@@ -12,6 +12,7 @@ import java.util.Objects;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.eclipse.xpanse.modules.database.userpolicy.UserPolicyEntity;
 import org.eclipse.xpanse.modules.database.userpolicy.UserPolicyStorage;
 import org.eclipse.xpanse.modules.models.common.enums.Csp;
@@ -197,7 +198,7 @@ public class UserPolicyManager {
         BeanUtils.copyProperties(existingEntity, policyToUpdate);
         boolean updatePolicy =
                 StringUtils.isNotBlank(updateRequest.getPolicy())
-                        && !StringUtils.equals(
+                        && !Strings.CS.equals(
                                 updateRequest.getPolicy(), existingEntity.getPolicy());
         if (updatePolicy) {
             policyManager.validatePolicy(updateRequest.getPolicy());

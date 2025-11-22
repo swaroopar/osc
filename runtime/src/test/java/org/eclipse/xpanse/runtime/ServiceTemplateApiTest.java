@@ -19,9 +19,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 
 import com.c4_soft.springaddons.security.oauth2.test.annotations.WithJwt;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import java.net.URI;
 import java.net.URL;
 import java.util.Arrays;
@@ -63,14 +60,18 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.semver4j.Semver;
 import org.springframework.beans.BeanUtils;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import tools.jackson.core.type.TypeReference;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.dataformat.yaml.YAMLFactory;
+import tools.jackson.dataformat.yaml.YAMLMapper;
 
 /** Test for ServiceTemplateManageApi. */
 @Slf4j
@@ -78,7 +79,7 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 @SpringBootTest(
         properties = {
             "spring.profiles.active=oauth,zitadel,zitadel-local,test,dev",
-            "huaweicloud.auto.approve.service.template.enabled=false"
+            "xpanse.plugins.huaweicloud.service-template.auto-approve=false"
         })
 @AutoConfigureMockMvc
 class ServiceTemplateApiTest extends ApisTestCommon {
@@ -715,7 +716,7 @@ class ServiceTemplateApiTest extends ApisTestCommon {
         ErrorResponse result =
                 objectMapper.readValue(response.getContentAsString(), ErrorResponse.class);
         // Verify the results
-        assertEquals(HttpStatus.UNPROCESSABLE_ENTITY.value(), response.getStatus());
+        assertEquals(HttpStatus.UNPROCESSABLE_CONTENT.value(), response.getStatus());
         assertEquals(ErrorType.UNPROCESSABLE_ENTITY, result.getErrorType());
         assertFalse(result.getDetails().isEmpty());
 
@@ -728,7 +729,7 @@ class ServiceTemplateApiTest extends ApisTestCommon {
         ErrorResponse result1 =
                 objectMapper.readValue(response1.getContentAsString(), ErrorResponse.class);
         // Verify the results
-        assertEquals(HttpStatus.UNPROCESSABLE_ENTITY.value(), response1.getStatus());
+        assertEquals(HttpStatus.UNPROCESSABLE_CONTENT.value(), response1.getStatus());
         assertEquals(ErrorType.UNPROCESSABLE_ENTITY, result1.getErrorType());
         assertFalse(result1.getDetails().isEmpty());
 
@@ -738,7 +739,7 @@ class ServiceTemplateApiTest extends ApisTestCommon {
         ErrorResponse result2 =
                 objectMapper.readValue(response2.getContentAsString(), ErrorResponse.class);
         // Verify the results
-        assertEquals(HttpStatus.UNPROCESSABLE_ENTITY.value(), response2.getStatus());
+        assertEquals(HttpStatus.UNPROCESSABLE_CONTENT.value(), response2.getStatus());
         assertEquals(ErrorType.UNPROCESSABLE_ENTITY, result2.getErrorType());
         assertFalse(result2.getDetails().isEmpty());
     }
@@ -1221,7 +1222,7 @@ class ServiceTemplateApiTest extends ApisTestCommon {
                 objectMapper.readValue(response.getContentAsString(), ErrorResponse.class);
 
         // Verify the results
-        assertEquals(HttpStatus.UNPROCESSABLE_ENTITY.value(), response.getStatus());
+        assertEquals(HttpStatus.UNPROCESSABLE_CONTENT.value(), response.getStatus());
         assertEquals(expectedResponse.getErrorType(), resultResponse.getErrorType());
 
         final MockHttpServletResponse historyResponse =
@@ -1229,7 +1230,7 @@ class ServiceTemplateApiTest extends ApisTestCommon {
         ErrorResponse resultResponse1 =
                 objectMapper.readValue(historyResponse.getContentAsString(), ErrorResponse.class);
         // Verify the results
-        assertEquals(HttpStatus.UNPROCESSABLE_ENTITY.value(), historyResponse.getStatus());
+        assertEquals(HttpStatus.UNPROCESSABLE_CONTENT.value(), historyResponse.getStatus());
         assertEquals(expectedResponse.getErrorType(), resultResponse1.getErrorType());
     }
 
@@ -1247,7 +1248,7 @@ class ServiceTemplateApiTest extends ApisTestCommon {
 
     MockHttpServletResponse update(UUID id, boolean isUnpublishUntilApproved, Ocl ocl)
             throws Exception {
-        ObjectMapper yamlMapper = new ObjectMapper(new YAMLFactory());
+        ObjectMapper yamlMapper = new YAMLMapper(new YAMLFactory());
         String requestBody = yamlMapper.writeValueAsString(ocl);
         return mockMvc.perform(
                         put("/xpanse/service_templates/{id}", id)

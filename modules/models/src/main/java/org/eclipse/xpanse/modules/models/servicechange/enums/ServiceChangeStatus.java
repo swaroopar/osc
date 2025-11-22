@@ -8,7 +8,7 @@ package org.eclipse.xpanse.modules.models.servicechange.enums;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.eclipse.xpanse.modules.models.common.exceptions.UnsupportedEnumValueException;
 
 /** Service Change Status. */
@@ -28,7 +28,7 @@ public enum ServiceChangeStatus {
     @JsonCreator
     public static ServiceChangeStatus getByValue(String status) {
         for (ServiceChangeStatus serviceChangeStatus : values()) {
-            if (StringUtils.equalsIgnoreCase(serviceChangeStatus.status, status)) {
+            if (Strings.CI.equals(serviceChangeStatus.status, status)) {
                 return serviceChangeStatus;
             }
         }

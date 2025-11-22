@@ -7,7 +7,7 @@ package org.eclipse.xpanse.modules.models.workflow;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.eclipse.xpanse.modules.models.common.exceptions.UnsupportedEnumValueException;
 
 /** Workflow Task Status enums. */
@@ -25,7 +25,7 @@ public enum WorkFlowTaskStatus {
     @JsonCreator
     public static WorkFlowTaskStatus getByValue(String status) {
         for (WorkFlowTaskStatus workflowTaskStatus : values()) {
-            if (StringUtils.equalsIgnoreCase(workflowTaskStatus.workfowStatus, status)) {
+            if (Strings.CI.equals(workflowTaskStatus.workfowStatus, status)) {
                 return workflowTaskStatus;
             }
         }

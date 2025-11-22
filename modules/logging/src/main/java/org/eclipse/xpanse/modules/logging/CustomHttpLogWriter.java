@@ -6,7 +6,7 @@
 package org.eclipse.xpanse.modules.logging;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.lang.NonNull;
+import org.jspecify.annotations.NonNull;
 import org.zalando.logbook.Correlation;
 import org.zalando.logbook.HttpLogWriter;
 import org.zalando.logbook.Precorrelation;

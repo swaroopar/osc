@@ -8,7 +8,7 @@ package org.eclipse.xpanse.plugins.huaweicloud.monitor;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 
 /** Huawei Namespace. */
 public enum HuaweiCloudNameSpaceKind {
@@ -31,7 +31,7 @@ public enum HuaweiCloudNameSpaceKind {
     @JsonCreator
     public HuaweiCloudNameSpaceKind getByValue(String nameSpace) {
         for (HuaweiCloudNameSpaceKind huaweiCloudNameSpaceKind : values()) {
-            if (StringUtils.equalsIgnoreCase(huaweiCloudNameSpaceKind.nameSpace, nameSpace)) {
+            if (Strings.CI.equals(huaweiCloudNameSpaceKind.nameSpace, nameSpace)) {
                 return huaweiCloudNameSpaceKind;
             }
         }

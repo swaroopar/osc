@@ -29,7 +29,7 @@ import java.util.Objects;
 })
 @jakarta.annotation.Generated(
         value = "org.openapitools.codegen.languages.JavaClientCodegen",
-        comments = "Generator version: 7.11.0")
+        comments = "Generator version: 7.17.0")
 public class Response {
     /** The result code of response. */
     public enum ResultTypeEnum {
@@ -108,13 +108,13 @@ public class Response {
      * @return resultType
      */
     @jakarta.annotation.Nonnull
-    @JsonProperty(JSON_PROPERTY_RESULT_TYPE)
+    @JsonProperty(value = JSON_PROPERTY_RESULT_TYPE, required = true)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
     public ResultTypeEnum getResultType() {
         return resultType;
     }
 
-    @JsonProperty(JSON_PROPERTY_RESULT_TYPE)
+    @JsonProperty(value = JSON_PROPERTY_RESULT_TYPE, required = true)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
     public void setResultType(@jakarta.annotation.Nonnull ResultTypeEnum resultType) {
         this.resultType = resultType;
@@ -140,13 +140,13 @@ public class Response {
      * @return details
      */
     @jakarta.annotation.Nonnull
-    @JsonProperty(JSON_PROPERTY_DETAILS)
+    @JsonProperty(value = JSON_PROPERTY_DETAILS, required = true)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
     public List<String> getDetails() {
         return details;
     }
 
-    @JsonProperty(JSON_PROPERTY_DETAILS)
+    @JsonProperty(value = JSON_PROPERTY_DETAILS, required = true)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
     public void setDetails(@jakarta.annotation.Nonnull List<String> details) {
         this.details = details;
@@ -164,13 +164,13 @@ public class Response {
      * @return success
      */
     @jakarta.annotation.Nonnull
-    @JsonProperty(JSON_PROPERTY_SUCCESS)
+    @JsonProperty(value = JSON_PROPERTY_SUCCESS, required = true)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
     public Boolean getSuccess() {
         return success;
     }
 
-    @JsonProperty(JSON_PROPERTY_SUCCESS)
+    @JsonProperty(value = JSON_PROPERTY_SUCCESS, required = true)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
     public void setSuccess(@jakarta.annotation.Nonnull Boolean success) {
         this.success = success;

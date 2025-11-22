@@ -8,7 +8,7 @@ package org.eclipse.xpanse.modules.models.service.enums;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.eclipse.xpanse.modules.models.common.exceptions.UnsupportedEnumValueException;
 
 /** The kind of the Resources. */
@@ -39,7 +39,7 @@ public enum DeployResourceKind {
     @JsonCreator
     public static DeployResourceKind getByValue(String kind) {
         for (DeployResourceKind resourceKind : values()) {
-            if (StringUtils.endsWithIgnoreCase(resourceKind.kind, kind)) {
+            if (Strings.CI.endsWith(resourceKind.kind, kind)) {
                 return resourceKind;
             }
         }

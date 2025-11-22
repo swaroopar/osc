@@ -6,8 +6,6 @@
 
 package org.eclipse.xpanse.modules.security.auth.zitadel;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -18,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.eclipse.xpanse.modules.models.security.TokenResponse;
 import org.eclipse.xpanse.modules.models.system.BackendSystemStatus;
 import org.eclipse.xpanse.modules.models.system.enums.BackendSystemType;
@@ -47,6 +45,8 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import tools.jackson.core.type.TypeReference;
+import tools.jackson.databind.ObjectMapper;
 
 /** Service for authorization of IAM 'Zitadel'. */
 @Slf4j
@@ -172,12 +172,12 @@ public class ZitadelIdentityProviderService implements IdentityProviderService {
                                             Base64.getDecoder().decode(entry.getValue()),
                                             StandardCharsets.UTF_8);
                             userMetadata.put(entry.getKey(), value);
-                            if (StringUtils.equals(
+                            if (Strings.CS.equals(
                                     securityProperties.getOauth().getMetaData().getIsvKey(),
                                     entry.getKey())) {
                                 currentUserInfo.setIsv(value);
                             }
-                            if (StringUtils.equals(
+                            if (Strings.CS.equals(
                                     securityProperties.getOauth().getMetaData().getCspKey(),
                                     entry.getKey())) {
                                 currentUserInfo.setCsp(value);

@@ -7,7 +7,7 @@ package org.eclipse.xpanse.modules.models.servicetemplate.request.enums;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.eclipse.xpanse.modules.models.common.exceptions.UnsupportedEnumValueException;
 
 /** Defines status enumerations for request of service template. */
@@ -27,7 +27,7 @@ public enum ServiceTemplateRequestStatus {
     @JsonCreator
     public static ServiceTemplateRequestStatus getByValue(String state) {
         for (ServiceTemplateRequestStatus registrationState : values()) {
-            if (StringUtils.equalsIgnoreCase(registrationState.state, state)) {
+            if (Strings.CI.equals(registrationState.state, state)) {
                 return registrationState;
             }
         }

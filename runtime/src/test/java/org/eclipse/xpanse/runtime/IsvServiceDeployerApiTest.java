@@ -15,8 +15,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 import com.c4_soft.springaddons.security.oauth2.test.annotations.WithJwt;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,12 +40,14 @@ import org.eclipse.xpanse.runtime.util.ApisTestCommon;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import tools.jackson.core.JacksonException;
+import tools.jackson.core.type.TypeReference;
 
 /** Test for ServiceDeployerApi. */
 @Slf4j
@@ -230,7 +230,7 @@ class IsvServiceDeployerApiTest extends ApisTestCommon {
         try {
             return objectMapper.readValue(
                     detailResponse.getContentAsString(), DeployedServiceDetails.class);
-        } catch (JsonProcessingException e) {
+        } catch (JacksonException e) {
             return null;
         }
     }

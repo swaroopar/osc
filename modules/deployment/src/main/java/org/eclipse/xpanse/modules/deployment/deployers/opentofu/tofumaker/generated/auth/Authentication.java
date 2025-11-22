@@ -15,6 +15,9 @@ package org.eclipse.xpanse.modules.deployment.deployers.opentofu.tofumaker.gener
 import org.springframework.http.HttpHeaders;
 import org.springframework.util.MultiValueMap;
 
+@jakarta.annotation.Generated(
+        value = "org.openapitools.codegen.languages.JavaClientCodegen",
+        comments = "Generator version: 7.17.0")
 public interface Authentication {
     /**
      * Apply authentication settings to header and / or query parameters.
@@ -23,7 +26,7 @@ public interface Authentication {
      * @param headerParams The header parameters for the request
      * @param cookieParams The cookie parameters for the request
      */
-    public void applyToParams(
+    void applyToParams(
             MultiValueMap<String, String> queryParams,
             HttpHeaders headerParams,
             MultiValueMap<String, String> cookieParams);

@@ -29,7 +29,7 @@ import java.util.UUID;
 })
 @jakarta.annotation.Generated(
         value = "org.openapitools.codegen.languages.JavaClientCodegen",
-        comments = "Generator version: 7.11.0")
+        comments = "Generator version: 7.17.0")
 public class OpenTofuValidationResult {
     public static final String JSON_PROPERTY_REQUEST_ID = "requestId";
     @jakarta.annotation.Nonnull private UUID requestId;
@@ -59,13 +59,13 @@ public class OpenTofuValidationResult {
      * @return requestId
      */
     @jakarta.annotation.Nonnull
-    @JsonProperty(JSON_PROPERTY_REQUEST_ID)
+    @JsonProperty(value = JSON_PROPERTY_REQUEST_ID, required = true)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
     public UUID getRequestId() {
         return requestId;
     }
 
-    @JsonProperty(JSON_PROPERTY_REQUEST_ID)
+    @JsonProperty(value = JSON_PROPERTY_REQUEST_ID, required = true)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
     public void setRequestId(@jakarta.annotation.Nonnull UUID requestId) {
         this.requestId = requestId;
@@ -83,13 +83,13 @@ public class OpenTofuValidationResult {
      * @return valid
      */
     @jakarta.annotation.Nonnull
-    @JsonProperty(JSON_PROPERTY_VALID)
+    @JsonProperty(value = JSON_PROPERTY_VALID, required = true)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
     public Boolean getValid() {
         return valid;
     }
 
-    @JsonProperty(JSON_PROPERTY_VALID)
+    @JsonProperty(value = JSON_PROPERTY_VALID, required = true)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
     public void setValid(@jakarta.annotation.Nonnull Boolean valid) {
         this.valid = valid;
@@ -108,13 +108,13 @@ public class OpenTofuValidationResult {
      * @return openTofuVersionUsed
      */
     @jakarta.annotation.Nullable
-    @JsonProperty(JSON_PROPERTY_OPEN_TOFU_VERSION_USED)
+    @JsonProperty(value = JSON_PROPERTY_OPEN_TOFU_VERSION_USED, required = false)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public String getOpenTofuVersionUsed() {
         return openTofuVersionUsed;
     }
 
-    @JsonProperty(JSON_PROPERTY_OPEN_TOFU_VERSION_USED)
+    @JsonProperty(value = JSON_PROPERTY_OPEN_TOFU_VERSION_USED, required = false)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public void setOpenTofuVersionUsed(@jakarta.annotation.Nullable String openTofuVersionUsed) {
         this.openTofuVersionUsed = openTofuVersionUsed;
@@ -142,13 +142,13 @@ public class OpenTofuValidationResult {
      * @return diagnostics
      */
     @jakarta.annotation.Nullable
-    @JsonProperty(JSON_PROPERTY_DIAGNOSTICS)
+    @JsonProperty(value = JSON_PROPERTY_DIAGNOSTICS, required = false)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public List<OpenTofuValidateDiagnostics> getDiagnostics() {
         return diagnostics;
     }
 
-    @JsonProperty(JSON_PROPERTY_DIAGNOSTICS)
+    @JsonProperty(value = JSON_PROPERTY_DIAGNOSTICS, required = false)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public void setDiagnostics(
             @jakarta.annotation.Nullable List<OpenTofuValidateDiagnostics> diagnostics) {

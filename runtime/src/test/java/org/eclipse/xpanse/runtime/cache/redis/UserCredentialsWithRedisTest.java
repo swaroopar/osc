@@ -23,8 +23,8 @@ import org.eclipse.xpanse.plugins.huaweicloud.monitor.constant.HuaweiCloudMonito
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 /** Test for UserCloudCredentialsApi with Redis cache. */

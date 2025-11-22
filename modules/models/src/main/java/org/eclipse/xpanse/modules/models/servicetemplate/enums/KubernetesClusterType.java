@@ -7,7 +7,7 @@ package org.eclipse.xpanse.modules.models.servicetemplate.enums;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.eclipse.xpanse.modules.models.common.exceptions.UnsupportedEnumValueException;
 
 /** Defines the type of the kubernetes cluster on which the service will be deployed. */
@@ -25,7 +25,7 @@ public enum KubernetesClusterType {
     @JsonCreator
     public static KubernetesClusterType getByValue(String type) {
         for (KubernetesClusterType tool : values()) {
-            if (StringUtils.equalsIgnoreCase(tool.type, type)) {
+            if (Strings.CI.equals(tool.type, type)) {
                 return tool;
             }
         }

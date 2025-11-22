@@ -27,7 +27,7 @@ import java.util.UUID;
 })
 @jakarta.annotation.Generated(
         value = "org.openapitools.codegen.languages.JavaClientCodegen",
-        comments = "Generator version: 7.11.0")
+        comments = "Generator version: 7.17.0")
 public class OpenTofuPlan {
     public static final String JSON_PROPERTY_REQUEST_ID = "requestId";
     @jakarta.annotation.Nonnull private UUID requestId;
@@ -55,13 +55,13 @@ public class OpenTofuPlan {
      * @return requestId
      */
     @jakarta.annotation.Nonnull
-    @JsonProperty(JSON_PROPERTY_REQUEST_ID)
+    @JsonProperty(value = JSON_PROPERTY_REQUEST_ID, required = true)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
     public UUID getRequestId() {
         return requestId;
     }
 
-    @JsonProperty(JSON_PROPERTY_REQUEST_ID)
+    @JsonProperty(value = JSON_PROPERTY_REQUEST_ID, required = true)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
     public void setRequestId(@jakarta.annotation.Nonnull UUID requestId) {
         this.requestId = requestId;
@@ -79,13 +79,13 @@ public class OpenTofuPlan {
      * @return plan
      */
     @jakarta.annotation.Nonnull
-    @JsonProperty(JSON_PROPERTY_PLAN)
+    @JsonProperty(value = JSON_PROPERTY_PLAN, required = true)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
     public String getPlan() {
         return plan;
     }
 
-    @JsonProperty(JSON_PROPERTY_PLAN)
+    @JsonProperty(value = JSON_PROPERTY_PLAN, required = true)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
     public void setPlan(@jakarta.annotation.Nonnull String plan) {
         this.plan = plan;
@@ -104,13 +104,13 @@ public class OpenTofuPlan {
      * @return openTofuVersionUsed
      */
     @jakarta.annotation.Nullable
-    @JsonProperty(JSON_PROPERTY_OPEN_TOFU_VERSION_USED)
+    @JsonProperty(value = JSON_PROPERTY_OPEN_TOFU_VERSION_USED, required = false)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public String getOpenTofuVersionUsed() {
         return openTofuVersionUsed;
     }
 
-    @JsonProperty(JSON_PROPERTY_OPEN_TOFU_VERSION_USED)
+    @JsonProperty(value = JSON_PROPERTY_OPEN_TOFU_VERSION_USED, required = false)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public void setOpenTofuVersionUsed(@jakarta.annotation.Nullable String openTofuVersionUsed) {
         this.openTofuVersionUsed = openTofuVersionUsed;
@@ -128,13 +128,13 @@ public class OpenTofuPlan {
      * @return errorMessage
      */
     @jakarta.annotation.Nullable
-    @JsonProperty(JSON_PROPERTY_ERROR_MESSAGE)
+    @JsonProperty(value = JSON_PROPERTY_ERROR_MESSAGE, required = false)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public String getErrorMessage() {
         return errorMessage;
     }
 
-    @JsonProperty(JSON_PROPERTY_ERROR_MESSAGE)
+    @JsonProperty(value = JSON_PROPERTY_ERROR_MESSAGE, required = false)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public void setErrorMessage(@jakarta.annotation.Nullable String errorMessage) {
         this.errorMessage = errorMessage;

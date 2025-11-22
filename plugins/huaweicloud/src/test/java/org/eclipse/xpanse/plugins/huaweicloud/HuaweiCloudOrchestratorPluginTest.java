@@ -41,8 +41,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.autoconfigure.RefreshAutoConfiguration;
-import org.springframework.context.annotation.Import;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
@@ -52,7 +51,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
         properties = {
             "xpanse.plugins.huaweicloud.service-template.auto-approve=true",
         })
-@Import(RefreshAutoConfiguration.class)
+@EnableConfigurationProperties(value = HuaweiCloudPluginProperties.class)
 @ContextConfiguration(
         classes = {HuaweiCloudOrchestratorPlugin.class, HuaweiCloudPluginProperties.class})
 @ExtendWith(SpringExtension.class)

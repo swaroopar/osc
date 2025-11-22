@@ -6,8 +6,6 @@
 package org.eclipse.xpanse.modules.models.policy.userpolicy;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.ser.OffsetDateTimeSerializer;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -16,6 +14,8 @@ import java.time.OffsetDateTime;
 import java.util.UUID;
 import lombok.Data;
 import org.eclipse.xpanse.modules.models.common.enums.Csp;
+import tools.jackson.databind.annotation.JsonSerialize;
+import tools.jackson.databind.ext.javatime.ser.OffsetDateTimeSerializer;
 
 /** Define view object for detail of the policy entity. */
 @Data

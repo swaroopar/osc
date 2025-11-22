@@ -22,14 +22,16 @@ import java.util.Objects;
 
 /** ValidatePolicyList */
 @JsonPropertyOrder({ValidatePolicyList.JSON_PROPERTY_POLICY_LIST})
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@jakarta.annotation.Generated(
+        value = "org.openapitools.codegen.languages.JavaClientCodegen",
+        comments = "Generator version: 7.17.0")
 public class ValidatePolicyList {
     public static final String JSON_PROPERTY_POLICY_LIST = "policy_list";
-    private List<String> policyList = new ArrayList<>();
+    @jakarta.annotation.Nonnull private List<String> policyList = new ArrayList<>();
 
     public ValidatePolicyList() {}
 
-    public ValidatePolicyList policyList(List<String> policyList) {
+    public ValidatePolicyList policyList(@jakarta.annotation.Nonnull List<String> policyList) {
 
         this.policyList = policyList;
         return this;
@@ -50,15 +52,15 @@ public class ValidatePolicyList {
      */
     @jakarta.annotation.Nonnull
     @NotNull
-    @JsonProperty(JSON_PROPERTY_POLICY_LIST)
+    @JsonProperty(value = JSON_PROPERTY_POLICY_LIST, required = true)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
     public List<String> getPolicyList() {
         return policyList;
     }
 
-    @JsonProperty(JSON_PROPERTY_POLICY_LIST)
+    @JsonProperty(value = JSON_PROPERTY_POLICY_LIST, required = true)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
-    public void setPolicyList(List<String> policyList) {
+    public void setPolicyList(@jakarta.annotation.Nonnull List<String> policyList) {
         this.policyList = policyList;
     }
 

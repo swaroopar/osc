@@ -5,8 +5,6 @@
 
 package org.eclipse.xpanse.modules.servicetemplate.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.core.converter.ModelConverters;
 import io.swagger.v3.core.converter.ResolvedSchema;
 import io.swagger.v3.oas.models.Components;
@@ -39,6 +37,8 @@ import org.eclipse.xpanse.modules.models.servicetemplate.exceptions.ServiceContr
 import org.eclipse.xpanse.modules.models.servicetemplate.utils.JsonObjectSchema;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.ObjectMapper;
 
 /** Utility methods for creating OpenAPI schema. */
 @Slf4j
@@ -303,7 +303,7 @@ public class SchemaUtils {
             }
             components.addSchemas(schema.getTitle(), schema);
             return schema;
-        } catch (JsonProcessingException e) {
+        } catch (JacksonException e) {
             log.error("Error processing the custom schema provided for additional type");
             log.error(e.getMessage(), e);
             throw new ServiceControllerConfigurationInvalidException(List.of(e.getMessage()));

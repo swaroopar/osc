@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.eclipse.xpanse.modules.cache.monitor.MonitorMetricsCacheKey;
 import org.eclipse.xpanse.modules.cache.monitor.MonitorMetricsStore;
 import org.eclipse.xpanse.modules.models.common.enums.Csp;
@@ -255,11 +255,11 @@ public class HuaweiCloudMetricsService {
                                 .filter(
                                         m ->
                                                 Objects.nonNull(m)
-                                                        && StringUtils.equals(
+                                                        && Strings.CS.equals(
                                                                 m.getName(),
                                                                 metricInfo.getMetricName())
                                                         && !CollectionUtils.isEmpty(m.getMetrics())
-                                                        && StringUtils.equals(
+                                                        && Strings.CS.equals(
                                                                 resourceId,
                                                                 m.getLabels().get("id")))
                                 .findAny()

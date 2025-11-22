@@ -11,9 +11,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 
 import com.c4_soft.springaddons.security.oauth2.test.annotations.WithJwt;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import java.net.URI;
 import java.util.Collections;
 import java.util.List;
@@ -40,13 +37,17 @@ import org.eclipse.xpanse.modules.models.servicetemplate.view.ServiceTemplateDet
 import org.eclipse.xpanse.runtime.util.ApisTestCommon;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import tools.jackson.core.type.TypeReference;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.dataformat.yaml.YAMLFactory;
+import tools.jackson.dataformat.yaml.YAMLMapper;
 
 @Slf4j
 @ExtendWith(SpringExtension.class)
@@ -90,7 +91,7 @@ class CspServiceTemplateApiTest extends ApisTestCommon {
 
     MockHttpServletResponse update(
             UUID serviceTemplateId, boolean isUnpublishUntilApproved, Ocl ocl) throws Exception {
-        ObjectMapper yamlMapper = new ObjectMapper(new YAMLFactory());
+        ObjectMapper yamlMapper = new YAMLMapper(new YAMLFactory());
         String requestBody = yamlMapper.writeValueAsString(ocl);
         return mockMvc.perform(
                         put("/xpanse/service_templates/{serviceTemplateId}", serviceTemplateId)
@@ -356,7 +357,7 @@ class CspServiceTemplateApiTest extends ApisTestCommon {
         MockHttpServletResponse response1 =
                 listServiceTemplatesWithParams(null, null, null, null, serviceRegistrationState1);
         // Verify the results 1
-        assertThat(response1.getStatus()).isEqualTo(HttpStatus.UNPROCESSABLE_ENTITY.value());
+        assertThat(response1.getStatus()).isEqualTo(HttpStatus.UNPROCESSABLE_CONTENT.value());
         assertThat(errorMessage).isSubstringOf(response1.getContentAsString());
 
         // Setup request 2

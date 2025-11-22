@@ -8,7 +8,7 @@ package org.eclipse.xpanse.plugins.flexibleengine.monitor;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 
 /** FlexibleEngine Namespace. */
 public enum FlexibleEngineNameSpaceKind {
@@ -31,7 +31,7 @@ public enum FlexibleEngineNameSpaceKind {
     @JsonCreator
     public FlexibleEngineNameSpaceKind getByValue(String nameSpace) {
         for (FlexibleEngineNameSpaceKind flexibleEngineNameSpaceKind : values()) {
-            if (StringUtils.equalsIgnoreCase(flexibleEngineNameSpaceKind.nameSpace, nameSpace)) {
+            if (Strings.CI.equals(flexibleEngineNameSpaceKind.nameSpace, nameSpace)) {
                 return flexibleEngineNameSpaceKind;
             }
         }

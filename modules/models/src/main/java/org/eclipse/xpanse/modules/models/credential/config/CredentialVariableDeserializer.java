@@ -5,13 +5,11 @@
 
 package org.eclipse.xpanse.modules.models.credential.config;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
-import java.io.IOException;
-import java.io.Serial;
 import org.eclipse.xpanse.modules.models.credential.CredentialVariable;
+import tools.jackson.core.JsonParser;
+import tools.jackson.databind.DeserializationContext;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.deser.std.StdDeserializer;
 
 /**
  * Custom deserializer for CredentialVariable class. This deserializer is used to deserialize JSON
@@ -19,8 +17,6 @@ import org.eclipse.xpanse.modules.models.credential.CredentialVariable;
  * Jackson cannot handle.
  */
 public class CredentialVariableDeserializer extends StdDeserializer<CredentialVariable> {
-
-    @Serial private static final long serialVersionUID = 20240612001L;
 
     /** Constructor for CredentialVariableDeserializer. */
     public CredentialVariableDeserializer() {
@@ -34,19 +30,18 @@ public class CredentialVariableDeserializer extends StdDeserializer<CredentialVa
 
     @Override
     public CredentialVariable deserialize(
-            JsonParser jsonParser, DeserializationContext deserializationContext)
-            throws IOException {
+            JsonParser jsonParser, DeserializationContext deserializationContext) {
 
-        JsonNode node = jsonParser.getCodec().readTree(jsonParser);
+        JsonNode node = jsonParser.readValueAsTree();
 
-        String name = node.get("name").isNull() ? null : node.get("name").asText();
+        String name = node.get("name").isNull() ? null : node.get("name").asString();
         String description =
-                node.get("description").isNull() ? null : node.get("description").asText();
+                node.get("description").isNull() ? null : node.get("description").asString();
         Boolean isMandatory =
                 node.get("isMandatory").isNull() ? null : node.get("isMandatory").asBoolean();
         Boolean isSensitive =
                 node.get("isSensitive").isNull() ? null : node.get("isSensitive").asBoolean();
-        String value = node.get("value").isNull() ? null : node.get("value").asText();
+        String value = node.get("value").isNull() ? null : node.get("value").asString();
 
         return new CredentialVariable(
                 name,

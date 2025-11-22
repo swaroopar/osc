@@ -13,11 +13,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.eclipse.xpanse.modules.security.auth.common.CurrentUserInfo;
 import org.eclipse.xpanse.modules.security.auth.common.CurrentUserInfoHolder;
 import org.eclipse.xpanse.modules.security.config.SecurityProperties;
+import org.jspecify.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
-import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 

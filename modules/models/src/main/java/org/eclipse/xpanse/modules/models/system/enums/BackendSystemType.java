@@ -7,7 +7,7 @@ package org.eclipse.xpanse.modules.models.system.enums;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.eclipse.xpanse.modules.models.common.exceptions.UnsupportedEnumValueException;
 
 /** Defines type of the backend system. */
@@ -30,7 +30,7 @@ public enum BackendSystemType {
     @JsonCreator
     public static BackendSystemType getByValue(String code) {
         for (BackendSystemType providerType : values()) {
-            if (StringUtils.equalsIgnoreCase(code, providerType.code)) {
+            if (Strings.CI.equals(code, providerType.code)) {
                 return providerType;
             }
         }

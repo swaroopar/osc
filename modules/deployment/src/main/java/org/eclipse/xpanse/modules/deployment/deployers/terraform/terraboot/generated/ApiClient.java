@@ -31,6 +31,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TimeZone;
@@ -68,10 +69,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 @jakarta.annotation.Generated(
         value = "org.openapitools.codegen.languages.JavaClientCodegen",
-        comments = "Generator version: 7.11.0")
+        comments = "Generator version: 7.17.0")
 @Component(
         "org.eclipse.xpanse.modules.deployment.deployers.terraform.terraboot.generated.ApiClient")
-@SuppressWarnings("deprecation")
 public class ApiClient extends JavaTimeFormatter {
     public enum CollectionFormat {
         CSV(","),
@@ -80,34 +80,34 @@ public class ApiClient extends JavaTimeFormatter {
         PIPES("|"),
         MULTI(null);
 
-        private final String separator;
+        protected final String separator;
 
-        private CollectionFormat(String separator) {
+        CollectionFormat(String separator) {
             this.separator = separator;
         }
 
-        private String collectionToString(Collection<?> collection) {
+        protected String collectionToString(Collection<?> collection) {
             return StringUtils.collectionToDelimitedString(collection, separator);
         }
     }
 
-    private boolean debugging = false;
+    protected boolean debugging = false;
 
-    private HttpHeaders defaultHeaders = new HttpHeaders();
-    private MultiValueMap<String, String> defaultCookies =
+    protected HttpHeaders defaultHeaders = new HttpHeaders();
+    protected MultiValueMap<String, String> defaultCookies =
             new LinkedMultiValueMap<String, String>();
 
-    private int maxAttemptsForRetry = 1;
+    protected int maxAttemptsForRetry = 1;
 
-    private long waitTimeMillis = 10;
+    protected long waitTimeMillis = 10;
 
-    private String basePath = "http://localhost:9090";
+    protected String basePath = "http://localhost:9090";
 
-    private RestTemplate restTemplate;
+    protected RestTemplate restTemplate;
 
-    private Map<String, Authentication> authentications;
+    protected Map<String, Authentication> authentications;
 
-    private DateFormat dateFormat;
+    protected DateFormat dateFormat;
 
     public ApiClient() {
         this.restTemplate = buildRestTemplate();
@@ -129,7 +129,7 @@ public class ApiClient extends JavaTimeFormatter {
         this.dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
 
         // Set default User-Agent.
-        setUserAgent("Java-SDK");
+        setUserAgent("OpenAPI-Generator/1.0.22-SNAPSHOT/java");
 
         // Setup authentications (key: authentication name, value: authentication).
         authentications = new HashMap<String, Authentication>();
@@ -260,10 +260,7 @@ public class ApiClient extends JavaTimeFormatter {
      * @return ApiClient this client
      */
     public ApiClient addDefaultHeader(String name, String value) {
-        if (defaultHeaders.containsKey(name)) {
-            defaultHeaders.remove(name);
-        }
-        defaultHeaders.add(name, value);
+        defaultHeaders.set(name, value);
         return this;
     }
 
@@ -667,7 +664,7 @@ public class ApiClient extends JavaTimeFormatter {
         }
         String expandedPath = this.expandPath(finalUri, uriParams);
         final UriComponentsBuilder builder =
-                UriComponentsBuilder.fromHttpUrl(basePath).path(expandedPath);
+                UriComponentsBuilder.fromUriString(basePath).path(expandedPath);
 
         URI uri;
         try {
@@ -679,7 +676,7 @@ public class ApiClient extends JavaTimeFormatter {
         final BodyBuilder requestBuilder =
                 RequestEntity.method(
                         method,
-                        UriComponentsBuilder.fromHttpUrl(basePath).toUriString() + finalUri,
+                        UriComponentsBuilder.fromUriString(basePath).toUriString() + finalUri,
                         uriParams);
         if (accept != null) {
             requestBuilder.accept(accept.toArray(new MediaType[accept.size()]));
@@ -746,7 +743,7 @@ public class ApiClient extends JavaTimeFormatter {
      * @param requestBuilder The current request
      */
     protected void addHeadersToRequest(HttpHeaders headers, BodyBuilder requestBuilder) {
-        for (Entry<String, List<String>> entry : headers.entrySet()) {
+        for (Entry<String, List<String>> entry : headers.headerSet()) {
             List<String> values = entry.getValue();
             for (String value : values) {
                 if (value != null) {
@@ -776,12 +773,13 @@ public class ApiClient extends JavaTimeFormatter {
      * @param cookies map all cookies
      * @return header string for cookies.
      */
-    private String buildCookieHeader(MultiValueMap<String, String> cookies) {
+    protected String buildCookieHeader(MultiValueMap<String, String> cookies) {
         final StringBuilder cookieValue = new StringBuilder();
         String delimiter = "";
         for (final Map.Entry<String, List<String>> entry : cookies.entrySet()) {
             final String value = entry.getValue().get(entry.getValue().size() - 1);
-            cookieValue.append(String.format("%s%s=%s", delimiter, entry.getKey(), value));
+            cookieValue.append(
+                    String.format(Locale.ROOT, "%s%s=%s", delimiter, entry.getKey(), value));
             delimiter = "; ";
         }
         return cookieValue.toString();
@@ -826,8 +824,8 @@ public class ApiClient extends JavaTimeFormatter {
         }
     }
 
-    private class ApiClientHttpRequestInterceptor implements ClientHttpRequestInterceptor {
-        private final Log log = LogFactory.getLog(ApiClientHttpRequestInterceptor.class);
+    protected class ApiClientHttpRequestInterceptor implements ClientHttpRequestInterceptor {
+        protected final Log log = LogFactory.getLog(ApiClientHttpRequestInterceptor.class);
 
         @Override
         public ClientHttpResponse intercept(
@@ -839,7 +837,7 @@ public class ApiClient extends JavaTimeFormatter {
             return response;
         }
 
-        private void logRequest(HttpRequest request, byte[] body)
+        protected void logRequest(HttpRequest request, byte[] body)
                 throws UnsupportedEncodingException {
             log.info("URI: " + request.getURI());
             log.info("HTTP Method: " + request.getMethod());
@@ -847,19 +845,19 @@ public class ApiClient extends JavaTimeFormatter {
             log.info("Request Body: " + new String(body, StandardCharsets.UTF_8));
         }
 
-        private void logResponse(ClientHttpResponse response) throws IOException {
+        protected void logResponse(ClientHttpResponse response) throws IOException {
             log.info("HTTP Status Code: " + response.getStatusCode().value());
             log.info("Status Text: " + response.getStatusText());
             log.info("HTTP Headers: " + headersToString(response.getHeaders()));
             log.info("Response Body: " + bodyToString(response.getBody()));
         }
 
-        private String headersToString(HttpHeaders headers) {
+        protected String headersToString(HttpHeaders headers) {
             if (headers == null || headers.isEmpty()) {
                 return "";
             }
             StringBuilder builder = new StringBuilder();
-            for (Entry<String, List<String>> entry : headers.entrySet()) {
+            for (Entry<String, List<String>> entry : headers.headerSet()) {
                 builder.append(entry.getKey()).append("=[");
                 for (String value : entry.getValue()) {
                     builder.append(value).append(",");
@@ -871,7 +869,7 @@ public class ApiClient extends JavaTimeFormatter {
             return builder.toString();
         }
 
-        private String bodyToString(InputStream body) throws IOException {
+        protected String bodyToString(InputStream body) throws IOException {
             StringBuilder builder = new StringBuilder();
             BufferedReader bufferedReader =
                     new BufferedReader(new InputStreamReader(body, StandardCharsets.UTF_8));

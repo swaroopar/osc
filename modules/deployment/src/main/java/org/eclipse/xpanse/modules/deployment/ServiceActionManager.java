@@ -6,8 +6,6 @@
 
 package org.eclipse.xpanse.modules.deployment;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +36,8 @@ import org.eclipse.xpanse.modules.models.servicetemplate.utils.JsonObjectSchema;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.ObjectMapper;
 
 /** Bean to manage service actions. */
 @Slf4j
@@ -230,7 +230,7 @@ public class ServiceActionManager {
                                                                     serviceChangeRequestEntity
                                                                             .getChangeHandler()))
                                     .findFirst());
-        } catch (JsonProcessingException e) {
+        } catch (JacksonException e) {
             log.error(e.getMessage(), e);
             throw new ServiceConfigurationInvalidException(
                     List.of("Cannot process service action request body."));

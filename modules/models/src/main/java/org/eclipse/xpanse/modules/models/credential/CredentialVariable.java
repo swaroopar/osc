@@ -5,7 +5,6 @@
 
 package org.eclipse.xpanse.modules.models.credential;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -13,6 +12,7 @@ import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.xpanse.modules.models.common.exceptions.SensitiveFieldEncryptionOrDecryptionFailedException;
 import org.eclipse.xpanse.modules.models.credential.config.CredentialVariableDeserializer;
+import tools.jackson.databind.annotation.JsonDeserialize;
 
 /** The class object for the CredentialVariable. */
 @Slf4j

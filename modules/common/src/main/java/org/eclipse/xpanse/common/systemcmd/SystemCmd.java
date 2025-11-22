@@ -48,7 +48,7 @@ public class SystemCmd {
     public SystemCmdResult execute(String cmd, int waitSecond) {
         SystemCmdResult systemCmdResult = new SystemCmdResult();
         systemCmdResult.setCommandExecuted(cmd);
-        log.info("SystemCmd executing cmd: " + String.join(" ", cmd));
+        log.info("SystemCmd executing cmd: {}", String.join(" ", cmd));
         try {
             String[] safeCmd = cmd.split(" +");
             ProcessBuilder processBuilder = new ProcessBuilder(safeCmd);

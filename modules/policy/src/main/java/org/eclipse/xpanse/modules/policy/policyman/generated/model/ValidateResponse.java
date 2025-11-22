@@ -24,20 +24,22 @@ import java.util.Objects;
     ValidateResponse.JSON_PROPERTY_IS_SUCCESSFUL,
     ValidateResponse.JSON_PROPERTY_POLICY
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@jakarta.annotation.Generated(
+        value = "org.openapitools.codegen.languages.JavaClientCodegen",
+        comments = "Generator version: 7.17.0")
 public class ValidateResponse {
     public static final String JSON_PROPERTY_ERR_MSG = "err_msg";
-    private String errMsg;
+    @jakarta.annotation.Nonnull private String errMsg;
 
     public static final String JSON_PROPERTY_IS_SUCCESSFUL = "isSuccessful";
-    private Boolean isSuccessful;
+    @jakarta.annotation.Nonnull private Boolean isSuccessful;
 
     public static final String JSON_PROPERTY_POLICY = "policy";
-    private String policy;
+    @jakarta.annotation.Nonnull private String policy;
 
     public ValidateResponse() {}
 
-    public ValidateResponse errMsg(String errMsg) {
+    public ValidateResponse errMsg(@jakarta.annotation.Nonnull String errMsg) {
 
         this.errMsg = errMsg;
         return this;
@@ -50,19 +52,19 @@ public class ValidateResponse {
      */
     @jakarta.annotation.Nonnull
     @NotNull
-    @JsonProperty(JSON_PROPERTY_ERR_MSG)
+    @JsonProperty(value = JSON_PROPERTY_ERR_MSG, required = true)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
     public String getErrMsg() {
         return errMsg;
     }
 
-    @JsonProperty(JSON_PROPERTY_ERR_MSG)
+    @JsonProperty(value = JSON_PROPERTY_ERR_MSG, required = true)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
-    public void setErrMsg(String errMsg) {
+    public void setErrMsg(@jakarta.annotation.Nonnull String errMsg) {
         this.errMsg = errMsg;
     }
 
-    public ValidateResponse isSuccessful(Boolean isSuccessful) {
+    public ValidateResponse isSuccessful(@jakarta.annotation.Nonnull Boolean isSuccessful) {
 
         this.isSuccessful = isSuccessful;
         return this;
@@ -75,19 +77,19 @@ public class ValidateResponse {
      */
     @jakarta.annotation.Nonnull
     @NotNull
-    @JsonProperty(JSON_PROPERTY_IS_SUCCESSFUL)
+    @JsonProperty(value = JSON_PROPERTY_IS_SUCCESSFUL, required = true)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
     public Boolean getIsSuccessful() {
         return isSuccessful;
     }
 
-    @JsonProperty(JSON_PROPERTY_IS_SUCCESSFUL)
+    @JsonProperty(value = JSON_PROPERTY_IS_SUCCESSFUL, required = true)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
-    public void setIsSuccessful(Boolean isSuccessful) {
+    public void setIsSuccessful(@jakarta.annotation.Nonnull Boolean isSuccessful) {
         this.isSuccessful = isSuccessful;
     }
 
-    public ValidateResponse policy(String policy) {
+    public ValidateResponse policy(@jakarta.annotation.Nonnull String policy) {
 
         this.policy = policy;
         return this;
@@ -100,15 +102,15 @@ public class ValidateResponse {
      */
     @jakarta.annotation.Nonnull
     @NotNull
-    @JsonProperty(JSON_PROPERTY_POLICY)
+    @JsonProperty(value = JSON_PROPERTY_POLICY, required = true)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
     public String getPolicy() {
         return policy;
     }
 
-    @JsonProperty(JSON_PROPERTY_POLICY)
+    @JsonProperty(value = JSON_PROPERTY_POLICY, required = true)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
-    public void setPolicy(String policy) {
+    public void setPolicy(@jakarta.annotation.Nonnull String policy) {
         this.policy = policy;
     }
 

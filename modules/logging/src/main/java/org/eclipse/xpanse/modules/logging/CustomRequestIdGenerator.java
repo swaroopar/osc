@@ -10,8 +10,8 @@ import static org.eclipse.xpanse.modules.logging.LoggingKeyConstant.TRACKING_ID;
 
 import java.util.Objects;
 import java.util.UUID;
+import org.jspecify.annotations.NonNull;
 import org.slf4j.MDC;
-import org.springframework.lang.NonNull;
 import org.zalando.logbook.CorrelationId;
 import org.zalando.logbook.HttpRequest;
 

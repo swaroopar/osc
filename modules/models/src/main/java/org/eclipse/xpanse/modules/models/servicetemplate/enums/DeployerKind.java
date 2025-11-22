@@ -7,7 +7,7 @@ package org.eclipse.xpanse.modules.models.servicetemplate.enums;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.eclipse.xpanse.modules.models.common.exceptions.UnsupportedEnumValueException;
 
 /** Deployer kinds. */
@@ -26,7 +26,7 @@ public enum DeployerKind {
     @JsonCreator
     public static DeployerKind getByValue(String type) {
         for (DeployerKind kind : values()) {
-            if (StringUtils.equalsIgnoreCase(kind.type, type)) {
+            if (Strings.CI.equals(kind.type, type)) {
                 return kind;
             }
         }

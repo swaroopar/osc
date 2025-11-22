@@ -6,27 +6,29 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.fasterxml.jackson.core.JsonFactory;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import org.eclipse.xpanse.modules.models.common.enums.Csp;
 import org.eclipse.xpanse.modules.models.credential.AbstractCredentialInfo;
 import org.eclipse.xpanse.modules.models.credential.CredentialVariables;
 import org.eclipse.xpanse.modules.models.credential.enums.CredentialType;
 import org.junit.jupiter.api.Test;
+import tools.jackson.core.JsonParser;
+import tools.jackson.core.json.JsonFactory;
+import tools.jackson.databind.ObjectMapper;
 
 public class AbstractCredentialInfoDeserializerTest {
     private final AbstractCredentialInfoDeserializer deserializer =
             new AbstractCredentialInfoDeserializer();
-    private final JsonFactory jsonFactory = new ObjectMapper().getFactory();
+    private final JsonFactory jsonFactory = new JsonFactory();
+    private final ObjectMapper objectMapper = new ObjectMapper(jsonFactory);
 
     @Test
     public void deserialize_ValidJson_ShouldReturnCredentialVariables() throws IOException {
         String json =
                 "{\"csp\":\"AWS\",\"type\":\"VARIABLES\",\"name\":\"MyCredential\",\"description\":\"Credential"
                     + " for AWS\",\"userId\":\"user123\",\"timeToLive\":3600,\"variables\":[]}";
-        JsonParser jsonParser = jsonFactory.createParser(json);
+        JsonParser jsonParser =
+                jsonFactory.createParser(objectMapper._deserializationContext(), json);
         AbstractCredentialInfo result = deserializer.deserialize(jsonParser, null);
 
         assertNotNull(result);
@@ -46,18 +48,20 @@ public class AbstractCredentialInfoDeserializerTest {
         String json =
                 "{\"csp\":\"UNSUPPORTED\",\"type\":\"VARIABLES\",\"name\":\"MyCredential\",\"description\":\"Credential"
                     + " for AWS\",\"userId\":\"user123\",\"timeToLive\":3600,\"variables\":[]}";
-        JsonParser jsonParser = jsonFactory.createParser(json);
+        JsonParser jsonParser =
+                jsonFactory.createParser(objectMapper._deserializationContext(), json);
         AbstractCredentialInfo result = deserializer.deserialize(jsonParser, null);
 
         assertNull(result);
     }
 
     @Test
-    public void deserialize_UnsupportedCredentialType_ShouldReturnNull() throws IOException {
+    public void deserialize_UnsupportedCredentialType_ShouldReturnNull() {
         String json =
                 "{\"csp\":\"AWS\",\"type\":\"UNSUPPORTED\",\"name\":\"MyCredential\",\"description\":\"Credential"
                     + " for AWS\",\"userId\":\"user123\",\"timeToLive\":3600,\"variables\":[]}";
-        JsonParser jsonParser = jsonFactory.createParser(json);
+        JsonParser jsonParser =
+                jsonFactory.createParser(objectMapper._deserializationContext(), json);
         AbstractCredentialInfo result = deserializer.deserialize(jsonParser, null);
 
         assertNull(result);
@@ -69,7 +73,8 @@ public class AbstractCredentialInfoDeserializerTest {
         String json =
                 "{\"csp\":\"AWS\",\"type\":\"VARIABLES\",\"name\":\"MyCredential\",\"description\":\"Credential"
                     + " for AWS\",\"userId\":\"user123\",\"timeToLive\":3600,\"variables\":\"invalid\"}";
-        JsonParser jsonParser = jsonFactory.createParser(json);
+        JsonParser jsonParser =
+                jsonFactory.createParser(objectMapper._deserializationContext(), json);
         AbstractCredentialInfo result = deserializer.deserialize(jsonParser, null);
 
         assertNotNull(result);
@@ -82,7 +87,8 @@ public class AbstractCredentialInfoDeserializerTest {
     public void deserialize_MissingOptionalFields_ShouldReturnCredentialVariablesWithNullValues()
             throws IOException {
         String json = "{\"csp\":\"AWS\",\"type\":\"VARIABLES\"}";
-        JsonParser jsonParser = jsonFactory.createParser(json);
+        JsonParser jsonParser =
+                jsonFactory.createParser(objectMapper._deserializationContext(), json);
         AbstractCredentialInfo result = deserializer.deserialize(jsonParser, null);
 
         assertNotNull(result);

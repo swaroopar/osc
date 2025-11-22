@@ -16,6 +16,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.eclipse.xpanse.modules.database.service.ServiceDeploymentEntity;
 import org.eclipse.xpanse.modules.database.service.ServiceDeploymentStorage;
 import org.eclipse.xpanse.modules.database.service.ServiceQueryModel;
@@ -343,7 +344,7 @@ public class ServiceTemplateManage {
         } else {
             String userManageIsv = userServiceHelper.getIsvManagedByCurrentUser();
             if (StringUtils.isNotEmpty(userManageIsv)
-                    && !StringUtils.equals(ocl.getServiceVendor(), userManageIsv)) {
+                    && !Strings.CS.equals(ocl.getServiceVendor(), userManageIsv)) {
                 String errorMsg =
                         String.format(
                                 "No permission to %s owned by other service vendors.",

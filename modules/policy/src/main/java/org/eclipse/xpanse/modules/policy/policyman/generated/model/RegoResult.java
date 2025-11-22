@@ -27,17 +27,21 @@ import java.util.Objects;
 /** RegoResult */
 @JsonPropertyOrder({RegoResult.JSON_PROPERTY_BINDINGS, RegoResult.JSON_PROPERTY_EXPRESSIONS})
 @JsonTypeName("rego.Result")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@jakarta.annotation.Generated(
+        value = "org.openapitools.codegen.languages.JavaClientCodegen",
+        comments = "Generator version: 7.17.0")
 public class RegoResult {
     public static final String JSON_PROPERTY_BINDINGS = "bindings";
-    private Map<String, Object> bindings = new HashMap<>();
+    @jakarta.annotation.Nullable private Map<String, Object> bindings = new HashMap<>();
 
     public static final String JSON_PROPERTY_EXPRESSIONS = "expressions";
-    private List<RegoExpressionValue> expressions;
+
+    @jakarta.annotation.Nullable
+    private List<@Valid RegoExpressionValue> expressions = new ArrayList<>();
 
     public RegoResult() {}
 
-    public RegoResult bindings(Map<String, Object> bindings) {
+    public RegoResult bindings(@jakarta.annotation.Nullable Map<String, Object> bindings) {
 
         this.bindings = bindings;
         return this;
@@ -57,19 +61,20 @@ public class RegoResult {
      * @return bindings
      */
     @jakarta.annotation.Nullable
-    @JsonProperty(JSON_PROPERTY_BINDINGS)
+    @JsonProperty(value = JSON_PROPERTY_BINDINGS, required = false)
     @JsonInclude(content = JsonInclude.Include.ALWAYS, value = JsonInclude.Include.USE_DEFAULTS)
     public Map<String, Object> getBindings() {
         return bindings;
     }
 
-    @JsonProperty(JSON_PROPERTY_BINDINGS)
+    @JsonProperty(value = JSON_PROPERTY_BINDINGS, required = false)
     @JsonInclude(content = JsonInclude.Include.ALWAYS, value = JsonInclude.Include.USE_DEFAULTS)
-    public void setBindings(Map<String, Object> bindings) {
+    public void setBindings(@jakarta.annotation.Nullable Map<String, Object> bindings) {
         this.bindings = bindings;
     }
 
-    public RegoResult expressions(List<RegoExpressionValue> expressions) {
+    public RegoResult expressions(
+            @jakarta.annotation.Nullable List<@Valid RegoExpressionValue> expressions) {
 
         this.expressions = expressions;
         return this;
@@ -90,15 +95,16 @@ public class RegoResult {
      */
     @jakarta.annotation.Nullable
     @Valid
-    @JsonProperty(JSON_PROPERTY_EXPRESSIONS)
+    @JsonProperty(value = JSON_PROPERTY_EXPRESSIONS, required = false)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-    public List<RegoExpressionValue> getExpressions() {
+    public List<@Valid RegoExpressionValue> getExpressions() {
         return expressions;
     }
 
-    @JsonProperty(JSON_PROPERTY_EXPRESSIONS)
+    @JsonProperty(value = JSON_PROPERTY_EXPRESSIONS, required = false)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-    public void setExpressions(List<RegoExpressionValue> expressions) {
+    public void setExpressions(
+            @jakarta.annotation.Nullable List<@Valid RegoExpressionValue> expressions) {
         this.expressions = expressions;
     }
 

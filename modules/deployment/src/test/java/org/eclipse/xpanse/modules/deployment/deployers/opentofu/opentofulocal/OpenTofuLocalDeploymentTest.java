@@ -58,8 +58,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.autoconfigure.RefreshAutoConfiguration;
-import org.springframework.context.annotation.Import;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
@@ -85,7 +84,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
             OrderProperties.class,
             OrchestratorProperties.class
         })
-@Import(RefreshAutoConfiguration.class)
+@EnableConfigurationProperties
 @TestPropertySource(
         properties = {
             "xpanse.deployer.clean-workspace-after-deployment-enabled=true",

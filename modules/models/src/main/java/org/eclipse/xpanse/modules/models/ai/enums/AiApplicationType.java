@@ -8,7 +8,7 @@ package org.eclipse.xpanse.modules.models.ai.enums;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.eclipse.xpanse.modules.models.common.exceptions.UnsupportedEnumValueException;
 
 /** Enum of AiApplicationType. */
@@ -26,7 +26,7 @@ public enum AiApplicationType {
     @JsonCreator
     public static AiApplicationType getByValue(String value) {
         for (AiApplicationType enumeration : values()) {
-            if (StringUtils.equalsIgnoreCase(enumeration.value, value)) {
+            if (Strings.CI.equals(enumeration.value, value)) {
                 return enumeration;
             }
         }

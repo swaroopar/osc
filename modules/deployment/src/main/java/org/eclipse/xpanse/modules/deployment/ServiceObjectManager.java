@@ -6,8 +6,6 @@
 
 package org.eclipse.xpanse.modules.deployment;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -21,7 +19,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.eclipse.xpanse.modules.database.service.ServiceDeploymentEntity;
 import org.eclipse.xpanse.modules.database.servicechange.ServiceChangeRequestEntity;
 import org.eclipse.xpanse.modules.database.serviceobject.ServiceObjectEntity;
@@ -58,6 +56,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.ObjectMapper;
 
 /** Bean to manage service objects. */
 @Slf4j
@@ -344,7 +344,7 @@ public class ServiceObjectManager {
                                                     == objectManage.getObjectActionType())
                             .findFirst();
             return objectManageOptional.map(ObjectManage::getObjectHandlerScript);
-        } catch (JsonProcessingException e) {
+        } catch (JacksonException e) {
             log.error(e.getMessage(), e);
             throw new ServiceObjectRequestInvalidException(
                     List.of("Cannot process service object request body."));
@@ -392,7 +392,7 @@ public class ServiceObjectManager {
                         serviceObjectRequest.getObjectId(),
                         request.getServiceDeploymentEntity().getId());
             }
-        } catch (JsonProcessingException e) {
+        } catch (JacksonException e) {
             log.error(e.getMessage(), e);
         }
     }
@@ -495,7 +495,7 @@ public class ServiceObjectManager {
                 serviceObjects.stream()
                         .filter(
                                 serviceObject ->
-                                        StringUtils.equals(
+                                        Strings.CS.equals(
                                                 request.getObjectType(), serviceObject.getType()))
                         .findFirst();
         if (serviceObjectOptional.isEmpty()) {
@@ -607,9 +607,9 @@ public class ServiceObjectManager {
         ServiceObjectRequest storedServiceObjectRequest =
                 objectMapper.convertValue(
                         serviceOrder.getRequestBody(), ServiceObjectRequest.class);
-        return StringUtils.equals(
+        return Strings.CS.equals(
                         storedServiceObjectRequest.getObjectType(), request.getObjectType())
-                && StringUtils.equals(
+                && Strings.CS.equals(
                         storedServiceObjectRequest.getObjectIdentifier(),
                         request.getObjectIdentifier());
     }

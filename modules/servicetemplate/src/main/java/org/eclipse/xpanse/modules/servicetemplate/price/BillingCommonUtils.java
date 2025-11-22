@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.eclipse.xpanse.modules.models.billing.FlavorPriceResult;
 import org.eclipse.xpanse.modules.models.billing.Price;
 import org.eclipse.xpanse.modules.models.billing.PriceWithRegion;
@@ -46,9 +47,8 @@ public class BillingCommonUtils {
                 prices.stream()
                         .filter(
                                 price ->
-                                        StringUtils.equalsIgnoreCase(region, price.getRegionName())
-                                                && StringUtils.equalsIgnoreCase(
-                                                        site, price.getSiteName()))
+                                        Strings.CI.equals(region, price.getRegionName())
+                                                && Strings.CI.equals(site, price.getSiteName()))
                         .findFirst();
         if (specificPrice.isPresent()) {
             return specificPrice.get().getPrice();
@@ -58,10 +58,8 @@ public class BillingCommonUtils {
                 prices.stream()
                         .filter(
                                 price ->
-                                        StringUtils.equalsIgnoreCase(
-                                                        ANY_REGION, price.getRegionName())
-                                                && StringUtils.equalsIgnoreCase(
-                                                        site, price.getSiteName()))
+                                        Strings.CI.equals(ANY_REGION, price.getRegionName())
+                                                && Strings.CI.equals(site, price.getSiteName()))
                         .findFirst();
         return anyPrice.map(PriceWithRegion::getPrice).orElse(null);
     }

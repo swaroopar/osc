@@ -15,14 +15,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.fasterxml.jackson.datatype.jsr310.ser.OffsetDateTimeSerializer;
 import com.huaweicloud.sdk.bss.v2.BssClient;
 import com.huaweicloud.sdk.bssintl.v2.BssintlClient;
 import com.huaweicloud.sdk.ecs.v2.EcsClient;
@@ -101,12 +93,29 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.web.context.request.async.DeferredResult;
+import tools.jackson.core.type.TypeReference;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.cfg.DateTimeFeature;
+import tools.jackson.databind.ext.javatime.ser.OffsetDateTimeSerializer;
+import tools.jackson.databind.json.JsonMapper;
+import tools.jackson.databind.module.SimpleModule;
+import tools.jackson.dataformat.yaml.YAMLFactory;
+import tools.jackson.dataformat.yaml.YAMLMapper;
 
 /** Test base class. */
 @Slf4j
 public class ApisTestCommon extends ZitadelTestContainer {
 
-    protected static final ObjectMapper objectMapper = new ObjectMapper();
+    protected static final ObjectMapper objectMapper =
+            JsonMapper.builder()
+                    .disable(DateTimeFeature.WRITE_DATE_KEYS_AS_TIMESTAMPS)
+                    .disable(DateTimeFeature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE)
+                    .addModule(
+                            new SimpleModule()
+                                    .addSerializer(
+                                            OffsetDateTime.class,
+                                            OffsetDateTimeSerializer.INSTANCE))
+                    .build();
     protected final OclLoader oclLoader = new OclLoader();
     @Resource public DeployService deployService;
     @Resource public ServiceOrderManager serviceOrderManager;
@@ -128,16 +137,6 @@ public class ApisTestCommon extends ZitadelTestContainer {
     @Resource private TerraBootResultReFetchManager terraBootResultRefetchManager;
     @Resource private TofuMakerResultReFetchManager tofuMakerResultRefetchManager;
     @Resource private ServiceResultReFetchManager serviceResultReFetchManager;
-
-    @BeforeAll
-    static void configureObjectMapper() {
-        objectMapper.registerModule(new JavaTimeModule());
-        objectMapper.registerModule(
-                new SimpleModule()
-                        .addSerializer(OffsetDateTime.class, OffsetDateTimeSerializer.INSTANCE));
-        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-        objectMapper.configure(DeserializationFeature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE, false);
-    }
 
     @BeforeAll
     static void setEnvVar() {
@@ -424,7 +423,7 @@ public class ApisTestCommon extends ZitadelTestContainer {
     }
 
     protected ServiceTemplateRequestInfo registerServiceTemplate(Ocl ocl) throws Exception {
-        ObjectMapper yamlMapper = new ObjectMapper(new YAMLFactory());
+        ObjectMapper yamlMapper = new YAMLMapper(new YAMLFactory());
         ocl.setName(UUID.randomUUID().toString());
         String requestBody = yamlMapper.writeValueAsString(ocl);
         final MockHttpServletResponse registerResponse =

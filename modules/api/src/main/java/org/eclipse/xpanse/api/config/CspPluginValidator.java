@@ -9,7 +9,7 @@ import java.net.URI;
 import java.util.Objects;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -100,13 +100,13 @@ public class CspPluginValidator {
         } catch (NoSuchMethodException e) {
             log.error("Failed to get fetch or fetchUpdate method name", e);
         }
-        if (StringUtils.equals(fetchMethodName, methodName)) {
+        if (Strings.CS.equals(fetchMethodName, methodName)) {
             Object[] args = joinPoint.getArgs();
             String oclLocation = (String) args[0];
             Ocl ocl = getOclByLocation(oclLocation);
             validatePluginForCspIsActive(ocl.getCloudServiceProvider().getName());
         }
-        if (StringUtils.equals(fetchUpdateMethodName, methodName)) {
+        if (Strings.CS.equals(fetchUpdateMethodName, methodName)) {
             Object[] args = joinPoint.getArgs();
             String oclLocation = (String) args[2];
             Ocl ocl = getOclByLocation(oclLocation);

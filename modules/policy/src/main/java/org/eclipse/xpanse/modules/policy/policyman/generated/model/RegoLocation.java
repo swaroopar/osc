@@ -22,17 +22,19 @@ import java.util.Objects;
 /** RegoLocation */
 @JsonPropertyOrder({RegoLocation.JSON_PROPERTY_COL, RegoLocation.JSON_PROPERTY_ROW})
 @JsonTypeName("rego.Location")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@jakarta.annotation.Generated(
+        value = "org.openapitools.codegen.languages.JavaClientCodegen",
+        comments = "Generator version: 7.17.0")
 public class RegoLocation {
     public static final String JSON_PROPERTY_COL = "col";
-    private Integer col;
+    @jakarta.annotation.Nullable private Integer col;
 
     public static final String JSON_PROPERTY_ROW = "row";
-    private Integer row;
+    @jakarta.annotation.Nullable private Integer row;
 
     public RegoLocation() {}
 
-    public RegoLocation col(Integer col) {
+    public RegoLocation col(@jakarta.annotation.Nullable Integer col) {
 
         this.col = col;
         return this;
@@ -44,19 +46,19 @@ public class RegoLocation {
      * @return col
      */
     @jakarta.annotation.Nullable
-    @JsonProperty(JSON_PROPERTY_COL)
+    @JsonProperty(value = JSON_PROPERTY_COL, required = false)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public Integer getCol() {
         return col;
     }
 
-    @JsonProperty(JSON_PROPERTY_COL)
+    @JsonProperty(value = JSON_PROPERTY_COL, required = false)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-    public void setCol(Integer col) {
+    public void setCol(@jakarta.annotation.Nullable Integer col) {
         this.col = col;
     }
 
-    public RegoLocation row(Integer row) {
+    public RegoLocation row(@jakarta.annotation.Nullable Integer row) {
 
         this.row = row;
         return this;
@@ -68,15 +70,15 @@ public class RegoLocation {
      * @return row
      */
     @jakarta.annotation.Nullable
-    @JsonProperty(JSON_PROPERTY_ROW)
+    @JsonProperty(value = JSON_PROPERTY_ROW, required = false)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public Integer getRow() {
         return row;
     }
 
-    @JsonProperty(JSON_PROPERTY_ROW)
+    @JsonProperty(value = JSON_PROPERTY_ROW, required = false)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-    public void setRow(Integer row) {
+    public void setRow(@jakarta.annotation.Nullable Integer row) {
         this.row = row;
     }
 

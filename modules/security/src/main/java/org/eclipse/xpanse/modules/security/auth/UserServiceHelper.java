@@ -9,6 +9,7 @@ package org.eclipse.xpanse.modules.security.auth;
 import java.util.Objects;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.eclipse.xpanse.modules.models.common.enums.Csp;
 import org.eclipse.xpanse.modules.models.common.exceptions.UnsupportedEnumValueException;
 import org.eclipse.xpanse.modules.models.common.exceptions.UserNotLoggedInException;
@@ -68,7 +69,7 @@ public class UserServiceHelper {
         if (!securityProperties.isEnableWebSecurity()) {
             return true;
         }
-        return StringUtils.equals(ownerId, getCurrentUserId());
+        return Strings.CS.equals(ownerId, getCurrentUserId());
     }
 
     /**
@@ -81,7 +82,7 @@ public class UserServiceHelper {
         if (!securityProperties.isEnableWebSecurity()) {
             return true;
         }
-        return StringUtils.equals(ownerIsv, getIsvManagedByCurrentUser());
+        return Strings.CS.equals(ownerIsv, getIsvManagedByCurrentUser());
     }
 
     /**

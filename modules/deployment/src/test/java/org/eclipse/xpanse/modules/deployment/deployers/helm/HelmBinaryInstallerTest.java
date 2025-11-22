@@ -24,8 +24,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.autoconfigure.RefreshAutoConfiguration;
-import org.springframework.context.annotation.Import;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
@@ -52,7 +51,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
             "xpanse.deployer.helm.github.repository=helm/helm",
             "xpanse.deployer.helm.download-base-url=https://get.helm.sh/"
         })
-@Import(RefreshAutoConfiguration.class)
+@EnableConfigurationProperties(value = DeploymentProperties.class)
 public class HelmBinaryInstallerTest {
 
     @RegisterExtension

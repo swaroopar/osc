@@ -5,7 +5,6 @@
 
 package org.eclipse.xpanse.modules.models.credential;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
@@ -17,6 +16,7 @@ import org.eclipse.xpanse.modules.models.common.enums.Csp;
 import org.eclipse.xpanse.modules.models.common.exceptions.SensitiveFieldEncryptionOrDecryptionFailedException;
 import org.eclipse.xpanse.modules.models.credential.config.AbstractCredentialInfoDeserializer;
 import org.eclipse.xpanse.modules.models.credential.enums.CredentialType;
+import tools.jackson.databind.annotation.JsonDeserialize;
 
 /**
  * The Abstract class which defines the credential basic information required by a cloud provider.

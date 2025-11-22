@@ -10,8 +10,6 @@ import static org.eclipse.xpanse.modules.async.TaskConfiguration.ASYNC_EXECUTOR_
 import static org.eclipse.xpanse.modules.security.auth.common.RoleConstants.ROLE_ADMIN;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.OffsetDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -46,14 +44,19 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.async.DeferredResult;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.json.JsonMapper;
 
 /** Bean to manage service order tasks. */
 @Slf4j
 @Component
 public class ServiceOrderManager {
 
-    private final ObjectMapper objectMapper =
-            new ObjectMapper().setSerializationInclusion(JsonInclude.Include.NON_NULL);
+    private final JsonMapper jsonMapper =
+            JsonMapper.builder()
+                    .changeDefaultPropertyInclusion(
+                            incl -> incl.withValueInclusion(JsonInclude.Include.NON_NULL))
+                    .build();
     private final ServiceOrderStorage serviceOrderStorage;
     private final ServiceDeploymentStorage serviceDeploymentStorage;
     private final UserServiceHelper userServiceHelper;
@@ -104,8 +107,8 @@ public class ServiceOrderManager {
 
     private Map<String, Object> getRequestBody(Object request) {
         try {
-            return objectMapper.readValue(objectMapper.writeValueAsString(request), Map.class);
-        } catch (JsonProcessingException e) {
+            return jsonMapper.readValue(jsonMapper.writeValueAsString(request), Map.class);
+        } catch (JacksonException e) {
             throw new XpanseUnhandledException(e.getMessage());
         }
     }

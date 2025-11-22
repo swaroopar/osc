@@ -27,20 +27,22 @@ import java.util.Objects;
     RegoExpressionValue.JSON_PROPERTY_VALUE
 })
 @JsonTypeName("rego.ExpressionValue")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@jakarta.annotation.Generated(
+        value = "org.openapitools.codegen.languages.JavaClientCodegen",
+        comments = "Generator version: 7.17.0")
 public class RegoExpressionValue {
     public static final String JSON_PROPERTY_LOCATION = "location";
-    private RegoLocation location;
+    @jakarta.annotation.Nullable private RegoLocation location;
 
     public static final String JSON_PROPERTY_TEXT = "text";
-    private String text;
+    @jakarta.annotation.Nullable private String text;
 
     public static final String JSON_PROPERTY_VALUE = "value";
-    private Object value;
+    @jakarta.annotation.Nullable private Object value;
 
     public RegoExpressionValue() {}
 
-    public RegoExpressionValue location(RegoLocation location) {
+    public RegoExpressionValue location(@jakarta.annotation.Nullable RegoLocation location) {
 
         this.location = location;
         return this;
@@ -53,19 +55,19 @@ public class RegoExpressionValue {
      */
     @jakarta.annotation.Nullable
     @Valid
-    @JsonProperty(JSON_PROPERTY_LOCATION)
+    @JsonProperty(value = JSON_PROPERTY_LOCATION, required = false)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public RegoLocation getLocation() {
         return location;
     }
 
-    @JsonProperty(JSON_PROPERTY_LOCATION)
+    @JsonProperty(value = JSON_PROPERTY_LOCATION, required = false)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-    public void setLocation(RegoLocation location) {
+    public void setLocation(@jakarta.annotation.Nullable RegoLocation location) {
         this.location = location;
     }
 
-    public RegoExpressionValue text(String text) {
+    public RegoExpressionValue text(@jakarta.annotation.Nullable String text) {
 
         this.text = text;
         return this;
@@ -77,19 +79,19 @@ public class RegoExpressionValue {
      * @return text
      */
     @jakarta.annotation.Nullable
-    @JsonProperty(JSON_PROPERTY_TEXT)
+    @JsonProperty(value = JSON_PROPERTY_TEXT, required = false)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public String getText() {
         return text;
     }
 
-    @JsonProperty(JSON_PROPERTY_TEXT)
+    @JsonProperty(value = JSON_PROPERTY_TEXT, required = false)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-    public void setText(String text) {
+    public void setText(@jakarta.annotation.Nullable String text) {
         this.text = text;
     }
 
-    public RegoExpressionValue value(Object value) {
+    public RegoExpressionValue value(@jakarta.annotation.Nullable Object value) {
 
         this.value = value;
         return this;
@@ -101,15 +103,15 @@ public class RegoExpressionValue {
      * @return value
      */
     @jakarta.annotation.Nullable
-    @JsonProperty(JSON_PROPERTY_VALUE)
+    @JsonProperty(value = JSON_PROPERTY_VALUE, required = false)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public Object getValue() {
         return value;
     }
 
-    @JsonProperty(JSON_PROPERTY_VALUE)
+    @JsonProperty(value = JSON_PROPERTY_VALUE, required = false)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-    public void setValue(Object value) {
+    public void setValue(@jakarta.annotation.Nullable Object value) {
         this.value = value;
     }
 

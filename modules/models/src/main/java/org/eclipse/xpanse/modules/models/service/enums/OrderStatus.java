@@ -8,7 +8,7 @@ package org.eclipse.xpanse.modules.models.service.enums;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.eclipse.xpanse.modules.models.common.exceptions.UnsupportedEnumValueException;
 
 /** Enumeration class for service order status. */
@@ -28,7 +28,7 @@ public enum OrderStatus {
     @JsonCreator
     public static OrderStatus getByValue(String value) {
         for (OrderStatus entry : values()) {
-            if (StringUtils.equalsIgnoreCase(entry.value, value)) {
+            if (Strings.CI.equals(entry.value, value)) {
                 return entry;
             }
         }

@@ -21,14 +21,16 @@ import java.util.Objects;
 
 /** SystemStatus */
 @JsonPropertyOrder({SystemStatus.JSON_PROPERTY_HEALTH_STATUS})
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@jakarta.annotation.Generated(
+        value = "org.openapitools.codegen.languages.JavaClientCodegen",
+        comments = "Generator version: 7.17.0")
 public class SystemStatus {
     public static final String JSON_PROPERTY_HEALTH_STATUS = "healthStatus";
-    private HealthStatus healthStatus;
+    @jakarta.annotation.Nonnull private HealthStatus healthStatus;
 
     public SystemStatus() {}
 
-    public SystemStatus healthStatus(HealthStatus healthStatus) {
+    public SystemStatus healthStatus(@jakarta.annotation.Nonnull HealthStatus healthStatus) {
 
         this.healthStatus = healthStatus;
         return this;
@@ -42,15 +44,15 @@ public class SystemStatus {
     @jakarta.annotation.Nonnull
     @NotNull
     @Valid
-    @JsonProperty(JSON_PROPERTY_HEALTH_STATUS)
+    @JsonProperty(value = JSON_PROPERTY_HEALTH_STATUS, required = true)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
     public HealthStatus getHealthStatus() {
         return healthStatus;
     }
 
-    @JsonProperty(JSON_PROPERTY_HEALTH_STATUS)
+    @JsonProperty(value = JSON_PROPERTY_HEALTH_STATUS, required = true)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
-    public void setHealthStatus(HealthStatus healthStatus) {
+    public void setHealthStatus(@jakarta.annotation.Nonnull HealthStatus healthStatus) {
         this.healthStatus = healthStatus;
     }
 

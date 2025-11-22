@@ -15,6 +15,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.eclipse.xpanse.modules.cache.credential.CredentialCacheKey;
 import org.eclipse.xpanse.modules.cache.credential.CredentialsStore;
 import org.eclipse.xpanse.modules.models.common.enums.Csp;
@@ -95,7 +96,7 @@ public class CredentialCenter {
                         abstractCredentialInfoList.stream()
                                 .filter(
                                         abstractCredentialInfo ->
-                                                StringUtils.equals(
+                                                Strings.CS.equals(
                                                         name, abstractCredentialInfo.getName()))
                                 .toList();
             }

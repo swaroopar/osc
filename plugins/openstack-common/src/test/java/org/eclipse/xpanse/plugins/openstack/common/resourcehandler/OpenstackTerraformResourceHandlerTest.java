@@ -1,6 +1,5 @@
 package org.eclipse.xpanse.plugins.openstack.common.resourcehandler;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.net.URI;
 import org.eclipse.xpanse.modules.deployment.deployers.terraform.resources.TfState;
@@ -8,6 +7,7 @@ import org.eclipse.xpanse.modules.models.service.deployment.DeployResult;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.util.CollectionUtils;
+import tools.jackson.databind.ObjectMapper;
 
 class OpenstackTerraformResourceHandlerTest {
 
@@ -20,7 +20,9 @@ class OpenstackTerraformResourceHandlerTest {
     void handler() throws IOException {
         TfState tfState =
                 objectMapper.readValue(
-                        URI.create("file:src/test/resources/openstack-tfstate.json").toURL(),
+                        URI.create("file:src/test/resources/openstack-tfstate.json")
+                                .toURL()
+                                .openStream(),
                         TfState.class);
         DeployResult deployResult = new DeployResult();
         deployResult.setTfStateContent(objectMapper.writeValueAsString(tfState));
@@ -34,7 +36,8 @@ class OpenstackTerraformResourceHandlerTest {
         TfState tfState =
                 objectMapper.readValue(
                         URI.create("file:src/test/resources/openstack-tfstate-destroy.json")
-                                .toURL(),
+                                .toURL()
+                                .openStream(),
                         TfState.class);
         DeployResult deployResult = new DeployResult();
         deployResult.setTfStateContent(objectMapper.writeValueAsString(tfState));

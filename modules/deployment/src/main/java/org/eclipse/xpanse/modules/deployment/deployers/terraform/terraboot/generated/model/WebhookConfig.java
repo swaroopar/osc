@@ -23,7 +23,7 @@ import java.util.Objects;
 @JsonPropertyOrder({WebhookConfig.JSON_PROPERTY_URL, WebhookConfig.JSON_PROPERTY_AUTH_TYPE})
 @jakarta.annotation.Generated(
         value = "org.openapitools.codegen.languages.JavaClientCodegen",
-        comments = "Generator version: 7.11.0")
+        comments = "Generator version: 7.17.0")
 public class WebhookConfig {
     public static final String JSON_PROPERTY_URL = "url";
     @jakarta.annotation.Nonnull private String url;
@@ -80,13 +80,13 @@ public class WebhookConfig {
      * @return url
      */
     @jakarta.annotation.Nonnull
-    @JsonProperty(JSON_PROPERTY_URL)
+    @JsonProperty(value = JSON_PROPERTY_URL, required = true)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
     public String getUrl() {
         return url;
     }
 
-    @JsonProperty(JSON_PROPERTY_URL)
+    @JsonProperty(value = JSON_PROPERTY_URL, required = true)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
     public void setUrl(@jakarta.annotation.Nonnull String url) {
         this.url = url;
@@ -104,13 +104,13 @@ public class WebhookConfig {
      * @return authType
      */
     @jakarta.annotation.Nonnull
-    @JsonProperty(JSON_PROPERTY_AUTH_TYPE)
+    @JsonProperty(value = JSON_PROPERTY_AUTH_TYPE, required = true)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
     public AuthTypeEnum getAuthType() {
         return authType;
     }
 
-    @JsonProperty(JSON_PROPERTY_AUTH_TYPE)
+    @JsonProperty(value = JSON_PROPERTY_AUTH_TYPE, required = true)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
     public void setAuthType(@jakarta.annotation.Nonnull AuthTypeEnum authType) {
         this.authType = authType;

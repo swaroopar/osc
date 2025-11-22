@@ -38,8 +38,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -104,7 +104,7 @@ class ServiceCatalogApiTest extends ApisTestCommon {
                 listOrderableServicesWithParams(
                         "errorValue", Csp.HUAWEI_CLOUD.toValue(), null, null, null);
         // Verify the result 2
-        assertThat(response2.getStatus()).isEqualTo(HttpStatus.UNPROCESSABLE_ENTITY.value());
+        assertThat(response2.getStatus()).isEqualTo(HttpStatus.UNPROCESSABLE_CONTENT.value());
         assertThat(errorMessage).isSubstringOf(response2.getContentAsString());
 
         // Setup request 3

@@ -7,7 +7,7 @@ package org.eclipse.xpanse.modules.models.common.enums;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.eclipse.xpanse.modules.models.common.exceptions.UnsupportedEnumValueException;
 
 /** Cloud service providers. */
@@ -32,7 +32,7 @@ public enum Csp {
     @JsonCreator
     public static Csp getByValue(String name) {
         for (Csp csp : values()) {
-            if (StringUtils.equalsIgnoreCase(csp.value, name)) {
+            if (Strings.CI.equals(csp.value, name)) {
                 return csp;
             }
         }

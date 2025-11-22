@@ -7,7 +7,7 @@ package org.eclipse.xpanse.modules.models.common.enums;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.eclipse.xpanse.modules.models.common.exceptions.UnsupportedEnumValueException;
 
 /** Service Category enums. */
@@ -33,7 +33,7 @@ public enum Category {
     @JsonCreator
     public static Category getByValue(String catalog) {
         for (Category category : values()) {
-            if (StringUtils.equalsIgnoreCase(category.catalog, catalog)) {
+            if (Strings.CI.equals(category.catalog, catalog)) {
                 return category;
             }
         }

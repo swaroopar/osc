@@ -89,7 +89,7 @@
         </dependency>
         <dependency>
             <groupId>io.hypersistence</groupId>
-            <artifactId>hypersistence-utils-hibernate-60</artifactId>
+            <artifactId>hypersistence-utils-hibernate-71</artifactId>
             <version>${hypersistence-utils-hibernate.version}</version>
         </dependency>
         <dependency>
@@ -108,6 +108,11 @@
             <artifactId>instancio-junit</artifactId>
             <version>${instancio.version}</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>tools.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-yaml</artifactId>
+            <version>3.0.2</version>
         </dependency>
     </dependencies>
 </project>

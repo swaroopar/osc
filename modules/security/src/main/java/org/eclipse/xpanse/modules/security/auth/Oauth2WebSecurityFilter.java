@@ -11,7 +11,6 @@ import static org.eclipse.xpanse.modules.logging.LoggingKeyConstant.ORDER_ID;
 import static org.eclipse.xpanse.modules.logging.LoggingKeyConstant.SERVICE_ID;
 import static org.springframework.web.cors.CorsConfiguration.ALL;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
 import java.util.Collections;
@@ -23,16 +22,16 @@ import org.eclipse.xpanse.modules.models.response.ErrorResponse;
 import org.eclipse.xpanse.modules.models.response.ErrorType;
 import org.eclipse.xpanse.modules.models.response.OrderFailedErrorResponse;
 import org.eclipse.xpanse.modules.security.auth.common.XpanseAuthentication;
+import org.jspecify.annotations.Nullable;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties;
+import org.springframework.boot.security.oauth2.server.resource.autoconfigure.OAuth2ResourceServerProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.http.MediaType;
-import org.springframework.lang.Nullable;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -46,7 +45,7 @@ import org.springframework.security.web.header.writers.frameoptions.XFrameOption
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
+import tools.jackson.databind.ObjectMapper;
 
 /**
  * Configuration applied on all web endpoints defined for this application. Any configuration on
@@ -68,10 +67,8 @@ public class Oauth2WebSecurityFilter {
 
     private void configureHttpSecurity(
             HttpSecurity http,
-            HandlerMappingIntrospector introspector,
             @Nullable Converter<Jwt, XpanseAuthentication> jwtAuthenticationConverter,
-            @Nullable OpaqueTokenAuthenticationConverter opaqueTokenAuthenticationConverter)
-            throws Exception {
+            @Nullable OpaqueTokenAuthenticationConverter opaqueTokenAuthenticationConverter) {
         // accept cors requests and allow preflight checks
         http.cors(
                 httpSecurityCorsConfigurer ->
@@ -113,24 +110,37 @@ public class Oauth2WebSecurityFilter {
             http.oauth2ResourceServer(
                     oauth2 ->
                             oauth2.opaqueToken(
-                                    opaque ->
-                                            opaque.introspector(
-                                                            SpringOpaqueTokenIntrospector
-                                                                    .withIntrospectionUri(
-                                                                            oauthResourceServerProperties
-                                                                                    .getOpaquetoken()
-                                                                                    .getIntrospectionUri())
-                                                                    .clientId(
-                                                                            oauthResourceServerProperties
-                                                                                    .getOpaquetoken()
-                                                                                    .getClientId())
-                                                                    .clientSecret(
-                                                                            oauthResourceServerProperties
-                                                                                    .getOpaquetoken()
-                                                                                    .getClientSecret())
-                                                                    .build())
-                                                    .authenticationConverter(
-                                                            opaqueTokenAuthenticationConverter)));
+                                    opaque -> {
+                                        assert oauthResourceServerProperties
+                                                        .getOpaquetoken()
+                                                        .getIntrospectionUri()
+                                                != null;
+                                        assert oauthResourceServerProperties
+                                                        .getOpaquetoken()
+                                                        .getClientId()
+                                                != null;
+                                        assert oauthResourceServerProperties
+                                                        .getOpaquetoken()
+                                                        .getClientSecret()
+                                                != null;
+                                        opaque.introspector(
+                                                        SpringOpaqueTokenIntrospector
+                                                                .withIntrospectionUri(
+                                                                        oauthResourceServerProperties
+                                                                                .getOpaquetoken()
+                                                                                .getIntrospectionUri())
+                                                                .clientId(
+                                                                        oauthResourceServerProperties
+                                                                                .getOpaquetoken()
+                                                                                .getClientId())
+                                                                .clientSecret(
+                                                                        oauthResourceServerProperties
+                                                                                .getOpaquetoken()
+                                                                                .getClientSecret())
+                                                                .build())
+                                                .authenticationConverter(
+                                                        opaqueTokenAuthenticationConverter);
+                                    }));
         }
 
         if (Objects.nonNull(jwtAuthenticationConverter)) {
@@ -184,16 +194,11 @@ public class Oauth2WebSecurityFilter {
         @Bean
         public SecurityFilterChain apiFilterChain(
                 HttpSecurity http,
-                HandlerMappingIntrospector introspector,
                 @Nullable Converter<Jwt, XpanseAuthentication> jwtAuthenticationConverter,
-                @Nullable OpaqueTokenAuthenticationConverter opaqueTokenAuthenticationConverter)
-                throws Exception {
+                @Nullable OpaqueTokenAuthenticationConverter opaqueTokenAuthenticationConverter) {
             log.info("Enable web security without method authorization.");
             configureHttpSecurity(
-                    http,
-                    introspector,
-                    jwtAuthenticationConverter,
-                    opaqueTokenAuthenticationConverter);
+                    http, jwtAuthenticationConverter, opaqueTokenAuthenticationConverter);
             return http.build();
         }
     }
@@ -212,16 +217,11 @@ public class Oauth2WebSecurityFilter {
         @Bean
         public SecurityFilterChain apiFilterChain(
                 HttpSecurity http,
-                HandlerMappingIntrospector introspector,
                 @Nullable Converter<Jwt, XpanseAuthentication> jwtAuthenticationConverter,
-                @Nullable OpaqueTokenAuthenticationConverter opaqueTokenAuthenticationConverter)
-                throws Exception {
+                @Nullable OpaqueTokenAuthenticationConverter opaqueTokenAuthenticationConverter) {
             log.info("Enable web security with method authorization.");
             configureHttpSecurity(
-                    http,
-                    introspector,
-                    jwtAuthenticationConverter,
-                    opaqueTokenAuthenticationConverter);
+                    http, jwtAuthenticationConverter, opaqueTokenAuthenticationConverter);
             return http.build();
         }
     }

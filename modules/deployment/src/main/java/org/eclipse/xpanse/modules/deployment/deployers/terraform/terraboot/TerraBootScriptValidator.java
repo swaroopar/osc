@@ -8,8 +8,6 @@ package org.eclipse.xpanse.modules.deployment.deployers.terraform.terraboot;
 import static org.eclipse.xpanse.modules.logging.LoggingKeyConstant.SERVICE_ID;
 import static org.eclipse.xpanse.modules.logging.LoggingKeyConstant.TRACKING_ID;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -25,6 +23,8 @@ import org.slf4j.MDC;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.ObjectMapper;
 
 /** Bean to validate terraform scripts via terra-boot. */
 @Slf4j
@@ -61,7 +61,7 @@ public class TerraBootScriptValidator {
                                 DeploymentScriptValidationResult.class);
                 deploymentScriptValidationResult.setDeployerVersionUsed(
                         deployment.getDeployerTool().getVersion());
-            } catch (JsonProcessingException e) {
+            } catch (JacksonException e) {
                 log.error("JsonProcessingException", e);
             }
         } catch (RestClientException restClientException) {
@@ -84,7 +84,7 @@ public class TerraBootScriptValidator {
                         objectMapper.readValue(
                                 objectMapper.writeValueAsString(validate),
                                 DeploymentScriptValidationResult.class);
-            } catch (JsonProcessingException e) {
+            } catch (JacksonException e) {
                 log.error("JsonProcessingException", e);
             }
         } catch (RestClientException restClientException) {

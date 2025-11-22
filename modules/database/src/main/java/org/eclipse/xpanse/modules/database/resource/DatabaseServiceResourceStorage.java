@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.DeleteSpecification;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,7 +31,7 @@ public class DatabaseServiceResourceStorage implements ServiceResourceStorage {
 
     @Override
     public void deleteByDeployServiceId(UUID serviceId) {
-        Specification<ServiceResourceEntity> specification =
+        DeleteSpecification<ServiceResourceEntity> specification =
                 (root, query, criteriaBuilder) -> {
                     List<Predicate> predicateList = new ArrayList<>();
                     predicateList.add(criteriaBuilder.equal(root.get("serviceId"), serviceId));

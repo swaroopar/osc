@@ -3,9 +3,9 @@ package org.eclipse.xpanse.plugins.openstack.common.aggregates.resources;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.eclipse.xpanse.plugins.openstack.common.monitor.gnocchi.models.resources.InstanceNetworkResource;
 import org.junit.jupiter.api.Test;
+import tools.jackson.databind.ObjectMapper;
 
 class InstanceNetworkResourceTest {
 

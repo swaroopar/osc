@@ -8,12 +8,12 @@ package org.eclipse.xpanse.modules.deployment.deployers.terraform.terraformlocal
 import static org.eclipse.xpanse.modules.deployment.utils.DeploymentScriptsHelper.TF_VARS_FILE_NAME;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.Collections;
 import java.util.Map;
+import java.util.Objects;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.xpanse.common.systemcmd.SystemCmd;
@@ -21,16 +21,19 @@ import org.eclipse.xpanse.common.systemcmd.SystemCmdResult;
 import org.eclipse.xpanse.modules.deployment.deployers.opentofu.exceptions.OpenTofuExecutorException;
 import org.eclipse.xpanse.modules.deployment.deployers.terraform.exceptions.TerraformExecutorException;
 import org.eclipse.xpanse.modules.orchestrator.deployment.DeploymentScriptValidationResult;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 
 /** An executor for terraform. */
 @Slf4j
 public class TerraformLocalExecutor {
 
-    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
-
-    static {
-        OBJECT_MAPPER.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-    }
+    private static final JsonMapper JSON_MAPPER =
+            JsonMapper.builder()
+                    .changeDefaultPropertyInclusion(
+                            incl -> incl.withValueInclusion(JsonInclude.Include.NON_NULL))
+                    .build();
 
     @Getter private final String executorPath;
     @Getter private final String taskWorkspace;
@@ -51,8 +54,8 @@ public class TerraformLocalExecutor {
             Map<String, Object> variables,
             String taskWorkspace) {
         this.executorPath = executorPath;
-        this.env = env;
-        this.variables = variables;
+        this.env = Objects.isNull(env) ? Collections.emptyMap() : env;
+        this.variables = Objects.isNull(variables) ? Collections.emptyMap() : variables;
         this.taskWorkspace = taskWorkspace;
         log.info(
                 "Created TerraformLocalExecutor with executorPath: {} and taskWorkspace: {}",
@@ -130,9 +133,9 @@ public class TerraformLocalExecutor {
         try {
             File variablesFile = new File(taskWorkspace, TF_VARS_FILE_NAME);
             log.info("creating variables file");
-            OBJECT_MAPPER.writeValue(variablesFile, variables);
-        } catch (IOException ioException) {
-            throw new OpenTofuExecutorException("Creating variables file failed", ioException);
+            JSON_MAPPER.writeValue(variablesFile, variables);
+        } catch (JacksonException jacksonException) {
+            throw new OpenTofuExecutorException("Creating variables file failed", jacksonException);
         }
     }
 
@@ -243,7 +246,7 @@ public class TerraformLocalExecutor {
                     .readValue(
                             systemCmdResult.getCommandStdOutput(),
                             DeploymentScriptValidationResult.class);
-        } catch (JsonProcessingException ex) {
+        } catch (JacksonException ex) {
             throw new IllegalStateException("Serialising string to object failed.", ex);
         }
     }

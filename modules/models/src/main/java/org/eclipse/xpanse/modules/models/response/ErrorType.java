@@ -7,7 +7,7 @@ package org.eclipse.xpanse.modules.models.response;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 
 /** Result codes for the REST API. */
 public enum ErrorType {
@@ -105,7 +105,7 @@ public enum ErrorType {
      */
     public static ErrorType getResultTypeByValue(String value) {
         for (ErrorType errorType : values()) {
-            if (StringUtils.endsWithIgnoreCase(errorType.value, value)) {
+            if (Strings.CI.endsWith(errorType.value, value)) {
                 return errorType;
             }
         }

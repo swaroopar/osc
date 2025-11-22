@@ -25,7 +25,7 @@ import java.util.Objects;
 })
 @jakarta.annotation.Generated(
         value = "org.openapitools.codegen.languages.JavaClientCodegen",
-        comments = "Generator version: 7.11.0")
+        comments = "Generator version: 7.17.0")
 public class TerraformScriptsGitRepoDetails {
     public static final String JSON_PROPERTY_REPO_URL = "repoUrl";
     @jakarta.annotation.Nonnull private String repoUrl;
@@ -50,13 +50,13 @@ public class TerraformScriptsGitRepoDetails {
      * @return repoUrl
      */
     @jakarta.annotation.Nonnull
-    @JsonProperty(JSON_PROPERTY_REPO_URL)
+    @JsonProperty(value = JSON_PROPERTY_REPO_URL, required = true)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
     public String getRepoUrl() {
         return repoUrl;
     }
 
-    @JsonProperty(JSON_PROPERTY_REPO_URL)
+    @JsonProperty(value = JSON_PROPERTY_REPO_URL, required = true)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
     public void setRepoUrl(@jakarta.annotation.Nonnull String repoUrl) {
         this.repoUrl = repoUrl;
@@ -74,13 +74,13 @@ public class TerraformScriptsGitRepoDetails {
      * @return branch
      */
     @jakarta.annotation.Nonnull
-    @JsonProperty(JSON_PROPERTY_BRANCH)
+    @JsonProperty(value = JSON_PROPERTY_BRANCH, required = true)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
     public String getBranch() {
         return branch;
     }
 
-    @JsonProperty(JSON_PROPERTY_BRANCH)
+    @JsonProperty(value = JSON_PROPERTY_BRANCH, required = true)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
     public void setBranch(@jakarta.annotation.Nonnull String branch) {
         this.branch = branch;
@@ -100,13 +100,13 @@ public class TerraformScriptsGitRepoDetails {
      * @return scriptPath
      */
     @jakarta.annotation.Nullable
-    @JsonProperty(JSON_PROPERTY_SCRIPT_PATH)
+    @JsonProperty(value = JSON_PROPERTY_SCRIPT_PATH, required = false)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public String getScriptPath() {
         return scriptPath;
     }
 
-    @JsonProperty(JSON_PROPERTY_SCRIPT_PATH)
+    @JsonProperty(value = JSON_PROPERTY_SCRIPT_PATH, required = false)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public void setScriptPath(@jakarta.annotation.Nullable String scriptPath) {
         this.scriptPath = scriptPath;

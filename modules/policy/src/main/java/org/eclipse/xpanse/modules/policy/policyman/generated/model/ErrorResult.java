@@ -20,14 +20,16 @@ import java.util.Objects;
 
 /** ErrorResult */
 @JsonPropertyOrder({ErrorResult.JSON_PROPERTY_ERR_MSG})
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@jakarta.annotation.Generated(
+        value = "org.openapitools.codegen.languages.JavaClientCodegen",
+        comments = "Generator version: 7.17.0")
 public class ErrorResult {
     public static final String JSON_PROPERTY_ERR_MSG = "err_msg";
-    private String errMsg;
+    @jakarta.annotation.Nonnull private String errMsg;
 
     public ErrorResult() {}
 
-    public ErrorResult errMsg(String errMsg) {
+    public ErrorResult errMsg(@jakarta.annotation.Nonnull String errMsg) {
 
         this.errMsg = errMsg;
         return this;
@@ -40,15 +42,15 @@ public class ErrorResult {
      */
     @jakarta.annotation.Nonnull
     @NotNull
-    @JsonProperty(JSON_PROPERTY_ERR_MSG)
+    @JsonProperty(value = JSON_PROPERTY_ERR_MSG, required = true)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
     public String getErrMsg() {
         return errMsg;
     }
 
-    @JsonProperty(JSON_PROPERTY_ERR_MSG)
+    @JsonProperty(value = JSON_PROPERTY_ERR_MSG, required = true)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
-    public void setErrMsg(String errMsg) {
+    public void setErrMsg(@jakarta.annotation.Nonnull String errMsg) {
         this.errMsg = errMsg;
     }
 
